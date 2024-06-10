@@ -2,22 +2,9 @@ USE voleibd;
 
 -- Views
 
--- Remover as views se elas já existirem
-DROP VIEW IF EXISTS Pessoas;
-DROP VIEW IF EXISTS Jogadores;
-DROP VIEW IF EXISTS Equipes;
-DROP VIEW IF EXISTS Partidas;
-DROP VIEW IF EXISTS Campeonatos;
-DROP VIEW IF EXISTS Jogadores_Por_Equipe;
-DROP VIEW IF EXISTS Patrocinadores;
-DROP VIEW IF EXISTS Equipes_Patrocinadores;
-DROP VIEW IF EXISTS Campeonatos_Equipes;
-DROP VIEW IF EXISTS Estadios_Partidas;
-DROP VIEW IF EXISTS Treinadores_Equipes;
-
 -- View 1: Listar todas as pessoas e suas informações básicas
 CREATE VIEW Pessoas AS
-SELECT idPessoa, Nome, Email, Telemovel, Rua, Bairro, Cidade
+SELECT idPessoa, Nome, Email, Telemovel, Rua, Bairro, Cidade, Genero, Data_Nascimento
 FROM Pessoa;
 
 -- View 2: Listar todos os jogadores com informações detalhadas
@@ -29,9 +16,10 @@ JOIN Pessoa p ON j.idPessoa = p.idPessoa;
 
 -- View 3: Listar todas as equipes e seus treinadores
 CREATE VIEW Equipes AS
-SELECT e.id_Equipe, e.Nome AS "Nome da Equipe", t.Nome AS "Nome do Treinador"
+SELECT e.id_Equipe, e.Nome AS "Nome da Equipe", p.Nome AS "Nome do Treinador"
 FROM Equipe e
-JOIN Treinador t ON e.id_Treinador = t.id_Treinador;
+JOIN Treinador t ON e.id_Treinador = t.id_Treinador
+JOIN Pessoa p ON t.idPessoa = p.idPessoa;
 
 -- View 4: Listar todas as partidas e os estádios onde ocorreram
 CREATE VIEW Partidas AS
@@ -79,9 +67,10 @@ JOIN Partida p ON es.id_Estadio = p.id_Estadio;
 
 -- View 11: Lista treinadores e as equipes que eles treinam
 CREATE VIEW Treinadores_Equipes AS
-SELECT t.id_Treinador, t.Nome AS NomeTreinador, e.Nome AS NomeEquipe
+SELECT t.id_Treinador, p.Nome AS NomeTreinador, e.Nome AS NomeEquipe
 FROM Treinador t
-JOIN Equipe e ON t.id_Treinador = e.id_Treinador;
+JOIN Equipe e ON t.id_Treinador = e.id_Treinador
+JOIN Pessoa p ON t.idPessoa = p.idPessoa;
 
 -- Stored Functions
 
@@ -109,9 +98,10 @@ RETURNS VARCHAR(100)
 DETERMINISTIC
 BEGIN
     DECLARE nome_treinador VARCHAR(100);
-    SELECT t.Nome INTO nome_treinador
+    SELECT p.Nome INTO nome_treinador
     FROM Equipe e
     JOIN Treinador t ON e.id_Treinador = t.id_Treinador
+    JOIN Pessoa p ON t.idPessoa = p.idPessoa
     WHERE e.id_Equipe = equipe_id;
     RETURN nome_treinador;
 END //
@@ -258,7 +248,7 @@ BEGIN
         'Altura: ', j.Altura, ', ',
         'Peso: ', j.Peso, ', ',
         'Posição: ', j.Posicao, ', ',
-        'Capitão: ', (SELECT p2.Nome FROM Jogador j2 JOIN Pessoa p2 ON j2.idPessoa = p2.idPessoa WHERE j2.id_Jogador = j.Capitano)
+        'Capitão: ', (SELECT p2.Nome FROM Jogador j2 JOIN Pessoa p2 ON j2.idPessoa = p2.idPessoa WHERE j2.id_Jogador = j.Capitao)
     ) INTO dadosPessoais
     FROM Jogador j
     JOIN Pessoa p ON j.idPessoa = p.idPessoa
@@ -306,12 +296,14 @@ CREATE PROCEDURE ADDJogador(
     IN cidade VARCHAR(100),
     IN altura DECIMAL(4,2),
     IN peso DECIMAL(5,2),
-    IN posicao VARCHAR(50)
+    IN posicao VARCHAR(50),
+    IN genero VARCHAR(10),
+    IN data_nascimento DATE
 )
 BEGIN
     DECLARE idPessoa INT;
-    INSERT INTO Pessoa (Nome, Email, Telemovel, Rua, Bairro, Cidade)
-    VALUES (nome, email, telemovel, rua, bairro, cidade);
+    INSERT INTO Pessoa (Nome, Email, Telemovel, Rua, Bairro, Cidade, Genero, Data_Nascimento)
+    VALUES (nome, email, telemovel, rua, bairro, cidade, genero, data_nascimento);
     SET idPessoa = LAST_INSERT_ID();
     INSERT INTO Jogador (idPessoa, Altura, Peso, Posicao)
     VALUES (idPessoa, altura, peso, posicao);
@@ -328,15 +320,17 @@ CREATE PROCEDURE ADDTreinador(
     IN telemovel VARCHAR(15),
     IN rua VARCHAR(100),
     IN bairro VARCHAR(100),
-    IN cidade VARCHAR(100)
+    IN cidade VARCHAR(100),
+    IN genero VARCHAR(10),
+    IN data_nascimento DATE
 )
 BEGIN
     DECLARE idPessoa INT;
-    INSERT INTO Pessoa (Nome, Email, Telemovel, Rua, Bairro, Cidade)
-    VALUES (nome, email, telemovel, rua, bairro, cidade);
+    INSERT INTO Pessoa (Nome, Email, Telemovel, Rua, Bairro, Cidade, Genero, Data_Nascimento)
+    VALUES (nome, email, telemovel, rua, bairro, cidade, genero, data_nascimento);
     SET idPessoa = LAST_INSERT_ID();
-    INSERT INTO Treinador (idPessoa, Nome)
-    VALUES (idPessoa, nome);
+    INSERT INTO Treinador (idPessoa)
+    VALUES (idPessoa);
 END //
 
 DELIMITER ;
@@ -386,13 +380,15 @@ CREATE PROCEDURE Atualizar_Jogador(
     IN cidade VARCHAR(100),
     IN altura DECIMAL(4,2),
     IN peso DECIMAL(5,2),
-    IN posicao VARCHAR(50)
+    IN posicao VARCHAR(50),
+    IN genero VARCHAR(10),
+    IN data_nascimento DATE
 )
 BEGIN
     DECLARE idPessoa INT;
     SELECT idPessoa INTO idPessoa FROM Jogador WHERE id_Jogador = jogadorID;
     UPDATE Pessoa
-    SET Nome = nome, Email = email, Telemovel = telemovel, Rua = rua, Bairro = bairro, Cidade = cidade
+    SET Nome = nome, Email = email, Telemovel = telemovel, Rua = rua, Bairro = bairro, Cidade = cidade, Genero = genero, Data_Nascimento = data_nascimento
     WHERE idPessoa = idPessoa;
     UPDATE Jogador
     SET Altura = altura, Peso = peso, Posicao = posicao
@@ -438,11 +434,12 @@ CREATE PROCEDURE ADDPartida(
     IN rodada INT,
     IN dataPartida DATE,
     IN duracaoPartida TIME,
-    IN idEstadio INT
+    IN idEstadio INT,
+    IN idCampeonato INT
 )
 BEGIN
-    INSERT INTO Partida (Total_Points, Rodada, Data_da_Partida, Duracao_da_Partida, id_Estadio)
-    VALUES (totalPoints, rodada, dataPartida, duracaoPartida, idEstadio);
+    INSERT INTO Partida (Total_Points, Rodada, Data_da_Partida, Duracao_da_Partida, id_Estadio, id_Campeonato)
+    VALUES (totalPoints, rodada, dataPartida, duracaoPartida, idEstadio, idCampeonato);
 END //
 
 DELIMITER ;
@@ -462,32 +459,3 @@ END //
 
 DELIMITER ;
 
--- Triggers
-
--- Trigger 1: incrementar o contador de atualizações
-DELIMITER //
-
-CREATE TRIGGER afterUpdatePartidaEquipe
-AFTER UPDATE ON Partida_Equipe
-FOR EACH ROW
-BEGIN
-    UPDATE Equipe
-    SET Update_Count = Update_Count + 1
-    WHERE id_Equipe = NEW.id_Equipe;
-END //
-
-DELIMITER ;
-
--- Trigger 2: Atualiza a capacidade total dos estádios após a inserção de um novo estádio
-DELIMITER //
-
-CREATE TRIGGER afterInsertEstadio
-AFTER INSERT ON Estadio
-FOR EACH ROW
-BEGIN
-    UPDATE Pais
-    SET Capacidade_Total = Capacidade_Total + NEW.Capacidade
-    WHERE id_Pais = (SELECT id_Pais FROM Estadio WHERE id_Estadio = NEW.id_Estadio);
-END //
-
-DELIMITER ;

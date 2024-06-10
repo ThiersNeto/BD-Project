@@ -1,172 +1,258 @@
 USE voleibd;
 
-SELECT * FROM Pais;
-SELECT * FROM Patrocinador;
-SELECT * FROM Pessoa;
-SELECT * FROM Campeonato;
-SELECT * FROM Jogador;
-SELECT * FROM Treinador;
-SELECT * FROM Estadio;
-SELECT * FROM Equipe;
+-- Inserir dados na tabela Pais
+INSERT INTO Pais (Nome) VALUES 
+('Brasil'), ('Argentina'), ('Estados Unidos'), ('França'), ('Itália'), 
+('Espanha'), ('Alemanha'), ('China'), ('Japão'), ('Rússia'),
+('Portugal'), ('México'), ('Canadá'), ('Austrália'), ('Índia'),
+('África do Sul'), ('Nova Zelândia'), ('Chile'), ('Peru'), ('Colômbia'),
+('Suécia'), ('Noruega'), ('Finlândia'), ('Dinamarca'), ('Polônia'),
+('Grécia'), ('Turquia'), ('Egito'), ('Marrocos'), ('Arábia Saudita');
 
-
-INSERT INTO Pais (Nome) VALUES
-('Brasil'), ('Argentina'), ('Itália'), ('França'), ('Rússia'), 
-('Polônia'), ('Japão'), ('China'), ('Turquia'), ('Alemanha'),
-('Espanha'), ('Canadá'), ('Estados Unidos'), ('México'), ('Portugal'),
-('Holanda'), ('Bélgica'), ('Suíça'), ('Suécia'), ('Noruega'),
-('Dinamarca'), ('Finlândia'), ('Áustria'), ('Grécia'), ('Hungria'),
-('República Tcheca'), ('Austrália'), ('Nova Zelândia'), ('África do Sul'), ('Egito');
-
-
-INSERT INTO Patrocinador (Nome, id_Pais) VALUES
-('Banco do Brasil', 1), ('Petrobras', 1), ('Natura', 1), ('Embraer', 1),
-('Ambev', 1), ('Bradesco', 1), ('Itaú', 1), ('Santander', 1),
-('Caixa Econômica Federal', 1), ('Magazine Luiza', 1), 
-('Adidas', 2), ('Nike', 3), ('Puma', 4), ('Reebok', 5), 
-('Coca Cola', 6), ('Pepsi', 7), ('Sony', 8), ('Samsung', 9), 
-('LG', 10), ('HP', 11), ('Dell', 12), ('Apple', 13), 
-('Microsoft', 14), ('Google', 15), ('Amazon', 16), 
-('Facebook', 17), ('Twitter', 18), ('Uber', 19), 
-('Airbnb', 20), ('Netflix', 21);
-
-
-INSERT INTO Pessoa (Nome, Email, Telemovel, Rua, Bairro, Cidade) VALUES
-('Giba', 'giba@example.com', '11912345678', 'Rua Engenheiro Rebouças', 'Rebouças', 'Curitiba'),
-('Murilo Endres', 'murilo@example.com', '11923456789', 'Avenida Paulista', 'Bela Vista', 'São Paulo'),
-('Bruno Rezende', 'bruno@example.com', '21934567890', 'Rua Visconde de Pirajá', 'Ipanema', 'Rio de Janeiro'),
-('Serginho', 'serginho@example.com', '11945678901', 'Rua da Consolação', 'Consolação', 'São Paulo'),
-('Wallace de Souza', 'wallace@example.com', '11956789012', 'Rua Oscar Freire', 'Jardins', 'São Paulo'),
-('Ricardo Lucarelli', 'lucarelli@example.com', '31967890123', 'Avenida Afonso Pena', 'Centro', 'Belo Horizonte'),
-('Lucão', 'lucao@example.com', '11978901234', 'Avenida Brigadeiro Faria Lima', 'Itaim Bibi', 'São Paulo'),
-('Maurício Borges', 'mauricio@example.com', '11989012345', 'Rua Frei Caneca', 'Consolação', 'São Paulo'),
-('Douglas Souza', 'douglas@example.com', '11990123456', 'Rua Bela Cintra', 'Consolação', 'São Paulo'),
-('Rodrigo Santana', 'rodrigo@example.com', '11901234567', 'Avenida 23 de Maio', 'Paraíso', 'São Paulo'),
-('Fernando Garay', 'fernando@example.com', '31987654321', 'Rua Amazonas', 'Savassi', 'Belo Horizonte'),
-('Thiago Santos', 'thiago@example.com', '21987654321', 'Avenida Atlântica', 'Copacabana', 'Rio de Janeiro'),
-('Carlos Nogueira', 'carlos@example.com', '11987654321', 'Rua Vergueiro', 'Vila Mariana', 'São Paulo'),
-('Pedro Henrique', 'pedro@example.com', '31976543210', 'Avenida Cristiano Machado', 'Cidade Nova', 'Belo Horizonte'),
-('Felipe Araújo', 'felipe@example.com', '21976543210', 'Rua Jardim Botânico', 'Jardim Botânico', 'Rio de Janeiro'),
-('Marcelo Silva', 'marcelo@example.com', '11965432109', 'Rua Augusta', 'Consolação', 'São Paulo'),
-('Andre Lima', 'andre@example.com', '31965432109', 'Avenida do Contorno', 'Funcionários', 'Belo Horizonte'),
-('Victor Hugo', 'victor@example.com', '21965432109', 'Rua da Glória', 'Glória', 'Rio de Janeiro'),
-('Lucas Costa', 'lucas@example.com', '11954321098', 'Avenida São João', 'Centro', 'São Paulo'),
-('Gabriel Souza', 'gabriel@example.com', '31954321098', 'Avenida Amazonas', 'Centro', 'Belo Horizonte'),
-('Rafael Santos', 'rafael@example.com', '21954321098', 'Rua Barata Ribeiro', 'Copacabana', 'Rio de Janeiro'),
-('Mateus Oliveira', 'mateus@example.com', '11943210987', 'Avenida Ipiranga', 'República', 'São Paulo'),
-('Arthur Almeida', 'arthur@example.com', '31943210987', 'Rua dos Timbiras', 'Centro', 'Belo Horizonte'),
-('Igor Mendes', 'igor@example.com', '21943210987', 'Avenida Presidente Vargas', 'Centro', 'Rio de Janeiro'),
-('Diego Ferreira', 'diego@example.com', '11932109876', 'Avenida Paulista', 'Bela Vista', 'São Paulo'),
-('Bruno Alves', 'bruno.alves@example.com', '31932109876', 'Avenida Afonso Pena', 'Centro', 'Belo Horizonte'),
-('José Pereira', 'jose@example.com', '21932109876', 'Rua Voluntários da Pátria', 'Botafogo', 'Rio de Janeiro'),
-('Daniel Martins', 'daniel@example.com', '11921098765', 'Rua Haddock Lobo', 'Consolação', 'São Paulo'),
-('Eduardo Lima', 'eduardo@example.com', '31921098765', 'Avenida Amazonas', 'Centro', 'Belo Horizonte'),
-('Henrique Souza', 'henrique@example.com', '21921098765', 'Avenida Rio Branco', 'Centro', 'Rio de Janeiro');
-
-INSERT INTO Campeonato (Nome, Ano, Titulo, id_Pais) VALUES
-('Superliga Masculina', 2023, 'Superliga 2023', 1), 
-('Campeonato Paulista', 2022, 'Paulista 2022', 1),
-('Copa Brasil', 2021, 'Copa Brasil 2021', 1),
-('Campeonato Carioca', 2020, 'Carioca 2020', 1),
-('Campeonato Mineiro', 2019, 'Mineiro 2019', 1),
-('Liga Nacional', 2018, 'Nacional 2018', 1),
-('Campeonato Gaúcho', 2017, 'Gaúcho 2017', 1),
-('Taça Paraná', 2016, 'Paraná 2016', 1),
-('Liga Nordeste', 2015, 'Nordeste 2015', 1),
-('Campeonato Centro-Oeste', 2014, 'Centro-Oeste 2014', 1),
-('Campeonato Sul', 2013, 'Sul 2013', 1), ('Copa Rio', 2012, 'Rio 2012', 1),
-('Campeonato Norte', 2011, 'Norte 2011', 1), ('Campeonato Leste', 2010, 'Leste 2010', 1),
-('Campeonato Oeste', 2009, 'Oeste 2009', 1), ('Superliga Feminina', 2023, 'Superliga 2023', 1),
-('Campeonato Paulista Feminino', 2022, 'Paulista 2022', 1), ('Copa Brasil Feminina', 2021, 'Copa Brasil 2021', 1),
-('Campeonato Carioca Feminino', 2020, 'Carioca 2020', 1), ('Campeonato Mineiro Feminino', 2019, 'Mineiro 2019', 1),
-('Liga Nacional Feminina', 2018, 'Nacional 2018', 1), ('Campeonato Gaúcho Feminino', 2017, 'Gaúcho 2017', 1),
-('Taça Paraná Feminina', 2016, 'Paraná 2016', 1), ('Liga Nordeste Feminina', 2015, 'Nordeste 2015', 1),
-('Campeonato Centro-Oeste Feminino', 2014, 'Centro-Oeste 2014', 1), ('Campeonato Sul Feminino', 2013, 'Sul 2013', 1),
-('Copa Rio Feminina', 2012, 'Rio 2012', 1), ('Campeonato Norte Feminino', 2011, 'Norte 2011', 1),
-('Campeonato Leste Feminino', 2010, 'Leste 2010', 1), ('Campeonato Oeste Feminino', 2009, 'Oeste 2009', 1);
-
-
-INSERT INTO Jogador (Altura, Peso, Posicao, idPessoa) VALUES
-(1.90, 85, 'Ponteiro', 1), (1.85, 78, 'Oposto', 2), (1.98, 88, 'Levantador', 3),
-(1.92, 80, 'Líbero', 4), (1.95, 90, 'Central', 5), (1.91, 85, 'Ponteiro', 6),
-(2.00, 95, 'Central', 7), (1.88, 82, 'Levantador', 8), (1.87, 80, 'Oposto', 9),
-(1.99, 93, 'Ponteiro', 10), (1.89, 84, 'Ponteiro', 11), (1.86, 79, 'Oposto', 12),
-(1.97, 89, 'Levantador', 13), (1.93, 81, 'Líbero', 14), (1.96, 91, 'Central', 15),
-(1.90, 85, 'Ponteiro', 16), (2.01, 96, 'Central', 17), (1.89, 83, 'Levantador', 18),
-(1.86, 80, 'Oposto', 19), (1.98, 92, 'Ponteiro', 20), (1.91, 86, 'Ponteiro', 21),
-(1.87, 81, 'Oposto', 22), (1.96, 90, 'Levantador', 23), (1.92, 82, 'Líbero', 24),
-(1.95, 92, 'Central', 25), (1.90, 84, 'Ponteiro', 26), (2.02, 97, 'Central', 27),
-(1.89, 82, 'Levantador', 28), (1.87, 79, 'Oposto', 29), (1.99, 94, 'Ponteiro', 30);
-
-
-INSERT INTO Treinador (Nome, idPessoa) VALUES
-('Bernardinho', 1), ('Renan Dal Zotto', 2), ('Giovanni Guidetti', 3), ('Karch Kiraly', 4),
-('Julio Velasco', 5), ('Hugh McCutcheon', 6), ('Andrea Giani', 7), ('Vital Heynen', 8),
-('Raul Lozano', 9), ('John Speraw', 10), ('Marcelo Mendez', 11), ('Philippe Blain', 12),
-('Glenn Hoag', 13), ('Nikola Grbic', 14), ('Laurent Tillie', 15), ('Andrea Anastasi', 16),
-('Slobodan Kovac', 17), ('Robertlandy Simon', 18), ('Antiga Stephane', 19), ('John Cook', 20),
-('Mark Lebedew', 21), ('Stefano Lavarini', 22), ('Luciano De Cecco', 23), ('Nicolás Uriarte', 24),
-('Rafael Redwitz', 25), ('Carlos Weber', 26), ('Fabio Soli', 27), ('Vladimir Alekno', 28),
-('Tamas Nehme', 29), ('Daniel Castellani', 30);
-
-
+-- Inserir dados na tabela Estadio
 INSERT INTO Estadio (Nome, Capacidade, Localizacao) VALUES
-('Ginásio do Mineirinho', 25000, 'Belo Horizonte'), ('Ginásio do Maracanãzinho', 11000, 'Rio de Janeiro'),
-('Ginásio da Vila Leopoldina', 3500, 'São Paulo'), ('Ginásio Poliesportivo Divino Braga', 5000, 'Betim'),
-('Ginásio da Universidade Positivo', 4500, 'Curitiba'), ('Ginásio do Ibirapuera', 10500, 'São Paulo'),
-('Arena da Barra', 16000, 'Rio de Janeiro'), ('Arena Multiuso Presidente Tancredo Neves', 8000, 'Belo Horizonte'),
-('Ginásio Oscar Zelaya', 2000, 'Rio de Janeiro'), ('Ginásio do Tênis Clube', 4000, 'São José dos Campos'),
-('Ginásio do SESI', 3500, 'São Paulo'), ('Ginásio do Colégio Santo Agostinho', 1500, 'Belo Horizonte'),
-('Ginásio do Marista', 2500, 'Curitiba'), ('Ginásio do Minas Tênis Clube', 4500, 'Belo Horizonte'),
-('Arena Pernambuco', 30000, 'Recife'), ('Ginásio da UFV', 2000, 'Viçosa'),
-('Ginásio do Tijuca Tênis Clube', 3500, 'Rio de Janeiro'), ('Arena Castelão', 60000, 'Fortaleza'),
-('Arena Fonte Nova', 50000, 'Salvador'), ('Ginásio da Unifor', 3000, 'Fortaleza'),
-('Ginásio do Fluminense', 2000, 'Rio de Janeiro'), ('Arena da Baixada', 42000, 'Curitiba'),
-('Ginásio do Palmeiras', 3000, 'São Paulo'), ('Arena Corinthians', 49000, 'São Paulo'),
-('Ginásio do São Caetano', 2000, 'São Caetano do Sul'), ('Ginásio da Hebraica', 1000, 'São Paulo'),
-('Ginásio do Banespa', 2000, 'São Paulo'), ('Ginásio do Pinheiros', 3000, 'São Paulo'),
-('Ginásio do Botafogo', 2000, 'Rio de Janeiro'), ('Ginásio do Flamengo', 2000, 'Rio de Janeiro');
+('Maracanãzinho', 12000, 'Rio de Janeiro'),
+('Ginásio do Ibirapuera', 11000, 'São Paulo'),
+('Mineirinho', 25000, 'Belo Horizonte'),
+('Arena da Baixada', 42000, 'Curitiba'),
+('Arena Castelão', 63000, 'Fortaleza'),
+('Allianz Parque', 55000, 'São Paulo'),
+('Morumbi', 66000, 'São Paulo'),
+('Beira-Rio', 50000, 'Porto Alegre'),
+('Arena Grêmio', 60000, 'Porto Alegre'),
+('Mané Garrincha', 72000, 'Brasília'),
+('Estádio Olímpico', 50000, 'Porto Alegre'),
+('Arena Fonte Nova', 48000, 'Salvador'),
+('Arena Pantanal', 41000, 'Cuiabá'),
+('Arena Amazônia', 44000, 'Manaus'),
+('Estádio dos Aflitos', 19000, 'Recife'),
+('Ilha do Retiro', 35000, 'Recife'),
+('Estádio Rei Pelé', 20000, 'Maceió'),
+('Estádio Olímpico de Londres', 80000, 'Londres'),
+('Wembley', 90000, 'Londres'),
+('Camp Nou', 99354, 'Barcelona'),
+('Santiago Bernabéu', 81044, 'Madri'),
+('Old Trafford', 74879, 'Manchester'),
+('Anfield', 54074, 'Liverpool'),
+('San Siro', 80018, 'Milão'),
+('Allianz Arena', 75000, 'Munique'),
+('Signal Iduna Park', 81365, 'Dortmund'),
+('Parc des Princes', 47929, 'Paris'),
+('Estádio da Luz', 64642, 'Lisboa'),
+('Estádio do Dragão', 50033, 'Porto'),
+('Estádio José Alvalade', 50095, 'Lisboa');
 
+-- Inserir dados na tabela Campeonato
+INSERT INTO Campeonato (Nome, Ano, Titulo, id_Pais) VALUES
+('Campeonato Brasileiro', 2023, 'Campeonato Brasileiro 2023', 1),
+('Liga Mundial de Voleibol', 2023, 'Liga Mundial 2023', 2),
+('Copa do Mundo de Voleibol', 2023, 'Copa do Mundo 2023', 3),
+('Campeonato Europeu de Voleibol', 2023, 'Campeonato Europeu 2023', 4),
+('Superliga Italiana', 2023, 'Superliga Italiana 2023', 5),
+('Liga Espanhola de Voleibol', 2023, 'Liga Espanhola 2023', 6),
+('Bundesliga de Voleibol', 2023, 'Bundesliga 2023', 7),
+('Liga Chinesa de Voleibol', 2023, 'Liga Chinesa 2023', 8),
+('Liga Japonesa de Voleibol', 2023, 'Liga Japonesa 2023', 9),
+('Liga Russa de Voleibol', 2023, 'Liga Russa 2023', 10),
+('Primeira Liga de Voleibol', 2023, 'Primeira Liga 2023', 11),
+('Liga Mexicana de Voleibol', 2023, 'Liga Mexicana 2023', 12),
+('Liga Canadense de Voleibol', 2023, 'Liga Canadense 2023', 13),
+('Liga Australiana de Voleibol', 2023, 'Liga Australiana 2023', 14),
+('Liga Indiana de Voleibol', 2023, 'Liga Indiana 2023', 15),
+('Liga Sul-Africana de Voleibol', 2023, 'Liga Sul-Africana 2023', 16),
+('Liga Neozelandesa de Voleibol', 2023, 'Liga Neozelandesa 2023', 17),
+('Liga Chilena de Voleibol', 2023, 'Liga Chilena 2023', 18),
+('Liga Peruana de Voleibol', 2023, 'Liga Peruana 2023', 19),
+('Liga Colombiana de Voleibol', 2023, 'Liga Colombiana 2023', 20),
+('Liga Sueca de Voleibol', 2023, 'Liga Sueca 2023', 21),
+('Liga Norueguesa de Voleibol', 2023, 'Liga Norueguesa 2023', 22),
+('Liga Finlandesa de Voleibol', 2023, 'Liga Finlandesa 2023', 23),
+('Liga Dinamarquesa de Voleibol', 2023, 'Liga Dinamarquesa 2023', 24),
+('Liga Polonesa de Voleibol', 2023, 'Liga Polonesa 2023', 25),
+('Liga Grega de Voleibol', 2023, 'Liga Grega 2023', 26),
+('Liga Turca de Voleibol', 2023, 'Liga Turca 2023', 27),
+('Liga Egípcia de Voleibol', 2023, 'Liga Egípcia 2023', 28),
+('Liga Marroquina de Voleibol', 2023, 'Liga Marroquina 2023', 29),
+('Liga Saudita de Voleibol', 2023, 'Liga Saudita 2023', 30);
 
-INSERT INTO Partida (Total_Points, Rodada, Data_da_Partida, Duracao_da_Partida, id_Estadio) VALUES
-(3, 1, '2023-01-01', '01:30:00', 1), (2, 2, '2023-02-01', '01:20:00', 2), 
-(3, 3, '2023-03-01', '01:25:00', 3), (2, 4, '2023-04-01', '01:35:00', 4), 
-(3, 5, '2023-05-01', '01:40:00', 5), (2, 6, '2023-06-01', '01:15:00', 6), 
-(3, 7, '2023-07-01', '01:30:00', 7), (2, 8, '2023-08-01', '01:20:00', 8), 
-(3, 9, '2023-09-01', '01:25:00', 9), (2, 10, '2023-10-01', '01:35:00', 10),
-(3, 11, '2023-11-01', '01:30:00', 11), (2, 12, '2023-12-01', '01:20:00', 12),
-(3, 13, '2023-11-01', '01:25:00', 13), (2, 14, '2023-12-01', '01:35:00', 14),
-(3, 15, '2023-11-01', '01:40:00', 15), (2, 16, '2023-12-01', '01:15:00', 16),
-(3, 17, '2023-11-01', '01:30:00', 17), (2, 18, '2023-12-01', '01:20:00', 18),
-(3, 19, '2023-11-01', '01:25:00', 19), (2, 20, '2023-12-01', '01:35:00', 20),
-(3, 21, '2023-11-01', '01:30:00', 21), (2, 22, '2023-12-01', '01:20:00', 22),
-(3, 23, '2023-11-01', '01:25:00', 23), (2, 24, '2023-12-01', '01:35:00', 24),
-(3, 25, '2023-11-01', '01:40:00', 25), (2, 26, '2023-12-01', '01:15:00', 26),
-(3, 27, '2023-11-01', '01:30:00', 27), (2, 28, '2023-12-01', '01:20:00', 28),
-(3, 29, '2023-11-01', '01:25:00', 29), (2, 30, '2023-12-01', '01:35:00', 30);
+-- Inserir dados na tabela Pessoa
+INSERT INTO Pessoa (Nome, Email, Telemovel, Rua, Bairro, Cidade, Genero, Data_Nascimento) VALUES
+('Giba', 'giba@example.com', '11912345678', 'Rua Engenheiro Rebouças', 'Rebouças', 'Curitiba', 'Masculino', '1976-12-23'),
+('Murilo Endres', 'murilo@example.com', '11923456789', 'Avenida Paulista', 'Bela Vista', 'São Paulo', 'Masculino', '1981-05-20'),
+('Renan Dal Zotto', 'renan@example.com', '11934567890', 'Rua da Consolação', 'Centro', 'Florianópolis', 'Masculino', '1970-07-19'),
+('Bernardinho', 'bernardinho@example.com', '11945678901', 'Rua das Laranjeiras', 'Laranjeiras', 'Rio de Janeiro', 'Masculino', '1959-11-25'),
+('José Roberto Guimarães', 'zrg@example.com', '11956789012', 'Rua da Liberdade', 'Liberdade', 'São Paulo', 'Masculino', '1954-07-31'),
+('Fabiana Claudino', 'fabiana@example.com', '11967890123', 'Rua do Centro', 'Centro', 'São Paulo', 'Feminino', '1985-01-24'),
+('Jaqueline Carvalho', 'jaqueline@example.com', '11978901234', 'Rua das Palmeiras', 'Palmeiras', 'São Paulo', 'Feminino', '1983-12-31'),
+('Thaisa Menezes', 'thaisa@example.com', '11989012345', 'Avenida das Nações', 'Nações', 'São Paulo', 'Feminino', '1987-05-15'),
+('Sheilla Castro', 'sheilla@example.com', '11990123456', 'Rua das Flores', 'Flores', 'Belo Horizonte', 'Feminino', '1983-07-01'),
+('Dani Lins', 'dani@example.com', '11901234567', 'Avenida Central', 'Central', 'Recife', 'Feminino', '1985-01-05'),
+('Bruninho', 'bruninho@example.com', '11912345679', 'Rua Nova', 'Nova', 'Rio de Janeiro', 'Masculino', '1986-07-02'),
+('Lucarelli', 'lucarelli@example.com', '11923456780', 'Avenida Paulista', 'Paulista', 'São Paulo', 'Masculino', '1992-02-14'),
+('Wallace de Souza', 'wallace@example.com', '11934567891', 'Rua do Porto', 'Porto', 'Recife', 'Masculino', '1987-06-26'),
+('Douglas Souza', 'douglas@example.com', '11945678902', 'Rua da Alegria', 'Alegria', 'Santa Bárbara', 'Masculino', '1995-08-20'),
+('Léia Silva', 'leia@example.com', '11956789013', 'Avenida Principal', 'Principal', 'Curitiba', 'Feminino', '1984-02-11'),
+('Natália Pereira', 'natalia@example.com', '11967890124', 'Rua do Sol', 'Sol', 'Rio de Janeiro', 'Feminino', '1989-04-04'),
+('Fernanda Garay', 'fernanda@example.com', '11978901235', 'Rua do Leste', 'Leste', 'Porto Alegre', 'Feminino', '1986-05-10'),
+('Gabriela Guimarães', 'gabriela@example.com', '11989012346', 'Avenida Oeste', 'Oeste', 'Belo Horizonte', 'Feminino', '1994-08-19'),
+('Amanda Francisco', 'amanda@example.com', '11990123457', 'Rua das Árvores', 'Árvores', 'Campinas', 'Feminino', '1992-10-11'),
+('Paula Pequeno', 'paula@example.com', '11901234568', 'Rua dos Anjos', 'Anjos', 'Brasília', 'Feminino', '1982-01-22'),
+('Carol Gattaz', 'carol@example.com', '11912345680', 'Avenida Brasil', 'Brasil', 'São Paulo', 'Feminino', '1981-07-27'),
+('Rodrigo Santana', 'rodrigo@example.com', '11923456781', 'Rua da Praia', 'Praia', 'Salvador', 'Masculino', '1990-11-15'),
+('Maurício Borges', 'mauricio@example.com', '11934567892', 'Rua do Mar', 'Mar', 'Florianópolis', 'Masculino', '1989-02-04'),
+('Rodrigo Leão', 'rodrigoleao@example.com', '11945678903', 'Rua das Rosas', 'Rosas', 'Porto Alegre', 'Masculino', '1987-03-12'),
+('Eduardo Dantas', 'eduardo@example.com', '11956789014', 'Avenida Verde', 'Verde', 'São Paulo', 'Masculino', '1986-08-30'),
+('César Souza', 'cesar@example.com', '11967890125', 'Rua da Paz', 'Paz', 'Curitiba', 'Masculino', '1984-09-19'),
+('Ricardo Milos', 'ricardo@example.com', '11978901236', 'Avenida do Povo', 'Povo', 'Rio de Janeiro', 'Masculino', '1990-05-23'),
+('Marcos Silva', 'marcos@example.com', '11989012347', 'Rua das Oliveiras', 'Oliveiras', 'Campinas', 'Masculino', '1983-06-14'),
+('André Santos', 'andre@example.com', '11990123458', 'Avenida Central', 'Central', 'Recife', 'Masculino', '1987-07-09'),
+('Carlos Souza', 'carlos@example.com', '11901234569', 'Rua da Independência', 'Independência', 'Porto Alegre', 'Masculino', '1985-03-17');
 
+-- Inserir dados na tabela Jogador
+INSERT INTO Jogador (Altura, Peso, Posicao, Capitao, idPessoa) VALUES 
+(190.00, 85.00, 'Ponteiro', TRUE, 1), 
+(195.00, 90.00, 'Oposto', FALSE, 2),
+(200.00, 95.00, 'Central', FALSE, 3), 
+(185.00, 80.00, 'Libero', FALSE, 4),
+(193.00, 88.00, 'Ponteiro', FALSE, 5), 
+(188.00, 83.00, 'Central', FALSE, 6),
+(192.00, 87.00, 'Oposto', FALSE, 7), 
+(197.00, 93.00, 'Ponteiro', FALSE, 8),
+(184.00, 78.00, 'Libero', FALSE, 9), 
+(189.00, 82.00, 'Central', FALSE, 10),
+(191.00, 84.00, 'Ponteiro', FALSE, 11), 
+(196.00, 92.00, 'Oposto', FALSE, 12),
+(183.00, 79.00, 'Libero', FALSE, 13), 
+(198.00, 94.00, 'Central', FALSE, 14),
+(187.00, 81.00, 'Ponteiro', FALSE, 15), 
+(182.00, 76.00, 'Libero', FALSE, 16),
+(194.00, 89.00, 'Oposto', FALSE, 17), 
+(199.00, 96.00, 'Central', FALSE, 18),
+(186.00, 79.00, 'Ponteiro', FALSE, 19), 
+(181.00, 75.00, 'Libero', FALSE, 20),
+(195.00, 90.00, 'Oposto', FALSE, 21), 
+(180.00, 74.00, 'Libero', FALSE, 22),
+(200.00, 98.00, 'Central', FALSE, 23), 
+(189.00, 83.00, 'Ponteiro', FALSE, 24),
+(187.00, 80.00, 'Libero', FALSE, 25), 
+(184.00, 79.00, 'Central', FALSE, 26),
+(193.00, 88.00, 'Oposto', FALSE, 27), 
+(191.00, 86.00, 'Libero', FALSE, 28),
+(185.00, 77.00, 'Central', FALSE, 29), 
+(188.00, 82.00, 'Ponteiro', FALSE, 30);
 
-INSERT INTO Equipe (Nome, id_Patrocinador, id_Campeonato, id_Pais, id_Treinador) VALUES
-('Sada Cruzeiro', 1, 1, 1, 1), ('SESI-SP', 2, 2, 1, 2), 
-('Taubaté Funvic', 3, 3, 1, 3), ('Vôlei Renata', 4, 4, 1, 4), 
-('Fiat/Minas', 5, 5, 1, 5), ('Vôlei UM Itapetininga', 6, 6, 1, 6), 
-('Uberlândia/Gabarito/Start Química', 7, 7, 1, 7), ('Canoas Vôlei', 8, 8, 1, 8), 
-('Vôlei Ribeirão', 9, 9, 1, 9), ('Ponta Grossa Vôlei', 10, 10, 1, 10),
-('EMS Taubaté Funvic', 11, 11, 1, 11), ('Sesc-RJ', 12, 12, 1, 12),
-('Corinthians/Guarulhos', 13, 13, 1, 13), ('Copel Telecom Maringá Vôlei', 14, 14, 1, 14),
-('São Francisco Saúde/Vôlei Ribeirão', 15, 15, 1, 15), ('Ponta Grossa Caramuru', 16, 16, 1, 16),
-('Apan/Blumenau', 17, 17, 1, 17), ('Vôlei Um Itapetininga', 18, 18, 1, 18),
-('Maringá Vôlei', 19, 19, 1, 19), ('Juiz de Fora Vôlei', 20, 20, 1, 20),
-('São José Vôlei', 21, 21, 1, 21), ('Montes Claros América Vôlei', 22, 22, 1, 22),
-('Clube Jaó/Universo', 23, 23, 1, 23), ('Bento Vôlei', 24, 24, 1, 24),
-('Upis/Brasília', 25, 25, 1, 25), ('Uberlândia/Gabarito', 26, 26, 1, 26),
-('AVP-Palmas/Guarujá', 27, 27, 1, 27), ('Foz do Iguaçu Vôlei', 28, 28, 1, 28),
-('Blumenau Vôlei', 29, 29, 1, 29), ('Natal Vôlei', 30, 30, 1, 30);
+-- Inserir dados na tabela Treinador
+INSERT INTO Treinador (idPessoa) VALUES 
+(31), (32), (33), (34), (35), (36), (37), (38), (39), (40),
+(41), (42), (43), (44), (45), (46), (47), (48), (49), (50),
+(51), (52), (53), (54), (55), (56), (57), (58), (59), (60);
 
+-- Inserir dados na tabela Patrocinador
+INSERT INTO Patrocinador (Nome, id_Pais) VALUES 
+('Banco do Brasil', 1), 
+('Petrobras', 1), 
+('Nike', 3), 
+('Adidas', 4), 
+('Puma', 5),
+('Reebok', 6), 
+('Under Armour', 7), 
+('New Balance', 8), 
+('Asics', 9), 
+('Mizuno', 10),
+('Umbro', 11), 
+('Kappa', 12), 
+('Lacoste', 13), 
+('Fila', 14), 
+('Hummel', 15),
+('Joma', 16), 
+('Diadora', 17), 
+('Le Coq Sportif', 18), 
+('Li-Ning', 19), 
+('Errea', 20),
+('Macron', 21), 
+('Pony', 22), 
+('Saucony', 23), 
+('Sergio Tacchini', 24), 
+('Topper', 25),
+('Penalty', 26), 
+('Brooks', 27), 
+('Kelme', 28), 
+('Mitre', 29), 
+('Lotto', 30);
 
+-- Inserir dados na tabela Equipe
+INSERT INTO Equipe (Nome, id_Patrocinador, id_Campeonato, id_Pais, id_Treinador) VALUES 
+('Sada Cruzeiro', 1, 1, 1, 1), 
+('SESI-SP', 2, 1, 1, 2),
+('Taubaté Funvic', 3, 2, 1, 3),
+('Vôlei Renata', 4, 3, 1, 4), 
+('Fiat Minas', 5, 4, 1, 5),
+('Itapetininga', 6, 5, 1, 6), 
+('Uberlândia', 7, 6, 1, 7),
+('São José Vôlei', 8, 7, 1, 8), 
+('Montes Claros', 9, 8, 1, 9),
+('Juiz de Fora', 10, 9, 1, 10),
+('Caramuru Vôlei', 11, 10, 1, 11), 
+('Anápolis Vôlei', 12, 11, 1, 12),
+('Blumenau', 13, 12, 1, 13), 
+('Maringá Vôlei', 14, 13, 1, 14),
+('Vôlei UM Itapetininga', 15, 14, 1, 15), 
+('Botafogo Vôlei', 16, 15, 1, 16),
+('Flamengo Vôlei', 17, 16, 1, 17), 
+('Vasco Vôlei', 18, 17, 1, 18),
+('Palmeiras Vôlei', 19, 18, 1, 19), 
+('Corinthians Vôlei', 20, 19, 1, 20),
+('Grêmio Vôlei', 21, 20, 1, 21), 
+('Internacional Vôlei', 22, 21, 1, 22),
+('Avaí Vôlei', 23, 22, 1, 23), 
+('Figueirense Vôlei', 24, 23, 1, 24),
+('Criciúma Vôlei', 25, 24, 1, 25), 
+('Joinville Vôlei', 26, 25, 1, 26),
+('Chapecó Vôlei', 27, 26, 1, 27), 
+('Caxias Vôlei', 28, 27, 1, 28),
+('Brasília Vôlei', 29, 28, 1, 29), 
+('Santos Vôlei', 30, 29, 1, 30);
 
+-- Inserir dados na tabela Partida
+INSERT INTO Partida (Total_Points, Rodada, Data_da_Partida, Duracao_da_Partida, id_Estadio, id_Campeonato) VALUES 
+(250, 1, '2023-06-10', '01:30:00', 1, 1), 
+(300, 2, '2023-06-12', '02:00:00', 1, 1), 
+(280, 3, '2023-06-14', '01:45:00', 2, 1), 
+(320, 4, '2023-06-15', '02:15:00', 2, 2),
+(310, 5, '2023-06-16', '01:50:00', 3, 3), 
+(295, 6, '2023-06-17', '02:05:00', 3, 3), 
+(270, 7, '2023-06-18', '01:25:00', 4, 4),
+(305, 8, '2023-06-19', '02:10:00', 4, 4), 
+(260, 9, '2023-06-20', '01:20:00', 5, 5),
+(325, 10, '2023-06-21', '02:20:00', 5, 5), 
+(315, 11, '2023-06-22', '01:55:00', 6, 6),
+(290, 12, '2023-06-23', '02:00:00', 6, 6), 
+(275, 13, '2023-06-24', '01:30:00', 7, 7),
+(330, 14, '2023-06-25', '02:25:00', 7, 7), 
+(285, 15, '2023-06-26', '01:35:00', 8, 8),
+(340, 16, '2023-06-27', '02:30:00', 8, 8), 
+(295, 17, '2023-06-28', '01:40:00', 9, 9),
+(280, 18, '2023-06-29', '02:00:00', 9, 9), 
+(290, 19, '2023-06-30', '01:50:00', 10, 10),
+(310, 20, '2023-07-01', '02:05:00', 10, 10), 
+(275, 21, '2023-07-02', '01:45:00', 11, 11),
+(260, 22, '2023-07-03', '01:20:00', 11, 11), 
+(305, 23, '2023-07-04', '02:10:00', 12, 12),
+(285, 24, '2023-07-05', '01:35:00', 12, 12), 
+(290, 25, '2023-07-06', '01:50:00', 13, 13),
+(320, 26, '2023-07-07', '02:15:00', 13, 13), 
+(310, 27, '2023-07-08', '02:05:00', 14, 14),
+(275, 28, '2023-07-09', '01:45:00', 14, 14), 
+(280, 29, '2023-07-10', '01:50:00', 15, 15),
+(295, 30, '2023-07-11', '02:00:00', 15, 15);
 
-
-
-
-
+-- Inserir dados na tabela Partida_Equipe
+INSERT INTO Partida_Equipe (id_Partida, id_Equipe) VALUES 
+(1, 1), (2, 2), (3, 3), (4, 4), 
+(5, 5), (6, 6), (7, 7), (8, 8), 
+(9, 9), (10, 10), (11, 11), (12, 12), 
+(13, 13), (14, 14), (15, 15), (16, 16), 
+(17, 17), (18, 18), (19, 19), (20, 20), 
+(21, 21), (22, 22), (23, 23), (24, 24), 
+(25, 25), (26, 26), (27, 27), (28, 28), 
+(29, 29), (30, 30);
