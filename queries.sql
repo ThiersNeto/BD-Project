@@ -1,287 +1,279 @@
-USE voleibd;
+USE volei;
 
--- 1.1: Listar participantes por posição;
 
+-- 1.1. Critério I: Participantes de um determinado país
 SELECT 
-    p.Nome AS 'Nome do Jogador',
-    j.Posicao AS 'Posição',
-    p.Email AS 'Email',
-    p.Telemovel AS 'Telemóvel',
-    e.Nome AS 'Equipe'
-FROM Jogador j
+    p.nome AS 'Nome do Participante', 
+    p.email AS 'Email', 
+    j.altura AS 'Altura', 
+    j.peso AS 'Peso', 
+    j.posicao AS 'Posição', 
+    j.nacionalidade AS 'Nacionalidade'
+FROM Pessoa p
+JOIN Jogador j ON p.idPessoa = j.idPessoa
+WHERE j.nacionalidade = 'Brasileira';
+
+-- 1.2. Critério II: Participantes com altura maior que 1.80m
+SELECT 
+    p.nome AS 'Nome do Participante', 
+    p.email AS 'Email', 
+    j.altura AS 'Altura', 
+    j.peso AS 'Peso', 
+    j.posicao AS 'Posição', 
+    j.nacionalidade AS 'Nacionalidade'
+FROM Pessoa p
+JOIN Jogador j ON p.idPessoa = j.idPessoa
+WHERE j.altura > 1.80;
+
+-- 2.1. Critério I: Equipas que participam em um campeonato específico
+SELECT 
+    t.nome AS 'Nome da Equipa', 
+    p.nome AS 'Nome do Jogador', 
+    ft.Peso AS 'Peso', 
+    c.titulo AS 'Campeonato'
+FROM 
+    Time t
+JOIN JogadorTime jt ON t.idTeam = jt.idTeam
+JOIN Jogador j ON jt.idJogador = j.idJogador
 JOIN Pessoa p ON j.idPessoa = p.idPessoa
-JOIN Jogador_Equipe je ON j.id_Jogador = je.id_Jogador
-JOIN Equipe e ON je.id_Equipe = e.id_Equipe
-ORDER BY j.Posicao, p.Nome;
-
--- 1.2: Listar participantes por equipe;
+JOIN FichaTecnica ft ON j.idJogador = ft.id_Jogador
+JOIN TimeCampeonato tc ON t.idTeam = tc.idTeam
+JOIN Campeonato c ON tc.idCampeonato = c.idCampeonato
+WHERE c.titulo = 'Campeonato Nacional';
+    
+-- 2.2. Critério II: Equipas que têm jogadores com peso maior que 75kg
 
 SELECT 
-    e.Nome AS 'Nome da Equipe',
-    p.Nome AS 'Nome do Jogador',
-    j.Posicao AS 'Posição',
-    p.Email AS 'Email',
-    p.Telemovel AS 'Telemóvel'
-FROM Equipe e
-JOIN Jogador_Equipe je ON e.id_Equipe = je.id_Equipe
-JOIN Jogador j ON je.id_Jogador = j.id_Jogador
+    t.nome AS 'Nome da Equipa', 
+    p.nome AS 'Nome do Jogador', 
+    ft.Peso AS 'Peso'
+FROM 
+    Time t
+JOIN JogadorTime jt ON t.idTeam = jt.idTeam
+JOIN Jogador j ON jt.idJogador = j.idJogador
 JOIN Pessoa p ON j.idPessoa = p.idPessoa
-ORDER BY e.Nome, p.Nome;
+JOIN FichaTecnica ft ON j.idJogador = ft.id_Jogador
+WHERE ft.Peso > 75;
 
-
--- 2.1: Equipes e seus jogadores ordenados por nome da equipe;
-
-SELECT 
-    e.Nome AS 'Nome da Equipe',
-    p.Nome AS 'Nome do Jogador',
-    j.Posicao AS 'Posição',
-    p.Email AS 'Email',
-    p.Telemovel AS 'Telemóvel'
-FROM Equipe e
-JOIN Jogador_Equipe je ON e.id_Equipe = je.id_Equipe
-JOIN Jogador j ON je.id_Jogador = j.id_Jogador
-JOIN Pessoa p ON j.idPessoa = p.idPessoa
-ORDER BY e.Nome, p.Nome;
-
--- 2.2: Equipes e seus treinadores ordenados por país da equipe;
+-- 3.1. Critério I: Listar provas por nome do campeonato
 
 SELECT 
-    pa.Nome AS 'Nome do País',
-    e.Nome AS 'Nome da Equipe',
-    p.Nome AS 'Nome do Treinador',
-    p.Email AS 'Email',
-    p.Telemovel AS 'Telemóvel'
-FROM Equipe e
-JOIN Treinador t ON e.id_Treinador = t.id_Treinador
-JOIN Pessoa p ON t.idPessoa = p.idPessoa
-JOIN Pais pa ON e.id_Pais = pa.id_Pais
-ORDER BY pa.Nome, e.Nome;
-
--- 3.1: Listar provas (Partidas) de um evento ordenadas pela data da partida;
-
-SELECT 
-    c.Nome AS 'Nome do Campeonato',
-    p.id_Partida AS 'ID da Partida',
-    p.Data_da_Partida AS 'Data da Partida',
-    p.Total_Points AS 'Total de Pontos',
-    e.Nome AS 'Nome do Estádio'
+    c.titulo AS 'Nome do Campeonato',
+    p.idPartida AS 'ID da Prova',
+    p.dataDaPartida AS 'Data da Prova',
+    p.duracaoDaPartida AS 'Duração da Prova',
+    e.nome AS 'Estádio',
+    t.idTeam AS 'ID do Time',
+    t.nome AS 'Nome do Time'
 FROM Campeonato c
-JOIN Partida p ON c.id_Campeonato = p.id_Campeonato
-JOIN Estadio e ON p.id_Estadio = e.id_Estadio
-ORDER BY p.Data_da_Partida;
+JOIN TimeCampeonato tc ON c.idCampeonato = tc.idCampeonato
+JOIN Time t ON tc.idTeam = t.idTeam
+JOIN PartidaTime pt ON t.idTeam = pt.idTeam
+JOIN Partida p ON pt.idPartida = p.idPartida
+JOIN Estadio e ON p.idEstadio = e.idEstadio
+ORDER BY c.titulo, p.dataDaPartida;
 
--- 3.2: Listar provas (Partidas) de um evento ordenadas pela duração da partida;
 
-SELECT 
-    c.Nome AS 'Nome do Campeonato',
-    p.id_Partida AS 'ID da Partida',
-    p.Duracao_da_Partida AS 'Duração da Partida',
-    p.Total_Points AS 'Total de Pontos',
-    e.Nome AS 'Nome do Estádio'
-FROM Campeonato c
-JOIN Partida p ON c.id_Campeonato = p.id_Campeonato
-JOIN Estadio e ON p.id_Estadio = e.id_Estadio
-ORDER BY p.Duracao_da_Partida DESC;
-
--- 4.1: Classificações ordenadas pelo total de pontos;
+-- 3.2. Critério II: Listar provas por número de times participantes
 
 SELECT 
-    c.Nome AS 'Nome do Campeonato',
-    p.id_Partida AS 'ID da Partida',
-    e.Nome AS 'Nome da Equipe',
-    p.Total_Points AS 'Total de Pontos'
-FROM Campeonato c
-JOIN Partida p ON c.id_Campeonato = p.id_Campeonato
-JOIN Partida_Equipe pe ON p.id_Partida = pe.id_Partida
-JOIN Equipe e ON pe.id_Equipe = e.id_Equipe
-ORDER BY p.Total_Points DESC;
-
--- 4.2: Resultados em cada Torneio ordenados pela data da partida;
-
-SELECT 
-    c.Nome AS 'Nome do Campeonato',
-    p.id_Partida AS 'ID da Partida',
-    e.Nome AS 'Nome da Equipe',
-    p.Total_Points AS 'Total de Pontos',
-    p.Data_da_Partida AS 'Data da Partida'
-FROM Campeonato c
-JOIN Partida p ON c.id_Campeonato = p.id_Campeonato
-JOIN Partida_Equipe pe ON p.id_Partida = pe.id_Partida
-JOIN Equipe e ON pe.id_Equipe = e.id_Equipe
-ORDER BY p.Data_da_Partida, e.Nome;
-
-
--- 5.1: Estatísticas dos participantes por prova (Partidas) agrupados por campeonato;
-
-SELECT 
-    c.Nome AS 'Nome do Campeonato',
-    COUNT(DISTINCT je.id_Jogador) AS 'Número de Participantes',
-    AVG(t.Participantes) AS 'Média de Participantes',
-    MIN(t.Participantes) AS 'Mínimo de Participantes',
-    MAX(t.Participantes) AS 'Máximo de Participantes',
-    STDDEV(t.Participantes) AS 'Desvio Padrão de Participantes'
-FROM Campeonato c
-JOIN Partida p ON c.id_Campeonato = p.id_Campeonato
-JOIN Partida_Equipe pe ON p.id_Partida = pe.id_Partida
-JOIN (SELECT id_Equipe, COUNT(id_Jogador) AS Participantes FROM Jogador_Equipe GROUP BY id_Equipe) t ON pe.id_Equipe = t.id_Equipe
-JOIN Jogador_Equipe je ON pe.id_Equipe = je.id_Equipe
-GROUP BY c.Nome;
-
--- 5.2: Estatísticas dos participantes por prova (Partidas) agrupados por estádio;
-
-SELECT 
-    e.Nome AS 'Nome do Estádio',
-    COUNT(DISTINCT je.id_Jogador) AS 'Número de Participantes',
-    AVG(t.Participantes) AS 'Média de Participantes',
-    MIN(t.Participantes) AS 'Mínimo de Participantes',
-    MAX(t.Participantes) AS 'Máximo de Participantes',
-    STDDEV(t.Participantes) AS 'Desvio Padrão de Participantes'
-FROM Estadio e
-JOIN Partida p ON e.id_Estadio = p.id_Estadio
-JOIN Partida_Equipe pe ON p.id_Partida = pe.id_Partida
-JOIN (SELECT id_Equipe, COUNT(id_Jogador) AS Participantes FROM Jogador_Equipe GROUP BY id_Equipe) t ON pe.id_Equipe = t.id_Equipe
-JOIN Jogador_Equipe je ON pe.id_Equipe = je.id_Equipe
-GROUP BY e.Nome;
-
--- 6: Resultados de cada Evento com ranking das equipas;
-
-SELECT 
-    p.id_Partida AS 'ID da Partida',
-    e.Nome AS 'Nome da Equipe',
-    p.Total_Points AS 'Total de Pontos',
-    RANK() OVER (PARTITION BY p.id_Partida ORDER BY p.Total_Points DESC) AS 'Classificação'
+    p.idPartida AS 'ID da Prova',
+    p.dataDaPartida AS 'Data da Prova',
+    p.duracaoDaPartida AS 'Duração da Prova',
+    e.nome AS 'Estádio',
+    COUNT(pt.idTeam) AS 'Número de Times Participantes'
 FROM Partida p
-JOIN Partida_Equipe pe ON p.id_Partida = pe.id_Partida
-JOIN Equipe e ON pe.id_Equipe = e.id_Equipe
-ORDER BY p.id_Partida, 'Classificação';
+JOIN PartidaTime pt ON p.idPartida = pt.idPartida
+JOIN Estadio e ON p.idEstadio = e.idEstadio
+GROUP BY p.idPartida, p.dataDaPartida, p.duracaoDaPartida, e.nome
+ORDER BY 'Número de Times Participantes' DESC, p.dataDaPartida;
 
 
--- 7: Participantes individuais que não participaram em qualquer prova de equipas;
+-- 4.1. Critério I: Classificação de provas em que o total de pontos foi maior que 15
 
--- Participantes federados e profissionais (assumindo que os federados/profissionais são aqueles que estão na tabela Jogador mas não têm associação na tabela Jogador_Equipe)
 SELECT 
-    p.Nome AS 'Nome do Jogador',
-    p.Email AS 'Email',
-    p.Telemovel AS 'Telemóvel',
-    j.Posicao AS 'Posição',
+    p.idPartida AS 'ID da Prova', 
+    t.nome AS 'Nome da Equipa', 
+    p.totalPoints AS 'Total de Pontos', 
+    e.nome AS 'Estádio'
+FROM Partida p
+JOIN PartidaTime pt ON p.idPartida = pt.idPartida
+JOIN Time t ON pt.idTeam = t.idTeam
+JOIN Estadio e ON p.idEstadio = e.idEstadio
+WHERE p.totalPoints > 15;
+ 
+-- 4.2. Critério II: Classificação por duração da prova
+
+SELECT 
+    p.idPartida AS 'ID da Prova',
+    t.nome AS 'Nome do Time',
+    p.duracaoDaPartida AS 'Duração da Prova',
+    e.nome AS 'Estádio'
+FROM Partida p
+JOIN PartidaTime pt ON p.idPartida = pt.idPartida
+JOIN Time t ON pt.idTeam = t.idTeam
+JOIN Estadio e ON p.idEstadio = e.idEstadio
+ORDER BY p.duracaoDaPartida, p.idPartida;
+
+
+-- 5.1. Critério I: Estatísticas do número de participantes por prova
+
+SELECT 
+    p.idPartida AS 'ID da Prova',
+    AVG(pt.participantes) AS 'Número Médio de Participantes',
+    MIN(pt.participantes) AS 'Número Mínimo de Participantes',
+    MAX(pt.participantes) AS 'Número Máximo de Participantes',
+    STDDEV(pt.participantes) AS 'Desvio Padrão de Participantes'
+FROM 
+    Partida p
+JOIN 
+    (SELECT idPartida, COUNT(idTeam) AS participantes
+     FROM PartidaTime
+     GROUP BY idPartida) pt ON p.idPartida = pt.idPartida
+GROUP BY 
+    p.idPartida;
+    
+
+-- 5.2. Critério III: Estatísticas do número de participantes por estádio
+
+SELECT 
+    e.nome AS 'Nome do Estádio',
+    AVG(pt.participantes) AS 'Número Médio de Participantes',
+    MIN(pt.participantes) AS 'Número Mínimo de Participantes',
+    MAX(pt.participantes) AS 'Número Máximo de Participantes',
+    STDDEV(pt.participantes) AS 'Desvio Padrão de Participantes'
+FROM 
+    Estadio e
+JOIN 
+    Partida p ON e.idEstadio = p.idEstadio
+JOIN 
+    (SELECT idPartida, COUNT(idTeam) AS participantes
+     FROM PartidaTime
+     GROUP BY idPartida) pt ON p.idPartida = pt.idPartida
+GROUP BY 
+    e.nome;
+
+
+-- 6: Lista de resultados de cada Evento com ranking das equipas
+
+SELECT 
+    p.idPartida AS 'ID da Prova',
+    e.nome AS 'Nome do Estádio',
+    t.nome AS 'Nome da Equipe',
+    p.totalPoints AS 'Pontos Obtidos',  
+    RANK() OVER (PARTITION BY p.idPartida ORDER BY p.totalPoints DESC) AS 'Classificação'
+FROM Partida p
+JOIN PartidaTime pt ON p.idPartida = pt.idPartida
+JOIN Time t ON pt.idTeam = t.idTeam
+JOIN Estadio e ON p.idEstadio = e.idEstadio
+ORDER BY p.idPartida, 'Classificação';
+
+
+-- 7: Lista de participantes Profissionais que não participaram em qualquer prova de equipas
+
+SELECT 
+    p.idPessoa AS 'ID do Participante',
+    p.nome AS 'Nome do Participante',
     'Federado/Profissional' AS 'Tipo de Participante'
-FROM Jogador j
-JOIN Pessoa p ON j.idPessoa = p.idPessoa
-LEFT JOIN Jogador_Equipe je ON j.id_Jogador = je.id_Jogador
-WHERE je.id_Equipe IS NULL
-    AND p.idPessoa IN (
-        SELECT DISTINCT idPessoa FROM Jogador)
-
-UNION
-
--- Participantes casuais (amadores) (assumindo que os casuais são aqueles que não têm qualquer associação na tabela Jogador_Equipe e não estão em uma lista de federados/profissionais);
-SELECT 
-    p.Nome AS 'Nome do Jogador',
-    p.Email AS 'Email',
-    p.Telemovel AS 'Telemóvel',
-    j.Posicao AS 'Posição',
-    'Casual (Amador)' AS 'Tipo de Participante'
-FROM Jogador j
-JOIN Pessoa p ON j.idPessoa = p.idPessoa
-LEFT JOIN Jogador_Equipe je ON j.id_Jogador = je.id_Jogador
-WHERE je.id_Equipe IS NULL
-    AND p.idPessoa NOT IN (
-	SELECT DISTINCT idPessoa FROM Jogador);
-
-
--- 8: Elementos de uma equipa com identificação do role de cada elemento no Evento e respetiva características de cada elemento;
+FROM Pessoa p
+JOIN Jogador j ON p.idPessoa = j.idPessoa
+LEFT JOIN JogadorTime jt ON j.idJogador = jt.idJogador
+WHERE jt.idJogador IS NULL;
 
 SELECT 
-    e.Nome AS 'Nome da Equipe',
-    p.Nome AS 'Nome do Jogador/Treinador',
-    'Jogador' AS 'Role',
-    j.Posicao AS 'Posição',
-    j.Altura AS 'Altura',
-    j.Peso AS 'Peso',
-    p.Email AS 'Email',
-    p.Telemovel AS 'Telemóvel'
-FROM Equipe e
-JOIN Jogador_Equipe je ON e.id_Equipe = je.id_Equipe
-JOIN Jogador j ON je.id_Jogador = j.id_Jogador
+    p.idPessoa AS 'ID do Participante',
+    p.nome AS 'Nome do Participante',
+    'Casual' AS 'Tipo de Participante'
+FROM Pessoa p
+LEFT JOIN Jogador j ON p.idPessoa = j.idPessoa
+LEFT JOIN JogadorTime jt ON j.idJogador = jt.idJogador
+WHERE j.idJogador IS NULL OR jt.idJogador IS NULL;
+
+-- 8: Lista dos elementos de uma equipa com identificação do role de cada elemento na prova/evento e respetiva características de cada elemento
+
+-- Informações dos Jogadores
+SELECT 
+    t.nome AS 'Nome da Equipe',
+    p.idPessoa AS 'ID do Participante',
+    p.nome AS 'Nome do Participante',
+    'Jogador' AS 'Papel',
+    j.altura AS 'Altura',
+    j.peso AS 'Peso',
+    j.posicao AS 'Posição',
+    j.nacionalidade AS 'Nacionalidade'
+FROM Time t
+JOIN JogadorTime jt ON t.idTeam = jt.idTeam
+JOIN Jogador j ON jt.idJogador = j.idJogador
 JOIN Pessoa p ON j.idPessoa = p.idPessoa
+WHERE t.idTeam = 1
+
 UNION ALL
+
+-- Informações dos Treinadores
 SELECT 
-    e.Nome AS 'Nome da Equipe',
-    p.Nome AS 'Nome do Jogador/Treinador',
-    'Treinador' AS 'Role',
-    NULL AS 'Posição',
+    t.nome AS 'Nome da Equipe',
+    p.idPessoa AS 'ID do Participante',
+    p.nome AS 'Nome do Participante',
+    'Treinador' AS 'Papel',
     NULL AS 'Altura',
     NULL AS 'Peso',
-    p.Email AS 'Email',
-    p.Telemovel AS 'Telemóvel'
-FROM Equipe e
-JOIN Treinador t ON e.id_Treinador = t.id_Treinador
-JOIN Pessoa p ON t.idPessoa = p.idPessoa
-ORDER BY 
-    'Nome da Equipe', 'Role', 'Nome do Jogador/Treinador';
-    
--- 9: Top 5 das provas com maior número de participantes;
+    NULL AS 'Posição',
+    tr.nacionalidade AS 'Nacionalidade'
+FROM Time t
+JOIN TreinadorTime tt ON t.idTeam = tt.idTeam
+JOIN Treinador tr ON tt.idTreinador = tr.idTreinador
+JOIN Pessoa p ON tr.idPessoa = p.idPessoa
+WHERE t.idTeam = 1;
 
--- 10: Listar informações sobre partidas, incluindo detalhes sobre estádios e equipes;
+-- 9:Top 5 Provas com maior número de participantes nos últimos três anos, com restrições de faixa etária e categoria
 
 SELECT 
-    p.id_Partida AS 'ID da Partida',
-    p.Data_da_Partida AS 'Data da Partida',
-    e.Nome AS 'Nome da Equipe',
-    es.Nome AS 'Nome do Estádio',
-    es.Localizacao AS 'Localização do Estádio'
+    YEAR(p.dataDaPartida) AS 'Ano',
+    p.idPartida AS 'ID da Prova',
+    COUNT(jt.idJogador) AS 'Número de Participantes'
 FROM Partida p
-JOIN Partida_Equipe pe ON p.id_Partida = pe.id_Partida
-JOIN Equipe e ON pe.id_Equipe = e.id_Equipe
-JOIN Estadio es ON p.id_Estadio = es.id_Estadio
-ORDER BY p.Data_da_Partida DESC, e.Nome;
+JOIN PartidaTime pt ON p.idPartida = pt.idPartida
+JOIN JogadorTime jt ON pt.idTeam = jt.idTeam
+JOIN Jogador j ON jt.idJogador = j.idJogador
+JOIN Pessoa ps ON j.idPessoa = ps.idPessoa
+WHERE p.dataDaPartida >= DATE_SUB(CURDATE(), INTERVAL 3 YEAR)
+GROUP BY YEAR(p.dataDaPartida), p.idPartida
+HAVING COUNT(jt.idJogador) > 0
+ORDER BY COUNT(jt.idJogador) DESC
+LIMIT 5;
 
--- 11: Listar informações sobre partidas, incluindo detalhes sobre estádios e equipes, com condições;
+
+-- 10: Lista de partidas com informações sobre o Estádio, os Times Participantes e os Jogadores
 
 SELECT 
-    p.id_Partida AS 'ID da Partida',
-    p.Data_da_Partida AS 'Data da Partida',
-    e.Nome AS 'Nome da Equipe',
-    es.Nome AS 'Nome do Estádio',
-    es.Localizacao AS 'Localização do Estádio',
-    COUNT(j.id_Jogador) AS 'Número de Jogadores'
+    p.idPartida AS 'ID da Partida',
+    e.nome AS 'Nome do Estádio',
+    t.nome AS 'Nome do Time',
+    j.idJogador AS 'ID do Jogador',
+    ps.nome AS 'Nome do Jogador'
 FROM Partida p
-JOIN Partida_Equipe pe ON p.id_Partida = pe.id_Partida
-JOIN Equipe e ON pe.id_Equipe = e.id_Equipe
-JOIN Estadio es ON p.id_Estadio = es.id_Estadio
-JOIN Jogador_Equipe je ON e.id_Equipe = je.id_Equipe
-JOIN Jogador j ON je.id_Jogador = j.id_Jogador
-WHERE es.Localizacao = 'São Paulo' -- Condição WHERE
-GROUP BY p.id_Partida, p.Data_da_Partida, e.Nome, es.Nome, es.Localizacao
-HAVING COUNT(j.id_Jogador) > 5 -- Condição HAVING
-ORDER BY p.Data_da_Partida DESC, e.Nome;
+JOIN Estadio e ON p.idEstadio = e.idEstadio
+JOIN PartidaTime pt ON p.idPartida = pt.idPartida
+JOIN Time t ON pt.idTeam = t.idTeam
+JOIN JogadorTime jt ON t.idTeam = jt.idTeam
+JOIN Jogador j ON jt.idJogador = j.idJogador
+JOIN Pessoa ps ON j.idPessoa = ps.idPessoa
+ORDER BY p.idPartida, t.nome, j.idJogador;
 
--- 12: Recursividade para listar jogadores e seus capitãe
+-- 11: Lista de jogadores que participaram em partidas específicas
 
+-- 12: Relacionamento recursivo
 
-
--- 13: Listar equipes com a quantidade total de jogadores em cada equipe;
+-- 13: Times e número total de jogadores em cada time
 
 SELECT 
-    e.id_Equipe AS 'ID da Equipe',
-    e.Nome AS 'Nome da Equipe',
-    (SELECT COUNT(je.id_Jogador)
-     FROM Jogador_Equipe je
-     WHERE je.id_Equipe = e.id_Equipe) AS 'Total de Jogadores'
+    t.idTeam AS 'ID do Time',
+    t.nome AS 'Nome do Time',
+    (SELECT COUNT(jt.idJogador)
+     FROM JogadorTime jt
+     WHERE jt.idTeam = t.idTeam) AS 'Número de Jogadores'
 FROM 
-    Equipe e
+    Time t
 ORDER BY 
-    e.Nome;
-
-
-
-
-
-
-
-
-
-
-
-
+    t.nome;
 

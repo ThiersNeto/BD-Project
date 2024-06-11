@@ -1,258 +1,240 @@
-USE voleibd;
+USE Volei;
 
--- Inserir dados na tabela Pais
-INSERT INTO Pais (Nome) VALUES 
-('Brasil'), ('Argentina'), ('Estados Unidos'), ('França'), ('Itália'), 
-('Espanha'), ('Alemanha'), ('China'), ('Japão'), ('Rússia'),
-('Portugal'), ('México'), ('Canadá'), ('Austrália'), ('Índia'),
-('África do Sul'), ('Nova Zelândia'), ('Chile'), ('Peru'), ('Colômbia'),
-('Suécia'), ('Noruega'), ('Finlândia'), ('Dinamarca'), ('Polônia'),
-('Grécia'), ('Turquia'), ('Egito'), ('Marrocos'), ('Arábia Saudita');
+-- Tabela País
+CALL AdicionarPais('Brasil', @novoPaisId);
+CALL AdicionarPais('Portugal', @novoPaisId);
+CALL AdicionarPais('Estados Unidos', @novoPaisId);
+CALL AdicionarPais('Itália', @novoPaisId);
+CALL AdicionarPais('França', @novoPaisId);
+CALL AdicionarPais('Alemanha', @novoPaisId);
+CALL AdicionarPais('Espanha', @novoPaisId);
+CALL AdicionarPais('Argentina', @novoPaisId);
+CALL AdicionarPais('China', @novoPaisId);
+CALL AdicionarPais('Japão', @novoPaisId);
+CALL AdicionarPais('Rússia', @novoPaisId);
+CALL AdicionarPais('Austrália', @novoPaisId);
+CALL AdicionarPais('Canadá', @novoPaisId);
+CALL AdicionarPais('México', @novoPaisId);
+CALL AdicionarPais('Suécia', @novoPaisId);
+CALL AdicionarPais('Noruega', @novoPaisId);
+CALL AdicionarPais('Dinamarca', @novoPaisId);
+CALL AdicionarPais('Finlândia', @novoPaisId);
+CALL AdicionarPais('Índia', @novoPaisId);
+CALL AdicionarPais('África do Sul', @novoPaisId);
 
--- Inserir dados na tabela Estadio
-INSERT INTO Estadio (Nome, Capacidade, Localizacao) VALUES
-('Maracanãzinho', 12000, 'Rio de Janeiro'),
-('Ginásio do Ibirapuera', 11000, 'São Paulo'),
-('Mineirinho', 25000, 'Belo Horizonte'),
-('Arena da Baixada', 42000, 'Curitiba'),
-('Arena Castelão', 63000, 'Fortaleza'),
-('Allianz Parque', 55000, 'São Paulo'),
-('Morumbi', 66000, 'São Paulo'),
-('Beira-Rio', 50000, 'Porto Alegre'),
-('Arena Grêmio', 60000, 'Porto Alegre'),
-('Mané Garrincha', 72000, 'Brasília'),
-('Estádio Olímpico', 50000, 'Porto Alegre'),
-('Arena Fonte Nova', 48000, 'Salvador'),
-('Arena Pantanal', 41000, 'Cuiabá'),
-('Arena Amazônia', 44000, 'Manaus'),
-('Estádio dos Aflitos', 19000, 'Recife'),
-('Ilha do Retiro', 35000, 'Recife'),
-('Estádio Rei Pelé', 20000, 'Maceió'),
-('Estádio Olímpico de Londres', 80000, 'Londres'),
-('Wembley', 90000, 'Londres'),
-('Camp Nou', 99354, 'Barcelona'),
-('Santiago Bernabéu', 81044, 'Madri'),
-('Old Trafford', 74879, 'Manchester'),
-('Anfield', 54074, 'Liverpool'),
-('San Siro', 80018, 'Milão'),
-('Allianz Arena', 75000, 'Munique'),
-('Signal Iduna Park', 81365, 'Dortmund'),
-('Parc des Princes', 47929, 'Paris'),
-('Estádio da Luz', 64642, 'Lisboa'),
-('Estádio do Dragão', 50033, 'Porto'),
-('Estádio José Alvalade', 50095, 'Lisboa');
+-- Tabela Estádio
+CALL AdicionarEstadio('Madison Square Garden', 20789, 'Nova York, EUA', @novoEstadioId);
+CALL AdicionarEstadio('Staples Center', 19060, 'Los Angeles, EUA', @novoEstadioId);
+CALL AdicionarEstadio('O2 Arena', 20000, 'Londres, Reino Unido', @novoEstadioId);
+CALL AdicionarEstadio('Barclays Center', 17732, 'Brooklyn, EUA', @novoEstadioId);
+CALL AdicionarEstadio('Wembley Arena', 12500, 'Londres, Reino Unido', @novoEstadioId);
+CALL AdicionarEstadio('SSE Hydro', 14000, 'Glasgow, Reino Unido', @novoEstadioId);
+CALL AdicionarEstadio('AccorHotels Arena', 20000, 'Paris, França', @novoEstadioId);
+CALL AdicionarEstadio('Mercedes-Benz Arena', 17000, 'Berlim, Alemanha', @novoEstadioId);
+CALL AdicionarEstadio('Arena Ciudad de México', 22000, 'Cidade do México, México', @novoEstadioId);
+CALL AdicionarEstadio('Scotiabank Arena', 19800, 'Toronto, Canadá', @novoEstadioId);
+CALL AdicionarEstadio('Rod Laver Arena', 15000, 'Melbourne, Austrália', @novoEstadioId);
+CALL AdicionarEstadio('Saitama Super Arena', 37000, 'Saitama, Japão', @novoEstadioId);
+CALL AdicionarEstadio('Maracanã', 78000, 'Rio de Janeiro, Brasil', @novoEstadioId);
+CALL AdicionarEstadio('Allianz Arena', 75000, 'Munique, Alemanha', @novoEstadioId);
+CALL AdicionarEstadio('San Siro', 80018, 'Milão, Itália', @novoEstadioId);
 
--- Inserir dados na tabela Campeonato
-INSERT INTO Campeonato (Nome, Ano, Titulo, id_Pais) VALUES
-('Campeonato Brasileiro', 2023, 'Campeonato Brasileiro 2023', 1),
-('Liga Mundial de Voleibol', 2023, 'Liga Mundial 2023', 2),
-('Copa do Mundo de Voleibol', 2023, 'Copa do Mundo 2023', 3),
-('Campeonato Europeu de Voleibol', 2023, 'Campeonato Europeu 2023', 4),
-('Superliga Italiana', 2023, 'Superliga Italiana 2023', 5),
-('Liga Espanhola de Voleibol', 2023, 'Liga Espanhola 2023', 6),
-('Bundesliga de Voleibol', 2023, 'Bundesliga 2023', 7),
-('Liga Chinesa de Voleibol', 2023, 'Liga Chinesa 2023', 8),
-('Liga Japonesa de Voleibol', 2023, 'Liga Japonesa 2023', 9),
-('Liga Russa de Voleibol', 2023, 'Liga Russa 2023', 10),
-('Primeira Liga de Voleibol', 2023, 'Primeira Liga 2023', 11),
-('Liga Mexicana de Voleibol', 2023, 'Liga Mexicana 2023', 12),
-('Liga Canadense de Voleibol', 2023, 'Liga Canadense 2023', 13),
-('Liga Australiana de Voleibol', 2023, 'Liga Australiana 2023', 14),
-('Liga Indiana de Voleibol', 2023, 'Liga Indiana 2023', 15),
-('Liga Sul-Africana de Voleibol', 2023, 'Liga Sul-Africana 2023', 16),
-('Liga Neozelandesa de Voleibol', 2023, 'Liga Neozelandesa 2023', 17),
-('Liga Chilena de Voleibol', 2023, 'Liga Chilena 2023', 18),
-('Liga Peruana de Voleibol', 2023, 'Liga Peruana 2023', 19),
-('Liga Colombiana de Voleibol', 2023, 'Liga Colombiana 2023', 20),
-('Liga Sueca de Voleibol', 2023, 'Liga Sueca 2023', 21),
-('Liga Norueguesa de Voleibol', 2023, 'Liga Norueguesa 2023', 22),
-('Liga Finlandesa de Voleibol', 2023, 'Liga Finlandesa 2023', 23),
-('Liga Dinamarquesa de Voleibol', 2023, 'Liga Dinamarquesa 2023', 24),
-('Liga Polonesa de Voleibol', 2023, 'Liga Polonesa 2023', 25),
-('Liga Grega de Voleibol', 2023, 'Liga Grega 2023', 26),
-('Liga Turca de Voleibol', 2023, 'Liga Turca 2023', 27),
-('Liga Egípcia de Voleibol', 2023, 'Liga Egípcia 2023', 28),
-('Liga Marroquina de Voleibol', 2023, 'Liga Marroquina 2023', 29),
-('Liga Saudita de Voleibol', 2023, 'Liga Saudita 2023', 30);
+-- Tabela Pessoa / Jogador
+CALL AdicionarJogador('João Pedro', 'joao.pedro@example.com', '111111111', 'Rua C', 'Bairro 3', 'Cidade Z', 1.85, 75, 'Central', 'João', 'Pedro', 'Brasileira', 1, @novoJogadorId);
+CALL AdicionarJogador('Ana Silva', 'ana.silva@example.com', '222222222', 'Rua D', 'Bairro 4', 'Cidade W', 1.75, 65, 'Ponta', 'Ana', 'Silva', 'Portuguesa', 2, @novoJogadorId);
+CALL AdicionarJogador('Pedro Santos', 'pedro.santos@example.com', '333333333', 'Rua E', 'Bairro 5', 'Cidade X', 1.90, 85, 'Libero', 'Pedro', 'Santos', 'Brasileira', 1, @novoJogadorId);
+CALL AdicionarJogador('Maria Costa', 'maria.costa@example.com', '444444444', 'Rua F', 'Bairro 6', 'Cidade Y', 1.70, 60, 'Central', 'Maria', 'Costa', 'Portuguesa', 2, @novoJogadorId);
+CALL AdicionarJogador('Lucas Lima', 'lucas.lima@example.com', '555555555', 'Rua G', 'Bairro 7', 'Cidade V', 1.88, 80, 'Oposto', 'Lucas', 'Lima', 'Brasileira', 3, @novoJogadorId);
+CALL AdicionarJogador('Gabriel Silva', 'gabriel.silva@example.com', '666666666', 'Rua H', 'Bairro 8', 'Cidade U', 1.92, 85, 'Central', 'Gabriel', 'Silva', 'Brasileira', 4, @novoJogadorId);
+CALL AdicionarJogador('Rafael Nunes', 'rafael.nunes@example.com', '777777777', 'Rua I', 'Bairro 9', 'Cidade T', 1.85, 78, 'Ponta', 'Rafael', 'Nunes', 'Portuguesa', 5, @novoJogadorId);
+CALL AdicionarJogador('Thiago Souza', 'thiago.souza@example.com', '888888888', 'Rua J', 'Bairro 10', 'Cidade S', 1.90, 82, 'Libero', 'Thiago', 'Souza', 'Brasileira', 6, @novoJogadorId);
+CALL AdicionarJogador('Felipe Costa', 'felipe.costa@example.com', '999999999', 'Rua K', 'Bairro 11', 'Cidade R', 1.87, 79, 'Oposto', 'Felipe', 'Costa', 'Brasileira', 7, @novoJogadorId);
+CALL AdicionarJogador('Rodrigo Alves', 'rodrigo.alves@example.com', '101010101', 'Rua L', 'Bairro 12', 'Cidade Q', 1.93, 88, 'Central', 'Rodrigo', 'Alves', 'Brasileira', 8, @novoJogadorId);
+CALL AdicionarJogador('Bruno Fernandes', 'bruno.fernandes@example.com', '111111112', 'Rua M', 'Bairro 13', 'Cidade P', 1.86, 81, 'Ponta', 'Bruno', 'Fernandes', 'Portuguesa', 9, @novoJogadorId);
+CALL AdicionarJogador('Carlos Oliveira', 'carlos.oliveira@example.com', '121212121', 'Rua N', 'Bairro 14', 'Cidade O', 1.89, 83, 'Libero', 'Carlos', 'Oliveira', 'Brasileira', 10, @novoJogadorId);
+CALL AdicionarJogador('Paulo Mendes', 'paulo.mendes@example.com', '131313131', 'Rua O', 'Bairro 15', 'Cidade N', 1.91, 86, 'Oposto', 'Paulo', 'Mendes', 'Brasileira', 11, @novoJogadorId);
+CALL AdicionarJogador('Eduardo Ribeiro', 'eduardo.ribeiro@example.com', '141414141', 'Rua P', 'Bairro 16', 'Cidade M', 1.84, 77, 'Central', 'Eduardo', 'Ribeiro', 'Brasileira', 12, @novoJogadorId);
+CALL AdicionarJogador('Leonardo Azevedo', 'leonardo.azevedo@example.com', '151515151', 'Rua Q', 'Bairro 17', 'Cidade L', 1.90, 82, 'Ponta', 'Leonardo', 'Azevedo', 'Brasileira', 13, @novoJogadorId);
+CALL AdicionarJogador('Ricardo Lima', 'ricardo.lima@example.com', '161616161', 'Rua R', 'Bairro 18', 'Cidade K', 1.92, 85, 'Libero', 'Ricardo', 'Lima', 'Portuguesa', 14, @novoJogadorId);
+CALL AdicionarJogador('André Alves', 'andre.alves@example.com', '171717171', 'Rua S', 'Bairro 19', 'Cidade J', 1.88, 80, 'Oposto', 'André', 'Alves', 'Brasileira', 15, @novoJogadorId);
+CALL AdicionarJogador('Marcos Silva', 'marcos.silva@example.com', '181818181', 'Rua T', 'Bairro 20', 'Cidade I', 1.85, 78, 'Central', 'Marcos', 'Silva', 'Brasileira', 16, @novoJogadorId);
+CALL AdicionarJogador('Bruna Santos', 'bruna.santos@example.com', '191919191', 'Rua U', 'Bairro 21', 'Cidade H', 1.75, 65, 'Ponta', 'Bruna', 'Santos', 'Brasileira', 17, @novoJogadorId);
+CALL AdicionarJogador('Camila Oliveira', 'camila.oliveira@example.com', '202020202', 'Rua V', 'Bairro 22', 'Cidade G', 1.78, 68, 'Libero', 'Camila', 'Oliveira', 'Brasileira', 18, @novoJogadorId);
+CALL AdicionarJogador('Juliana Costa', 'juliana.costa@example.com', '212121212', 'Rua W', 'Bairro 23', 'Cidade F', 1.80, 70, 'Oposto', 'Juliana', 'Costa', 'Brasileira', 19, @novoJogadorId);
+CALL AdicionarJogador('Patrícia Lima', 'patricia.lima@example.com', '222222222', 'Rua X', 'Bairro 24', 'Cidade E', 1.82, 72, 'Central', 'Patrícia', 'Lima', 'Brasileira', 20, @novoJogadorId);
 
--- Inserir dados na tabela Pessoa
-INSERT INTO Pessoa (Nome, Email, Telemovel, Rua, Bairro, Cidade, Genero, Data_Nascimento) VALUES
-('Giba', 'giba@example.com', '11912345678', 'Rua Engenheiro Rebouças', 'Rebouças', 'Curitiba', 'Masculino', '1976-12-23'),
-('Murilo Endres', 'murilo@example.com', '11923456789', 'Avenida Paulista', 'Bela Vista', 'São Paulo', 'Masculino', '1981-05-20'),
-('Renan Dal Zotto', 'renan@example.com', '11934567890', 'Rua da Consolação', 'Centro', 'Florianópolis', 'Masculino', '1970-07-19'),
-('Bernardinho', 'bernardinho@example.com', '11945678901', 'Rua das Laranjeiras', 'Laranjeiras', 'Rio de Janeiro', 'Masculino', '1959-11-25'),
-('José Roberto Guimarães', 'zrg@example.com', '11956789012', 'Rua da Liberdade', 'Liberdade', 'São Paulo', 'Masculino', '1954-07-31'),
-('Fabiana Claudino', 'fabiana@example.com', '11967890123', 'Rua do Centro', 'Centro', 'São Paulo', 'Feminino', '1985-01-24'),
-('Jaqueline Carvalho', 'jaqueline@example.com', '11978901234', 'Rua das Palmeiras', 'Palmeiras', 'São Paulo', 'Feminino', '1983-12-31'),
-('Thaisa Menezes', 'thaisa@example.com', '11989012345', 'Avenida das Nações', 'Nações', 'São Paulo', 'Feminino', '1987-05-15'),
-('Sheilla Castro', 'sheilla@example.com', '11990123456', 'Rua das Flores', 'Flores', 'Belo Horizonte', 'Feminino', '1983-07-01'),
-('Dani Lins', 'dani@example.com', '11901234567', 'Avenida Central', 'Central', 'Recife', 'Feminino', '1985-01-05'),
-('Bruninho', 'bruninho@example.com', '11912345679', 'Rua Nova', 'Nova', 'Rio de Janeiro', 'Masculino', '1986-07-02'),
-('Lucarelli', 'lucarelli@example.com', '11923456780', 'Avenida Paulista', 'Paulista', 'São Paulo', 'Masculino', '1992-02-14'),
-('Wallace de Souza', 'wallace@example.com', '11934567891', 'Rua do Porto', 'Porto', 'Recife', 'Masculino', '1987-06-26'),
-('Douglas Souza', 'douglas@example.com', '11945678902', 'Rua da Alegria', 'Alegria', 'Santa Bárbara', 'Masculino', '1995-08-20'),
-('Léia Silva', 'leia@example.com', '11956789013', 'Avenida Principal', 'Principal', 'Curitiba', 'Feminino', '1984-02-11'),
-('Natália Pereira', 'natalia@example.com', '11967890124', 'Rua do Sol', 'Sol', 'Rio de Janeiro', 'Feminino', '1989-04-04'),
-('Fernanda Garay', 'fernanda@example.com', '11978901235', 'Rua do Leste', 'Leste', 'Porto Alegre', 'Feminino', '1986-05-10'),
-('Gabriela Guimarães', 'gabriela@example.com', '11989012346', 'Avenida Oeste', 'Oeste', 'Belo Horizonte', 'Feminino', '1994-08-19'),
-('Amanda Francisco', 'amanda@example.com', '11990123457', 'Rua das Árvores', 'Árvores', 'Campinas', 'Feminino', '1992-10-11'),
-('Paula Pequeno', 'paula@example.com', '11901234568', 'Rua dos Anjos', 'Anjos', 'Brasília', 'Feminino', '1982-01-22'),
-('Carol Gattaz', 'carol@example.com', '11912345680', 'Avenida Brasil', 'Brasil', 'São Paulo', 'Feminino', '1981-07-27'),
-('Rodrigo Santana', 'rodrigo@example.com', '11923456781', 'Rua da Praia', 'Praia', 'Salvador', 'Masculino', '1990-11-15'),
-('Maurício Borges', 'mauricio@example.com', '11934567892', 'Rua do Mar', 'Mar', 'Florianópolis', 'Masculino', '1989-02-04'),
-('Rodrigo Leão', 'rodrigoleao@example.com', '11945678903', 'Rua das Rosas', 'Rosas', 'Porto Alegre', 'Masculino', '1987-03-12'),
-('Eduardo Dantas', 'eduardo@example.com', '11956789014', 'Avenida Verde', 'Verde', 'São Paulo', 'Masculino', '1986-08-30'),
-('César Souza', 'cesar@example.com', '11967890125', 'Rua da Paz', 'Paz', 'Curitiba', 'Masculino', '1984-09-19'),
-('Ricardo Milos', 'ricardo@example.com', '11978901236', 'Avenida do Povo', 'Povo', 'Rio de Janeiro', 'Masculino', '1990-05-23'),
-('Marcos Silva', 'marcos@example.com', '11989012347', 'Rua das Oliveiras', 'Oliveiras', 'Campinas', 'Masculino', '1983-06-14'),
-('André Santos', 'andre@example.com', '11990123458', 'Avenida Central', 'Central', 'Recife', 'Masculino', '1987-07-09'),
-('Carlos Souza', 'carlos@example.com', '11901234569', 'Rua da Independência', 'Independência', 'Porto Alegre', 'Masculino', '1985-03-17');
+-- Tabela Treinador
+CALL AdicionarTreinador('Carlos Oliveira', 'carlos.oliveira@example.com', '555555555', 'Rua G', 'Bairro 7', 'Cidade Z', 'Carlos', 'Oliveira', 'Brasileira', 1, @novoTreinadorId);
+CALL AdicionarTreinador('Beatriz Lima', 'beatriz.lima@example.com', '666666666', 'Rua H', 'Bairro 8', 'Cidade W', 'Beatriz', 'Lima', 'Portuguesa', 2, @novoTreinadorId);
+CALL AdicionarTreinador('Rafael Nunes', 'rafael.nunes@example.com', '777777777', 'Rua I', 'Bairro 9', 'Cidade X', 'Rafael', 'Nunes', 'Brasileira', 1, @novoTreinadorId);
+CALL AdicionarTreinador('Fernanda Azevedo', 'fernanda.azevedo@example.com', '888888888', 'Rua J', 'Bairro 10', 'Cidade Y', 'Fernanda', 'Azevedo', 'Portuguesa', 2, @novoTreinadorId);
+CALL AdicionarTreinador('Lucas Almeida', 'lucas.almeida@example.com', '999999999', 'Rua K', 'Bairro 11', 'Cidade V', 'Lucas', 'Almeida', 'Brasileira', 3, @novoTreinadorId);
+CALL AdicionarTreinador('Gabriela Costa', 'gabriela.costa@example.com', '101010101', 'Rua L', 'Bairro 12', 'Cidade U', 'Gabriela', 'Costa', 'Portuguesa', 4, @novoTreinadorId);
+CALL AdicionarTreinador('Pedro Santos', 'pedro.santos@example.com', '111111112', 'Rua M', 'Bairro 13', 'Cidade T', 'Pedro', 'Santos', 'Brasileira', 5, @novoTreinadorId);
+CALL AdicionarTreinador('Mariana Ferreira', 'mariana.ferreira@example.com', '121212121', 'Rua N', 'Bairro 14', 'Cidade S', 'Mariana', 'Ferreira', 'Brasileira', 6, @novoTreinadorId);
+CALL AdicionarTreinador('Renato Lima', 'renato.lima@example.com', '131313131', 'Rua O', 'Bairro 15', 'Cidade R', 'Renato', 'Lima', 'Portuguesa', 7, @novoTreinadorId);
+CALL AdicionarTreinador('Júlia Martins', 'julia.martins@example.com', '141414141', 'Rua P', 'Bairro 16', 'Cidade Q', 'Júlia', 'Martins', 'Brasileira', 8, @novoTreinadorId);
+CALL AdicionarTreinador('Ricardo Alves', 'ricardo.alves@example.com', '151515151', 'Rua Q', 'Bairro 17', 'Cidade P', 'Ricardo', 'Alves', 'Brasileira', 9, @novoTreinadorId);
+CALL AdicionarTreinador('Amanda Ribeiro', 'amanda.ribeiro@example.com', '161616161', 'Rua R', 'Bairro 18', 'Cidade O', 'Amanda', 'Ribeiro', 'Portuguesa', 10, @novoTreinadorId);
+CALL AdicionarTreinador('Bruno Costa', 'bruno.costa@example.com', '171717171', 'Rua S', 'Bairro 19', 'Cidade N', 'Bruno', 'Costa', 'Brasileira', 11, @novoTreinadorId);
+CALL AdicionarTreinador('Daniela Lima', 'daniela.lima@example.com', '181818181', 'Rua T', 'Bairro 20', 'Cidade M', 'Daniela', 'Lima', 'Portuguesa', 12, @novoTreinadorId);
+CALL AdicionarTreinador('Fernando Sousa', 'fernando.sousa@example.com', '191919191', 'Rua U', 'Bairro 21', 'Cidade L', 'Fernando', 'Sousa', 'Brasileira', 13, @novoTreinadorId);
+CALL AdicionarTreinador('Helena Alves', 'helena.alves@example.com', '202020202', 'Rua V', 'Bairro 22', 'Cidade K', 'Helena', 'Alves', 'Portuguesa', 14, @novoTreinadorId);
+CALL AdicionarTreinador('Igor Mendes', 'igor.mendes@example.com', '212121212', 'Rua W', 'Bairro 23', 'Cidade J', 'Igor', 'Mendes', 'Brasileira', 15, @novoTreinadorId);
+CALL AdicionarTreinador('Juliana Costa', 'juliana.costa@example.com', '222222222', 'Rua X', 'Bairro 24', 'Cidade I', 'Juliana', 'Costa', 'Brasileira', 16, @novoTreinadorId);
+CALL AdicionarTreinador('Karen Silva', 'karen.silva@example.com', '232323232', 'Rua Y', 'Bairro 25', 'Cidade H', 'Karen', 'Silva', 'Portuguesa', 17, @novoTreinadorId);
+CALL AdicionarTreinador('Leonardo Oliveira', 'leonardo.oliveira@example.com', '242424242', 'Rua Z', 'Bairro 26', 'Cidade G', 'Leonardo', 'Oliveira', 'Brasileira', 18, @novoTreinadorId);
 
--- Inserir dados na tabela Jogador
-INSERT INTO Jogador (Altura, Peso, Posicao, Capitao, idPessoa) VALUES 
-(190.00, 85.00, 'Ponteiro', TRUE, 1), 
-(195.00, 90.00, 'Oposto', FALSE, 2),
-(200.00, 95.00, 'Central', FALSE, 3), 
-(185.00, 80.00, 'Libero', FALSE, 4),
-(193.00, 88.00, 'Ponteiro', FALSE, 5), 
-(188.00, 83.00, 'Central', FALSE, 6),
-(192.00, 87.00, 'Oposto', FALSE, 7), 
-(197.00, 93.00, 'Ponteiro', FALSE, 8),
-(184.00, 78.00, 'Libero', FALSE, 9), 
-(189.00, 82.00, 'Central', FALSE, 10),
-(191.00, 84.00, 'Ponteiro', FALSE, 11), 
-(196.00, 92.00, 'Oposto', FALSE, 12),
-(183.00, 79.00, 'Libero', FALSE, 13), 
-(198.00, 94.00, 'Central', FALSE, 14),
-(187.00, 81.00, 'Ponteiro', FALSE, 15), 
-(182.00, 76.00, 'Libero', FALSE, 16),
-(194.00, 89.00, 'Oposto', FALSE, 17), 
-(199.00, 96.00, 'Central', FALSE, 18),
-(186.00, 79.00, 'Ponteiro', FALSE, 19), 
-(181.00, 75.00, 'Libero', FALSE, 20),
-(195.00, 90.00, 'Oposto', FALSE, 21), 
-(180.00, 74.00, 'Libero', FALSE, 22),
-(200.00, 98.00, 'Central', FALSE, 23), 
-(189.00, 83.00, 'Ponteiro', FALSE, 24),
-(187.00, 80.00, 'Libero', FALSE, 25), 
-(184.00, 79.00, 'Central', FALSE, 26),
-(193.00, 88.00, 'Oposto', FALSE, 27), 
-(191.00, 86.00, 'Libero', FALSE, 28),
-(185.00, 77.00, 'Central', FALSE, 29), 
-(188.00, 82.00, 'Ponteiro', FALSE, 30);
+-- Tabela Time
+CALL AdicionarTime('Zenit Kazan', @novoTimeId);
+CALL AdicionarTime('Lokomotiv Novosibirsk', @novoTimeId);
+CALL AdicionarTime('Dinamo Moscow', @novoTimeId);
+CALL AdicionarTime('Belogorie Belgorod', @novoTimeId);
+CALL AdicionarTime('Cucine Lube Civitanova', @novoTimeId);
+CALL AdicionarTime('Sir Safety Perugia', @novoTimeId);
+CALL AdicionarTime('Modena Volley', @novoTimeId);
+CALL AdicionarTime('Trentino Volley', @novoTimeId);
+CALL AdicionarTime('Fenerbahçe', @novoTimeId);
+CALL AdicionarTime('Halkbank Ankara', @novoTimeId);
+CALL AdicionarTime('Ziraat Bankasi Ankara', @novoTimeId);
+CALL AdicionarTime('PAOK Thessaloniki', @novoTimeId);
+CALL AdicionarTime('Olympiacos', @novoTimeId);
+CALL AdicionarTime('Panathinaikos', @novoTimeId);
+CALL AdicionarTime('Berlin Recycling Volleys', @novoTimeId);
+CALL AdicionarTime('VfB Friedrichshafen', @novoTimeId);
+CALL AdicionarTime('Asseco Resovia', @novoTimeId);
+CALL AdicionarTime('PGE Skra Bełchatów', @novoTimeId);
+CALL AdicionarTime('Jastrzębski Węgiel', @novoTimeId);
+CALL AdicionarTime('Trefl Gdańsk', @novoTimeId);
 
--- Inserir dados na tabela Treinador
-INSERT INTO Treinador (idPessoa) VALUES 
-(31), (32), (33), (34), (35), (36), (37), (38), (39), (40),
-(41), (42), (43), (44), (45), (46), (47), (48), (49), (50),
-(51), (52), (53), (54), (55), (56), (57), (58), (59), (60);
+-- Tabela Partida
+CALL AdicionarPartida(1, 30, 1, '2024-06-03', '01:40:00', @novaPartidaId);
+CALL AdicionarPartida(2, 25, 2, '2024-06-10', '01:30:00', @novaPartidaId);
+CALL AdicionarPartida(3, 28, 3, '2024-06-17', '01:45:00', @novaPartidaId);
+CALL AdicionarPartida(4, 22, 4, '2024-06-24', '01:20:00', @novaPartidaId);
+CALL AdicionarPartida(5, 26, 5, '2024-07-01', '01:50:00', @novaPartidaId);
+CALL AdicionarPartida(6, 24, 6, '2024-07-08', '01:35:00', @novaPartidaId);
+CALL AdicionarPartida(7, 29, 7, '2024-07-15', '01:55:00', @novaPartidaId);
+CALL AdicionarPartida(8, 21, 8, '2024-07-22', '01:25:00', @novaPartidaId);
+CALL AdicionarPartida(9, 27, 9, '2024-07-29', '01:45:00', @novaPartidaId);
+CALL AdicionarPartida(10, 23, 10, '2024-08-05', '01:30:00', @novaPartidaId);
+CALL AdicionarPartida(11, 28, 11, '2024-08-12', '01:40:00', @novaPartidaId);
+CALL AdicionarPartida(12, 22, 12, '2024-08-19', '01:20:00', @novaPartidaId);
+CALL AdicionarPartida(13, 26, 13, '2024-08-26', '01:50:00', @novaPartidaId);
+CALL AdicionarPartida(14, 24, 14, '2024-09-02', '01:35:00', @novaPartidaId);
+CALL AdicionarPartida(15, 29, 15, '2024-09-09', '01:55:00', @novaPartidaId);
+CALL AdicionarPartida(16, 21, 16, '2024-09-16', '01:25:00', @novaPartidaId);
+CALL AdicionarPartida(17, 27, 17, '2024-09-23', '01:45:00', @novaPartidaId);
+CALL AdicionarPartida(18, 23, 18, '2024-09-30', '01:30:00', @novaPartidaId);
+CALL AdicionarPartida(19, 28, 19, '2024-10-07', '01:40:00', @novaPartidaId);
+CALL AdicionarPartida(20, 22, 20, '2024-10-14', '01:20:00', @novaPartidaId);
 
--- Inserir dados na tabela Patrocinador
-INSERT INTO Patrocinador (Nome, id_Pais) VALUES 
-('Banco do Brasil', 1), 
-('Petrobras', 1), 
-('Nike', 3), 
-('Adidas', 4), 
-('Puma', 5),
-('Reebok', 6), 
-('Under Armour', 7), 
-('New Balance', 8), 
-('Asics', 9), 
-('Mizuno', 10),
-('Umbro', 11), 
-('Kappa', 12), 
-('Lacoste', 13), 
-('Fila', 14), 
-('Hummel', 15),
-('Joma', 16), 
-('Diadora', 17), 
-('Le Coq Sportif', 18), 
-('Li-Ning', 19), 
-('Errea', 20),
-('Macron', 21), 
-('Pony', 22), 
-('Saucony', 23), 
-('Sergio Tacchini', 24), 
-('Topper', 25),
-('Penalty', 26), 
-('Brooks', 27), 
-('Kelme', 28), 
-('Mitre', 29), 
-('Lotto', 30);
+-- Tabela Patrocinador
+CALL AdicionarPatrocinador('Nike', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Adidas', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Puma', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Under Armour', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Reebok', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Asics', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('New Balance', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Columbia', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Patagonia', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('The North Face', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Vans', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Converse', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Skechers', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Fila', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Champion', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Lululemon', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Ralph Lauren', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Lacoste', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('H&M', @novoPatrocinadorId);
+CALL AdicionarPatrocinador('Zara', @novoPatrocinadorId);
 
--- Inserir dados na tabela Equipe
-INSERT INTO Equipe (Nome, id_Patrocinador, id_Campeonato, id_Pais, id_Treinador) VALUES 
-('Sada Cruzeiro', 1, 1, 1, 1), 
-('SESI-SP', 2, 1, 1, 2),
-('Taubaté Funvic', 3, 2, 1, 3),
-('Vôlei Renata', 4, 3, 1, 4), 
-('Fiat Minas', 5, 4, 1, 5),
-('Itapetininga', 6, 5, 1, 6), 
-('Uberlândia', 7, 6, 1, 7),
-('São José Vôlei', 8, 7, 1, 8), 
-('Montes Claros', 9, 8, 1, 9),
-('Juiz de Fora', 10, 9, 1, 10),
-('Caramuru Vôlei', 11, 10, 1, 11), 
-('Anápolis Vôlei', 12, 11, 1, 12),
-('Blumenau', 13, 12, 1, 13), 
-('Maringá Vôlei', 14, 13, 1, 14),
-('Vôlei UM Itapetininga', 15, 14, 1, 15), 
-('Botafogo Vôlei', 16, 15, 1, 16),
-('Flamengo Vôlei', 17, 16, 1, 17), 
-('Vasco Vôlei', 18, 17, 1, 18),
-('Palmeiras Vôlei', 19, 18, 1, 19), 
-('Corinthians Vôlei', 20, 19, 1, 20),
-('Grêmio Vôlei', 21, 20, 1, 21), 
-('Internacional Vôlei', 22, 21, 1, 22),
-('Avaí Vôlei', 23, 22, 1, 23), 
-('Figueirense Vôlei', 24, 23, 1, 24),
-('Criciúma Vôlei', 25, 24, 1, 25), 
-('Joinville Vôlei', 26, 25, 1, 26),
-('Chapecó Vôlei', 27, 26, 1, 27), 
-('Caxias Vôlei', 28, 27, 1, 28),
-('Brasília Vôlei', 29, 28, 1, 29), 
-('Santos Vôlei', 30, 29, 1, 30);
+-- Inscrever times em campeonatos
+CALL AdicionarInscricaoTimeCampeonato(1, 1);
+CALL AdicionarInscricaoTimeCampeonato(2, 1);
+CALL AdicionarInscricaoTimeCampeonato(3, 1);
+CALL AdicionarInscricaoTimeCampeonato(4, 1);
+CALL AdicionarInscricaoTimeCampeonato(5, 1);
+CALL AdicionarInscricaoTimeCampeonato(6, 1);
+CALL AdicionarInscricaoTimeCampeonato(7, 1);
+CALL AdicionarInscricaoTimeCampeonato(8, 1);
+CALL AdicionarInscricaoTimeCampeonato(9, 1);
+CALL AdicionarInscricaoTimeCampeonato(10, 1);
+CALL AdicionarInscricaoTimeCampeonato(11, 1);
+CALL AdicionarInscricaoTimeCampeonato(12, 1);
+CALL AdicionarInscricaoTimeCampeonato(13, 1);
+CALL AdicionarInscricaoTimeCampeonato(14, 1);
+CALL AdicionarInscricaoTimeCampeonato(15, 1);
+CALL AdicionarInscricaoTimeCampeonato(16, 1);
+CALL AdicionarInscricaoTimeCampeonato(17, 1);
+CALL AdicionarInscricaoTimeCampeonato(18, 1);
+CALL AdicionarInscricaoTimeCampeonato(19, 1);
+CALL AdicionarInscricaoTimeCampeonato(20, 1);
 
--- Inserir dados na tabela Partida
-INSERT INTO Partida (Total_Points, Rodada, Data_da_Partida, Duracao_da_Partida, id_Estadio, id_Campeonato) VALUES 
-(250, 1, '2023-06-10', '01:30:00', 1, 1), 
-(300, 2, '2023-06-12', '02:00:00', 1, 1), 
-(280, 3, '2023-06-14', '01:45:00', 2, 1), 
-(320, 4, '2023-06-15', '02:15:00', 2, 2),
-(310, 5, '2023-06-16', '01:50:00', 3, 3), 
-(295, 6, '2023-06-17', '02:05:00', 3, 3), 
-(270, 7, '2023-06-18', '01:25:00', 4, 4),
-(305, 8, '2023-06-19', '02:10:00', 4, 4), 
-(260, 9, '2023-06-20', '01:20:00', 5, 5),
-(325, 10, '2023-06-21', '02:20:00', 5, 5), 
-(315, 11, '2023-06-22', '01:55:00', 6, 6),
-(290, 12, '2023-06-23', '02:00:00', 6, 6), 
-(275, 13, '2023-06-24', '01:30:00', 7, 7),
-(330, 14, '2023-06-25', '02:25:00', 7, 7), 
-(285, 15, '2023-06-26', '01:35:00', 8, 8),
-(340, 16, '2023-06-27', '02:30:00', 8, 8), 
-(295, 17, '2023-06-28', '01:40:00', 9, 9),
-(280, 18, '2023-06-29', '02:00:00', 9, 9), 
-(290, 19, '2023-06-30', '01:50:00', 10, 10),
-(310, 20, '2023-07-01', '02:05:00', 10, 10), 
-(275, 21, '2023-07-02', '01:45:00', 11, 11),
-(260, 22, '2023-07-03', '01:20:00', 11, 11), 
-(305, 23, '2023-07-04', '02:10:00', 12, 12),
-(285, 24, '2023-07-05', '01:35:00', 12, 12), 
-(290, 25, '2023-07-06', '01:50:00', 13, 13),
-(320, 26, '2023-07-07', '02:15:00', 13, 13), 
-(310, 27, '2023-07-08', '02:05:00', 14, 14),
-(275, 28, '2023-07-09', '01:45:00', 14, 14), 
-(280, 29, '2023-07-10', '01:50:00', 15, 15),
-(295, 30, '2023-07-11', '02:00:00', 15, 15);
+-- Registrar times em partidas
+CALL AdicionarRegistroPartidaTime(1, 1);
+CALL AdicionarRegistroPartidaTime(2, 2);
+CALL AdicionarRegistroPartidaTime(3, 3);
+CALL AdicionarRegistroPartidaTime(4, 4);
+CALL AdicionarRegistroPartidaTime(5, 5);
+CALL AdicionarRegistroPartidaTime(6, 6);
+CALL AdicionarRegistroPartidaTime(7, 7);
+CALL AdicionarRegistroPartidaTime(8, 8);
+CALL AdicionarRegistroPartidaTime(9, 9);
+CALL AdicionarRegistroPartidaTime(10, 10);
+CALL AdicionarRegistroPartidaTime(11, 11);
+CALL AdicionarRegistroPartidaTime(12, 12);
+CALL AdicionarRegistroPartidaTime(13, 13);
+CALL AdicionarRegistroPartidaTime(14, 14);
+CALL AdicionarRegistroPartidaTime(15, 15);
+CALL AdicionarRegistroPartidaTime(16, 16);
+CALL AdicionarRegistroPartidaTime(17, 17);
+CALL AdicionarRegistroPartidaTime(18, 18);
+CALL AdicionarRegistroPartidaTime(19, 19);
+CALL AdicionarRegistroPartidaTime(20, 20);
 
--- Inserir dados na tabela Partida_Equipe
-INSERT INTO Partida_Equipe (id_Partida, id_Equipe) VALUES 
-(1, 1), (2, 2), (3, 3), (4, 4), 
-(5, 5), (6, 6), (7, 7), (8, 8), 
-(9, 9), (10, 10), (11, 11), (12, 12), 
-(13, 13), (14, 14), (15, 15), (16, 16), 
-(17, 17), (18, 18), (19, 19), (20, 20), 
-(21, 21), (22, 22), (23, 23), (24, 24), 
-(25, 25), (26, 26), (27, 27), (28, 28), 
-(29, 29), (30, 30);
+-- Tabela Pessoa
+CALL AtualizarDadosPessoa(1, 'João Silva', 'joao.silva@example.com', '123456789', 'Rua A', 'Bairro 1', 'Cidade X');
+CALL AtualizarDadosPessoa(2, 'Maria Oliveira', 'maria.oliveira@example.com', '987654321', 'Rua B', 'Bairro 2', 'Cidade Y');
+CALL AtualizarDadosPessoa(3, 'Ana Costa', 'ana.costa@example.com', '555555555', 'Rua C', 'Bairro 3', 'Cidade Z');
+CALL AtualizarDadosPessoa(4, 'Carlos Santos', 'carlos.santos@example.com', '666666666', 'Rua D', 'Bairro 4', 'Cidade W');
+CALL AtualizarDadosPessoa(5, 'Lucas Lima', 'lucas.lima@example.com', '777777777', 'Rua E', 'Bairro 5', 'Cidade V');
+CALL AtualizarDadosPessoa(6, 'Mariana Rocha', 'mariana.rocha@example.com', '888888888', 'Rua F', 'Bairro 6', 'Cidade U');
+CALL AtualizarDadosPessoa(7, 'Gabriel Santos', 'gabriel.santos@example.com', '999999999', 'Rua G', 'Bairro 7', 'Cidade T');
+CALL AtualizarDadosPessoa(8, 'Lara Costa', 'lara.costa@example.com', '101010101', 'Rua H', 'Bairro 8', 'Cidade S');
+CALL AtualizarDadosPessoa(9, 'Rodrigo Almeida', 'rodrigo.almeida@example.com', '202020202', 'Rua I', 'Bairro 9', 'Cidade R');
+CALL AtualizarDadosPessoa(10, 'Fernanda Lima', 'fernanda.lima@example.com', '303030303', 'Rua J', 'Bairro 10', 'Cidade Q');
+CALL AtualizarDadosPessoa(11, 'Rafael Oliveira', 'rafael.oliveira@example.com', '404040404', 'Rua K', 'Bairro 11', 'Cidade P');
+CALL AtualizarDadosPessoa(12, 'Camila Souza', 'camila.souza@example.com', '505050505', 'Rua L', 'Bairro 12', 'Cidade O');
+CALL AtualizarDadosPessoa(13, 'Marcelo Ferreira', 'marcelo.ferreira@example.com', '606060606', 'Rua M', 'Bairro 13', 'Cidade N');
+CALL AtualizarDadosPessoa(14, 'Patrícia Moreira', 'patricia.moreira@example.com', '707070707', 'Rua N', 'Bairro 14', 'Cidade M');
+CALL AtualizarDadosPessoa(15, 'Bruno Lima', 'bruno.lima@example.com', '808080808', 'Rua O', 'Bairro 15', 'Cidade L');
+CALL AtualizarDadosPessoa(16, 'Carolina Ribeiro', 'carolina.ribeiro@example.com', '909090909', 'Rua P', 'Bairro 16', 'Cidade K');
+CALL AtualizarDadosPessoa(17, 'Thiago Gomes', 'thiago.gomes@example.com', '010101010', 'Rua Q', 'Bairro 17', 'Cidade J');
+CALL AtualizarDadosPessoa(18, 'Vanessa Fernandes', 'vanessa.fernandes@example.com', '121212121', 'Rua R', 'Bairro 18', 'Cidade I');
+CALL AtualizarDadosPessoa(19, 'Matheus Barbosa', 'matheus.barbosa@example.com', '131313131', 'Rua S', 'Bairro 19', 'Cidade H');
+CALL AtualizarDadosPessoa(20, 'Aline Carvalho', 'aline.carvalho@example.com', '141414141', 'Rua T', 'Bairro 20', 'Cidade G');
+
+-- Tabela Ficha Tecnica
+CALL AdicionarFichaTecnica(1.85, 80.0, 'Atacante', 'João', 'Silva', 'Brasileira', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.75, 90.0, 'Defensor', 'Maria', 'Oliveira', 'Portuguesa', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.82, 85.0, 'Atacante', 'Carlos', 'Santos', 'Brasileira', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.78, 75.0, 'Defensor', 'Ana', 'Costa', 'Portuguesa', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.88, 78.0, 'Atacante', 'Luiz', 'Lima', 'Brasileira', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.80, 80.0, 'Defensor', 'Paula', 'Martins', 'Portuguesa', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.83, 82.0, 'Atacante', 'Pedro', 'Alves', 'Brasileira', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.76, 70.0, 'Defensor', 'Fernanda', 'Ribeiro', 'Portuguesa', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.90, 85.0, 'Atacante', 'Bruno', 'Gomes', 'Brasileira', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.79, 88.0, 'Defensor', 'Clara', 'Mendes', 'Portuguesa', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.84, 79.0, 'Atacante', 'Miguel', 'Ferreira', 'Brasileira', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.77, 74.0, 'Defensor', 'Laura', 'Pereira', 'Portuguesa', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.86, 81.0, 'Atacante', 'Thiago', 'Souza', 'Brasileira', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.78, 73.0, 'Defensor', 'Mariana', 'Oliveira', 'Portuguesa', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.85, 77.0, 'Atacante', 'Gustavo', 'Rodrigues', 'Brasileira', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.76, 76.0, 'Defensor', 'Raquel', 'Fernandes', 'Portuguesa', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.87, 80.0, 'Atacante', 'Felipe', 'Barbosa', 'Brasileira', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.79, 75.0, 'Defensor', 'Gabriela', 'Lopes', 'Portuguesa', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.88, 83.0, 'Atacante', 'Ricardo', 'Cunha', 'Brasileira', @novoIdJogador);
+CALL AdicionarFichaTecnica(1.80, 72.0, 'Defensor', 'Sofia', 'Nunes', 'Portuguesa', @novoIdJogador);

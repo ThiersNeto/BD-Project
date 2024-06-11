@@ -1,142 +1,163 @@
--- Criação da Base de Dados
-CREATE DATABASE IF NOT EXISTS voleibd;
-USE voleibd;
+-- Criação do banco de dados
+CREATE DATABASE Volei;
+USE Volei;
 
--- Criação da tabela Pessoa
-CREATE TABLE  Pessoa (
-    idPessoa INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100) NOT NULL,
-    Email VARCHAR(100) NOT NULL,
-    Telemovel VARCHAR(15),
-    Rua VARCHAR(100),
-    Bairro VARCHAR(100),
-    Cidade VARCHAR(100),
-    Genero VARCHAR(10), -- Adicionado campo Genero
-    Data_Nascimento DATE -- Adicionado campo Data_Nascimento
-);
-
--- Criação da tabela Jogador
-CREATE TABLE  Jogador (
+CREATE TABLE FichaTecnica (
     id_Jogador INT AUTO_INCREMENT PRIMARY KEY,
-    Altura DECIMAL(4,2),
+    Altura DECIMAL(5,2),
     Peso DECIMAL(5,2),
     Posicao VARCHAR(50),
-    Capitao BOOLEAN,
-    idPessoa INT,
-    FOREIGN KEY (idPessoa) REFERENCES Pessoa(idPessoa)
-);
-
--- Criação da tabela Treinador
-CREATE TABLE  Treinador (
-    id_Treinador INT AUTO_INCREMENT PRIMARY KEY,
-    idPessoa INT,
-    FOREIGN KEY (idPessoa) REFERENCES Pessoa(idPessoa)
-);
-
--- Criação da tabela Ficha Técnica
-CREATE TABLE  FichaTecnica (
-    id_Jogador INT,
     Fname VARCHAR(100),
     Lname VARCHAR(100),
-    Nacionalidade VARCHAR(50),
-    PRIMARY KEY (id_Jogador),
-    FOREIGN KEY (id_Jogador) REFERENCES Jogador(id_Jogador)
+    Nacionalidade VARCHAR(50)
 );
 
--- Criação da tabela Estádio
-CREATE TABLE  Estadio (
-    id_Estadio INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100),
-    Capacidade INT,
-    Localizacao VARCHAR(100)
+-- Tabela EntidadeOrganizadora
+CREATE TABLE EntidadeOrganizadora (
+    idOrganizadora INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL
 );
 
--- Criação da tabela País
-CREATE TABLE  Pais (
-    id_Pais INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100) NOT NULL
+-- Tabela Pessoa
+CREATE TABLE Pessoa (
+    idPessoa INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100),
+    telemovel VARCHAR(20),
+    rua VARCHAR(100),
+    bairro VARCHAR(50),
+    cidade VARCHAR(50)
 );
 
--- Criação da tabela Campeonato
-CREATE TABLE  Campeonato (
-    id_Campeonato INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100),
-    Ano YEAR,
-    Titulo VARCHAR(100),
-    id_Pais INT,
-    FOREIGN KEY (id_Pais) REFERENCES Pais(id_Pais)
+-- Tabela Pais
+CREATE TABLE Pais (
+    idPais INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL
 );
 
--- Criação da tabela Patrocinador
-CREATE TABLE  Patrocinador (
-    id_Patrocinador INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100),
-    id_Pais INT,
-    FOREIGN KEY (id_Pais) REFERENCES Pais(id_Pais)
+-- Tabela Campeonato
+CREATE TABLE Campeonato (
+    idCampeonato INT AUTO_INCREMENT PRIMARY KEY,
+    idEntidadeOrganizadora INT,
+    ano YEAR,
+    titulo VARCHAR(100),
+    nome VARCHAR(100),
+    idPais INT,
+    FOREIGN KEY (idEntidadeOrganizadora) REFERENCES EntidadeOrganizadora(idOrganizadora) ON DELETE CASCADE,
+    FOREIGN KEY (idPais) REFERENCES Pais(idPais) ON DELETE SET NULL
 );
 
--- Criação da tabela Equipe
-CREATE TABLE  Equipe (
-    id_Equipe INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100),
-    id_Patrocinador INT,
-    id_Campeonato INT,
-    id_Pais INT,
-    id_Treinador INT,
-    FOREIGN KEY (id_Patrocinador) REFERENCES Patrocinador(id_Patrocinador),
-    FOREIGN KEY (id_Campeonato) REFERENCES Campeonato(id_Campeonato),
-    FOREIGN KEY (id_Pais) REFERENCES Pais(id_Pais),
-    FOREIGN KEY (id_Treinador) REFERENCES Treinador(id_Treinador)
+-- Tabela Jogador
+CREATE TABLE Jogador (
+    idJogador INT AUTO_INCREMENT PRIMARY KEY,
+    idPessoa INT,
+    altura DECIMAL(5,2),
+    peso DECIMAL(5,2),
+    posicao VARCHAR(50),
+    fname VARCHAR(100),
+    lname VARCHAR(100),
+    nacionalidade VARCHAR(50),
+    idPais INT,
+    FOREIGN KEY (idPessoa) REFERENCES Pessoa(idPessoa) ON DELETE CASCADE,
+    FOREIGN KEY (idPais) REFERENCES Pais(idPais) ON DELETE SET NULL
 );
 
--- Criação da tabela Partida
-CREATE TABLE  Partida (
-    id_Partida INT AUTO_INCREMENT PRIMARY KEY,
-    Total_Points INT,
-    Rodada INT,
-    Data_da_Partida DATE,
-    Duracao_da_Partida TIME,
-    id_Estadio INT,
-    id_Campeonato INT,
-    FOREIGN KEY (id_Estadio) REFERENCES Estadio(id_Estadio),
-    FOREIGN KEY (id_Campeonato) REFERENCES Campeonato(id_Campeonato) -- Adicionado relacionamento com Campeonato
+-- Tabela Treinador
+CREATE TABLE Treinador (
+    idTreinador INT AUTO_INCREMENT PRIMARY KEY,
+    idPessoa INT,
+    fname VARCHAR(100),
+    lname VARCHAR(100),
+    nacionalidade VARCHAR(50),
+    idPais INT,
+    FOREIGN KEY (idPessoa) REFERENCES Pessoa(idPessoa) ON DELETE CASCADE,
+    FOREIGN KEY (idPais) REFERENCES Pais(idPais) ON DELETE SET NULL
 );
 
--- Criação da tabela Entidade Organizadora
-CREATE TABLE  EntidadeOrganizadora (
-    id_Entidade INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100)
+-- Tabela Time
+CREATE TABLE Time (
+    idTeam INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL
 );
 
--- Relacionamento entre Partida e Equipe
-CREATE TABLE Partida_Equipe (
-    id_Partida INT,
-    id_Equipe INT,
-    Total_Points INT,
-    PRIMARY KEY (id_Partida, id_Equipe),
-    FOREIGN KEY (id_Partida) REFERENCES Partida(id_Partida),
-    FOREIGN KEY (id_Equipe) REFERENCES Equipe(id_Equipe)
+-- Tabela Estadio
+CREATE TABLE Estadio (
+    idEstadio INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    capacidade INT,
+    localizacao VARCHAR(100)
 );
 
--- Relacionamento entre Jogador e Equipe
-CREATE TABLE  Jogador_Equipe (
-    id_Jogador INT,
-    id_Equipe INT,
-    PRIMARY KEY (id_Jogador, id_Equipe),
-    FOREIGN KEY (id_Jogador) REFERENCES Jogador(id_Jogador),
-    FOREIGN KEY (id_Equipe) REFERENCES Equipe(id_Equipe)
+-- Tabela Partida
+CREATE TABLE Partida (
+    idPartida INT AUTO_INCREMENT PRIMARY KEY,
+    idEstadio INT,
+    totalPoints INT,
+    rodada INT,
+    dataDaPartida DATE,
+    duracaoDaPartida TIME,
+    FOREIGN KEY (idEstadio) REFERENCES Estadio(idEstadio) ON DELETE SET NULL
 );
 
--- Criação da tabela tbl_logs
+-- Tabela Patrocinador
+CREATE TABLE Patrocinador (
+    idPatrocinador INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL
+);
 
+-- Tabela de Relacionamento JogadorTime
+CREATE TABLE JogadorTime (
+    idJogador INT,
+    idTeam INT,
+    PRIMARY KEY (idJogador, idTeam),
+    FOREIGN KEY (idJogador) REFERENCES Jogador(idJogador) ON DELETE CASCADE,
+    FOREIGN KEY (idTeam) REFERENCES Time(idTeam) ON DELETE CASCADE
+);
+
+-- Tabela de Relacionamento TreinadorTime
+CREATE TABLE TreinadorTime (
+    idTreinador INT,
+    idTeam INT,
+    PRIMARY KEY (idTreinador, idTeam),
+    FOREIGN KEY (idTreinador) REFERENCES Treinador(idTreinador) ON DELETE CASCADE,
+    FOREIGN KEY (idTeam) REFERENCES Time(idTeam) ON DELETE CASCADE
+);
+
+-- Tabela de Relacionamento TimeCampeonato
+CREATE TABLE TimeCampeonato (
+    idTeam INT,
+    idCampeonato INT,
+    PRIMARY KEY (idTeam, idCampeonato),
+    FOREIGN KEY (idTeam) REFERENCES Time(idTeam) ON DELETE CASCADE,
+    FOREIGN KEY (idCampeonato) REFERENCES Campeonato(idCampeonato) ON DELETE CASCADE
+);
+
+-- Tabela de Relacionamento TimePatrocinador
+CREATE TABLE TimePatrocinador (
+    idTeam INT,
+    idPatrocinador INT,
+    PRIMARY KEY (idTeam, idPatrocinador),
+    FOREIGN KEY (idTeam) REFERENCES Time(idTeam) ON DELETE CASCADE,
+    FOREIGN KEY (idPatrocinador) REFERENCES Patrocinador(idPatrocinador) ON DELETE CASCADE
+);
+
+-- Tabela de Relacionamento PartidaTime
+CREATE TABLE PartidaTime (
+    idPartida INT,
+    idTeam INT,
+    PRIMARY KEY (idPartida, idTeam),
+    FOREIGN KEY (idPartida) REFERENCES Partida(idPartida) ON DELETE CASCADE,
+    FOREIGN KEY (idTeam) REFERENCES Time(idTeam) ON DELETE CASCADE
+);
+
+-- Criação da tabela de logs
 CREATE TABLE tbl_logs (
     idLog INT AUTO_INCREMENT PRIMARY KEY,
-    DataHora DATETIME NOT NULL,
-    idAtleta INT,
-    idEquipe INT,
+    dataHora TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    idParticipante INT,
     idProva INT,
-    ResultadoAnterior INT,
-    NovoResultado INT,
-    Classificacao VARCHAR(100),
-    Operacao VARCHAR(50)
+    resultadoAnterior DECIMAL(10,2),
+    novoResultado DECIMAL(10,2),
+    classificacao VARCHAR(50),
+    operacao VARCHAR(50)
 );

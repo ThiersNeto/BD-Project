@@ -1,109 +1,88 @@
--- 1. Stored Procedure para criar uma nova prova/evento
+-- Testes para Views
+SELECT * FROM DetalhesJogador;
+SELECT * FROM DetalhesTreinador;
+SELECT * FROM TimesJogadores;
+SELECT * FROM CampeonatosTimes;
+SELECT * FROM PartidasDetalhadas;
 
-DELIMITER //
+-- Teste para AdicionarJogador
+CALL AdicionarJogador('Nome Jogador', 'email@exemplo.com', '999999999', 'Rua Exemplo', 'Bairro Exemplo', 'Cidade Exemplo', 1.80, 75, 'Ponta', 'First', 'Last', 'Brasileiro', 1, @novoJogadorId);
+SELECT @novoJogadorId;
 
-CREATE PROCEDURE sp_criar_prova (
-    IN pNome VARCHAR(100),
-    IN pData DATE,
-    IN pIdEstadio INT,
-    IN pIdCampeonato INT
-)
-BEGIN
-    INSERT INTO Partida (Nome, Data_da_Partida, id_Estadio, id_Campeonato)
-    VALUES (pNome, pData, pIdEstadio, pIdCampeonato);
-END //
+-- Teste para AdicionarTreinador
+CALL AdicionarTreinador('Nome Treinador', 'email@exemplo.com', '999999999', 'Rua Exemplo', 'Bairro Exemplo', 'Cidade Exemplo', 'First', 'Last', 'Brasileiro', 1, @novoTreinadorId);
+SELECT @novoTreinadorId;
 
-DELIMITER ;
+-- Teste para AdicionarTime
+CALL AdicionarTime('Time Exemplo', @novoTimeId);
+SELECT @novoTimeId;
 
--- 2. Stored Procedure para adicionar um participante a uma prova/evento
+-- Teste para AdicionarPartida
+CALL AdicionarPartida(1, 100, 1, '2023-06-10', '02:00:00', @novaPartidaId);
+SELECT @novaPartidaId;
 
-DELIMITER //
+-- Teste para AdicionarPatrocinador
+CALL AdicionarPatrocinador('Patrocinador Exemplo', @novoPatrocinadorId);
+SELECT @novoPatrocinadorId;
 
-CREATE PROCEDURE sp_adicionar_participante (
-    IN pIdProva INT,
-    IN pIdEquipe INT
-)
-BEGIN
-    INSERT INTO Partida_Equipe (id_Partida, id_Equipe)
-    VALUES (pIdProva, pIdEquipe);
-END //
+-- Teste para InscreverTimeEmCampeonato
+CALL InscreverTimeEmCampeonato(1, 1);
 
-DELIMITER ;
+-- Teste para RegistrarPartidaTime
+CALL RegistrarPartidaTime(1, 1);
 
--- 3. Stored Procedure para registar o resultado de um participante numa prova/evento
+-- Teste para AtualizarDadosPessoa
+CALL AtualizarDadosPessoa(1, 'Novo Nome', 'novoemail@exemplo.com', '888888888', 'Nova Rua', 'Novo Bairro', 'Nova Cidade');
 
-DELIMITER //
+-- Teste para ExcluirJogador
+CALL ExcluirJogador(1);
 
-CREATE PROCEDURE sp_registar_resultado (
-    IN pIdProva INT,
-    IN pIdEquipe INT,
-    IN pTotalPoints INT
-)
-BEGIN
-    UPDATE Partida_Equipe
-    SET Total_Points = pTotalPoints
-    WHERE id_Partida = pIdProva AND id_Equipe = pIdEquipe;
-END //
+-- Teste para AdicionarPais
+CALL AdicionarPais('País Exemplo', @novoPaisId);
+SELECT @novoPaisId;
 
-DELIMITER ;
+-- Teste para AdicionarEstadio
+CALL AdicionarEstadio('Estádio Exemplo', 50000, 'Localização Exemplo', @novoEstadioId);
+SELECT @novoEstadioId;
 
--- 4. Stored Procedure para remover uma prova/evento
+-- Teste para AdicionarInscricaoTimeCampeonato
+CALL AdicionarInscricaoTimeCampeonato(1, 1);
 
-DELIMITER //
+-- Teste para AdicionarRegistroPartidaTime
+CALL AdicionarRegistroPartidaTime(1, 1);
 
-CREATE PROCEDURE sp_remover_prova (
-    IN pIdProva INT,
-    IN pForce BOOLEAN
-)
-BEGIN
-    DECLARE vTotalResultados INT;
+-- Teste para AdicionarFichaTecnica
+CALL AdicionarFichaTecnica(1.90, 80, 'Central', 'First', 'Last', 'Brasileiro', @novoIdJogador);
+SELECT @novoIdJogador;
 
-    -- Verifica se existem resultados associados à prova
-    SELECT COUNT(*) INTO vTotalResultados
-    FROM Partida_Equipe
-    WHERE id_Partida = pIdProva;
+-- Teste para sp_criar_prova
+CALL sp_criar_prova(1, 'Prova Exemplo', '2023-06-10', 'Localização Exemplo', @idProva);
+SELECT @idProva;
 
-    IF vTotalResultados = 0 THEN
-        DELETE FROM Partida WHERE id_Partida = pIdProva;
-    ELSEIF pForce = TRUE THEN
-        DELETE FROM Partida_Equipe WHERE id_Partida = pIdProva;
-        DELETE FROM Partida WHERE id_Partida = pIdProva;
-    ELSE
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Não é possível remover a prova. Existem resultados associados e force não foi definido como TRUE.';
-    END IF;
-END //
+-- Teste para sp_adicionar_participante
+CALL sp_adicionar_participante(1, 1, 'Atleta');
+CALL sp_adicionar_participante(1, 2, 'Equipe');
 
-DELIMITER ;
+-- Teste para sp_registar_resultado
+CALL sp_registar_resultado(1, 1, 10.5);
 
--- 5. Stored Procedure para clonar uma prova/evento
-
-DELIMITER //
-
-CREATE PROCEDURE sp_clonar_prova (
-    IN pIdProva INT
-)
-BEGIN
-    DECLARE vNome VARCHAR(100);
-    DECLARE vData DATE;
-    DECLARE vIdEstadio INT;
-    DECLARE vIdCampeonato INT;
-
-    -- Obtem detalhes da prova original
-    SELECT Nome, Data_da_Partida, id_Estadio, id_Campeonato
-    INTO vNome, vData, vIdEstadio, vIdCampeonato
-    FROM Partida
-    WHERE id_Partida = pIdProva;
-
-    -- Adiciona " --- COPIA (a preencher)" ao nome da prova
-    SET vNome = CONCAT(vNome, ' --- COPIA (a preencher)');
-
-    -- Cria a nova prova com os dados clonados
-    INSERT INTO Partida (Nome, Data_da_Partida, id_Estadio, id_Campeonato)
-    VALUES (vNome, vData, vIdEstadio, vIdCampeonato);
-END //
-
-DELIMITER ;
+-- Teste para sp_remover_prova
+CALL sp_remover_prova(1, FALSE);
+CALL sp_remover_prova(2, TRUE);
 
 
+-- Teste para sp_clonar_prova
+CALL sp_clonar_prova(1, @novoIdProva);
+SELECT @novoIdProva;
 
+-- Teste para MediaAlturaPorTime
+SELECT MediaAlturaPorTime(1);
+
+-- Teste para MediaPontosPorPartida
+SELECT MediaPontosPorPartida();
+
+-- Teste para ListarJogadoresPorNacionalidade
+SELECT ListarJogadoresPorNacionalidade('Brasileiro');
+
+-- Teste para ListarTimesPorCampeonato
+SELECT ListarTimesPorCampeonato(1);

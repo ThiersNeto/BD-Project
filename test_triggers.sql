@@ -1,61 +1,16 @@
--- Trigger para monitorar alterações nos resultados
+USE volei;
 
-DELIMITER //
+-- Supondo que existe um registro na tabela Partida com idPartida = 1
+-- Atualizar o resultado da partida
+UPDATE Partida SET totalPoints = 15 WHERE idPartida = 1;
 
-CREATE TRIGGER result_change
-AFTER UPDATE ON Partida_Equipe
-FOR EACH ROW
-BEGIN
-    INSERT INTO tbl_logs (
-        DataHora,
-        idAtleta,
-        idEquipe,
-        idProva,
-        ResultadoAnterior,
-        NovoResultado,
-        Classificacao,
-        Operacao
-    ) VALUES (
-        NOW(),
-        NULL,
-        NEW.id_Equipe,
-        NEW.id_Partida,
-        OLD.Total_Points, -- Verifique se esta coluna existe na sua tabela
-        NEW.Total_Points, -- Verifique se esta coluna existe na sua tabela
-        'Classificação a ser definida', -- Substitua pela lógica de classificação adequada
-        'UPDATE'
-    );
-END //
+-- Verificar o log após atualização
+SELECT * FROM tbl_logs WHERE operacao = 'ALTERACAO';
 
-DELIMITER ;
 
--- Trigger para monitorar remoção de resultados
+-- Supondo que existe um registro na tabela Partida com idPartida = 1
+-- Remover a partida
+DELETE FROM Partida WHERE idPartida = 1;
 
-DELIMITER //
-
-CREATE TRIGGER result_delete
-AFTER DELETE ON Partida_Equipe
-FOR EACH ROW
-BEGIN
-    INSERT INTO tbl_logs (
-        DataHora,
-        idAtleta,
-        idEquipe,
-        idProva,
-        ResultadoAnterior,
-        NovoResultado,
-        Classificacao,
-        Operacao
-    ) VALUES (
-        NOW(),
-        NULL,
-        OLD.id_Equipe,
-        OLD.id_Partida,
-        OLD.Total_Points, -- Verifique se esta coluna existe na sua tabela
-        NULL,
-        'Classificação a ser definida', -- Substitua pela lógica de classificação adequada
-        'DELETE'
-    );
-END //
-
-DELIMITER ;
+-- Verificar o log após remoção
+SELECT * FROM tbl_logs WHERE operacao = 'REMOCAO';
