@@ -1,6 +1,47 @@
 USE Volei;
 
--- View 1: Lista detalhes dos Jogadores;
+-- Views
+DROP VIEW IF EXISTS DetalhesJogador;
+DROP VIEW IF EXISTS DetalhesTreinador;
+DROP VIEW IF EXISTS TimesJogadores;
+DROP VIEW IF EXISTS CampeonatosTimes;
+DROP VIEW IF EXISTS PartidasDetalhadas;
+
+-- Procedures
+DROP PROCEDURE IF EXISTS AdicionarJogador;
+DROP PROCEDURE IF EXISTS AdicionarTreinador;
+DROP PROCEDURE IF EXISTS AdicionarTime;
+DROP PROCEDURE IF EXISTS AdicionarPartida;
+DROP PROCEDURE IF EXISTS AdicionarPatrocinador;
+DROP PROCEDURE IF EXISTS InscreverTimeEmCampeonato;
+DROP PROCEDURE IF EXISTS RegistrarPartidaTime;
+DROP PROCEDURE IF EXISTS AtualizarDadosPessoa;
+DROP PROCEDURE IF EXISTS ExcluirJogador;
+DROP PROCEDURE IF EXISTS AdicionarPais;
+DROP PROCEDURE IF EXISTS AdicionarEstadio;
+DROP PROCEDURE IF EXISTS AdicionarInscricaoTimeCampeonato;
+DROP PROCEDURE IF EXISTS AdicionarRegistroPartidaTime;
+DROP PROCEDURE IF EXISTS AdicionarFichaTecnica;
+DROP PROCEDURE IF EXISTS sp_criar_prova;
+DROP PROCEDURE IF EXISTS sp_adicionar_participante;
+DROP PROCEDURE IF EXISTS sp_registar_resultado;
+DROP PROCEDURE IF EXISTS sp_remover_prova;
+DROP PROCEDURE IF EXISTS sp_clonar_prova;
+
+-- Functions
+DROP FUNCTION IF EXISTS MediaAlturaPorTime;
+DROP FUNCTION IF EXISTS MediaPontosPorPartida;
+DROP FUNCTION IF EXISTS ListarJogadoresPorNacionalidade;
+DROP FUNCTION IF EXISTS ListarTimesPorCampeonato;
+
+-- Triggers
+DROP TRIGGER IF EXISTS result_change;
+DROP TRIGGER IF EXISTS log_resultado_removido;
+
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 CREATE VIEW DetalhesJogador AS
 SELECT 
     j.idJogador,
@@ -10,11 +51,11 @@ SELECT
     j.posicao,
     j.fname,
     j.lname,
-    j.nacionalidade
+    j.nacionalidade,
+    j.numeroDaCamisa
 FROM Jogador j, Pessoa p
 WHERE j.idPessoa = p.idPessoa;
 
--- View 2: Lista detalhes dos Treinadores;
 CREATE VIEW DetalhesTreinador AS
 SELECT 
     t.idTreinador,
@@ -25,7 +66,6 @@ SELECT
 FROM Treinador t, Pessoa p
 WHERE t.idPessoa = p.idPessoa;
 
--- View 3: Lista times e seus jogadores;
 CREATE VIEW TimesJogadores AS
 SELECT 
     t.idTeam,
@@ -41,7 +81,6 @@ WHERE t.idTeam = jt.idTeam
     AND jt.idJogador = j.idJogador
     AND j.idPessoa = p.idPessoa;
 
--- View 4: Lista campeonatos e seus times participantes;
 CREATE VIEW CampeonatosTimes AS
 SELECT 
     c.idCampeonato,
@@ -55,7 +94,6 @@ FROM
 WHERE c.idCampeonato = tc.idCampeonato
     AND tc.idTeam = t.idTeam;
 
--- View 5: Lista partidas e detalhes dos times participantes;
 CREATE VIEW PartidasDetalhadas AS
 SELECT 
     p.idPartida,
@@ -72,11 +110,10 @@ FROM
 WHERE p.idEstadio = e.idEstadio
     AND p.idPartida = pt.idPartida
     AND pt.idTeam = t.idTeam;
-    
-    
--- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
--- Stored Procedure 1: ADD um novo jogador
+
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 DELIMITER //
 CREATE PROCEDURE AdicionarJogador(
     IN nome VARCHAR(100),
@@ -92,6 +129,7 @@ CREATE PROCEDURE AdicionarJogador(
     IN lname VARCHAR(100),
     IN nacionalidade VARCHAR(50),
     IN idPais INT,
+    IN numeroDaCamisa INT,
     OUT novoJogadorId INT
 )
 BEGIN
@@ -99,16 +137,15 @@ BEGIN
     INSERT INTO Pessoa (nome, email, telemovel, rua, bairro, cidade)
     VALUES (nome, email, telemovel, rua, bairro, cidade);
     SET idPessoa = LAST_INSERT_ID();
-    INSERT INTO Jogador (idPessoa, altura, peso, posicao, fname, lname, nacionalidade, idPais)
-    VALUES (idPessoa, altura, peso, posicao, fname, lname, nacionalidade, idPais);
+    INSERT INTO Jogador (idPessoa, altura, peso, posicao, fname, lname, nacionalidade, idPais, numeroDaCamisa)
+    VALUES (idPessoa, altura, peso, posicao, fname, lname, nacionalidade, idPais, numeroDaCamisa);
     SET novoJogadorId = LAST_INSERT_ID();
 END //
 DELIMITER ;
 
 
-
--- Stored Procedure 2: ADD um novo treinador
 DELIMITER //
+-- Procedure AdicionarTreinador
 CREATE PROCEDURE AdicionarTreinador(
     nome VARCHAR(100),
     email VARCHAR(100),
@@ -133,8 +170,9 @@ BEGIN
 END //
 DELIMITER ;
 
--- Stored Procedure 3: ADD um novo time
+
 DELIMITER //
+-- Procedure AdicionarTime
 CREATE PROCEDURE AdicionarTime(
     nome VARCHAR(100),
     OUT novoTimeId INT
@@ -145,8 +183,9 @@ BEGIN
 END //
 DELIMITER ;
 
--- Stored Procedure 4: ADD uma nova partida
+
 DELIMITER //
+-- Procedure AdicionarPartida
 CREATE PROCEDURE AdicionarPartida(
     idEstadio INT,
     totalPoints INT,
@@ -162,8 +201,10 @@ BEGIN
 END //
 DELIMITER ;
 
--- Stored Procedure 5: ADD um novo patrocinador
+
+
 DELIMITER //
+-- Procedure AdicionarPatrocinador
 CREATE PROCEDURE AdicionarPatrocinador(
     nome VARCHAR(100),
     OUT novoPatrocinadorId INT
@@ -174,9 +215,11 @@ BEGIN
 END //
 DELIMITER ;
 
--- Stored Procedure 6: Inscrever um time em um campeonato
+
+
 DELIMITER //
-CREATE PROCEDURE InscreverTimeEmCampeonato(
+-- Procedure AdicionarInscricaoTimeCampeonato
+CREATE PROCEDURE AdicionarInscricaoTimeCampeonato(
     idTeam INT,
     idCampeonato INT
 )
@@ -189,9 +232,11 @@ BEGIN
 END //
 DELIMITER ;
 
--- Stored Procedure 7: Registrar um time em uma partida
+
+
 DELIMITER //
-CREATE PROCEDURE RegistrarPartidaTime(
+-- Procedure AdicionarRegistroPartidaTime
+CREATE PROCEDURE AdicionarRegistroPartidaTime(
     idPartida INT,
     idTeam INT
 )
@@ -204,8 +249,9 @@ BEGIN
 END //
 DELIMITER ;
 
--- Stored Procedure 8: Atualizar dados de uma pessoa
+
 DELIMITER //
+-- Procedure AtualizarDadosPessoa
 CREATE PROCEDURE AtualizarDadosPessoa(
     IN pessoaId INT,
     IN novoNome VARCHAR(100),
@@ -224,34 +270,31 @@ BEGIN
         bairro = novoBairro,
         cidade = novaCidade
     WHERE idPessoa = pessoaId;
+END //  
+DELIMITER ;
+
+
+
+DELIMITER //
+-- Procedure AdicionarFichaTecnica
+CREATE PROCEDURE AdicionarFichaTecnica(
+    IN pAltura DECIMAL(5,2),
+    IN pPeso DECIMAL(5,2),
+    IN pPosicao VARCHAR(50),
+    IN pFname VARCHAR(100),
+    IN pLname VARCHAR(100),
+    IN pNacionalidade VARCHAR(50),
+    OUT pIdJogador INT
+)
+BEGIN
+    INSERT INTO FichaTecnica (Altura, Peso, Posicao, Fname, Lname, Nacionalidade) 
+    VALUES (pAltura, pPeso, pPosicao, pFname, pLname, pNacionalidade);
+    SET pIdJogador = LAST_INSERT_ID();
 END //
 DELIMITER ;
 
--- Stored Procedure 9: Excluir um jogador
-DELIMITER //
-CREATE PROCEDURE ExcluirJogador(
-    idJogador INT
-)
-BEGIN
-    DELETE FROM Jogador WHERE idJogador = idJogador;
-END //
-DELIMITER ;
 
-USE Volei;
 
-DELIMITER //
-
--- Stored Procedure 10: ADD um novo país
-CREATE PROCEDURE AdicionarPais(
-    nome VARCHAR(100),
-    OUT novoPaisId INT
-)
-BEGIN
-    INSERT INTO Pais (nome) VALUES (nome);
-    SET novoPaisId = LAST_INSERT_ID();
-END //
-
--- Stored Procedure 11: ADD um novo estádio
 DELIMITER //
 CREATE PROCEDURE AdicionarEstadio(
     IN nomeEstadio VARCHAR(100),
@@ -265,170 +308,33 @@ BEGIN
 END //
 DELIMITER ;
 
--- Stored Procedure 12: ADD uma nova inscrição de time em campeonato
+
 DELIMITER //
-CREATE PROCEDURE AdicionarInscricaoTimeCampeonato(
-    idTeam INT,
-    idCampeonato INT
+-- Procedure ExcluirJogador
+CREATE PROCEDURE ExcluirJogador(
+    idJogador INT
 )
 BEGIN
-    DECLARE count INT;
-    SELECT COUNT(*) INTO count FROM TimeCampeonato WHERE idTeam = idTeam AND idCampeonato = idCampeonato;
-    IF count = 0 THEN
-        INSERT INTO TimeCampeonato (idTeam, idCampeonato) VALUES (idTeam, idCampeonato);
-    END IF;
-END //
-
-DELIMITER //
-
-DELIMITER //
-
--- Stored Procedure 13: ADD um novo registro de time em partida
-CREATE PROCEDURE AdicionarRegistroPartidaTime(
-    idPartida INT,
-    idTeam INT
-)
-BEGIN
-    DECLARE count INT;
-    SELECT COUNT(*) INTO count FROM PartidaTime WHERE idPartida = idPartida AND idTeam = idTeam;
-    IF count = 0 THEN
-        INSERT INTO PartidaTime (idPartida, idTeam) VALUES (idPartida, idTeam);
-    END IF;
+    DELETE FROM Jogador WHERE idJogador = idJogador;
 END //
 DELIMITER ;
 
--- Stored Procedure 14: ADD uma Ficha Tecnica 
-DELIMITER //
 
-CREATE PROCEDURE AdicionarFichaTecnica(
-    IN pAltura DECIMAL(5,2),
-    IN pPeso DECIMAL(5,2),
-    IN pPosicao VARCHAR(50),
-    IN pFname VARCHAR(100),
-    IN pLname VARCHAR(100),
-    IN pNacionalidade VARCHAR(50),
-    OUT pIdJogador INT
+DELIMITER //
+CREATE PROCEDURE AdicionarPais(
+    IN nome VARCHAR(100),
+    OUT novoPaisId INT
 )
 BEGIN
-    INSERT INTO FichaTecnica (Altura, Peso, Posicao, Fname, Lname, Nacionalidade) 
-    VALUES (pAltura, pPeso, pPosicao, pFname, pLname, pNacionalidade);
-    
-    SET pIdJogador = LAST_INSERT_ID();
-END //
-
-DELIMITER ;
-
--- SP1
--- Criar uma nova prova/evento
-DELIMITER //
-CREATE PROCEDURE sp_criar_prova(
-    IN p_idEvento INT,
-    IN p_nomeProva VARCHAR(100),
-    IN p_data DATE,
-    IN p_localizacao VARCHAR(100),
-    OUT p_idProva INT
-)
-BEGIN
-    INSERT INTO Prova (idEvento, nomeProva, dataProva, localizacao)
-    VALUES (p_idEvento, p_nomeProva, p_data, p_localizacao);
-    
-    SET p_idProva = LAST_INSERT_ID();
-END //
-DELIMITER ;
-
--- SP2
--- Adicionar um atleta à lista de atletas/equipas que irão competir na prova/evento
-DELIMITER //
-CREATE PROCEDURE sp_adicionar_participante(
-    IN p_idProva INT,
-    IN p_idParticipante INT,
-    IN p_tipoParticipante VARCHAR(50) -- 'Atleta' ou 'Equipe'
-)
-BEGIN
-    IF p_tipoParticipante = 'Atleta' THEN
-        INSERT INTO ParticipacaoProvaAtleta (idProva, idAtleta)
-        VALUES (p_idProva, p_idParticipante);
-    ELSEIF p_tipoParticipante = 'Equipe' THEN
-        INSERT INTO ParticipacaoProvaEquipe (idProva, idEquipe)
-        VALUES (p_idProva, p_idParticipante);
-    ELSE
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Tipo de participante inválido';
-    END IF;
-END //
-DELIMITER ;
-
--- SP3
--- Registar o resultado do participante na prova/evento indicada
-DELIMITER //
-CREATE PROCEDURE sp_registar_resultado(
-    IN p_idProva INT,
-    IN p_idParticipante INT,
-    IN p_resultado DECIMAL(10,2)
-)
-BEGIN
-    INSERT INTO Resultado (idProva, idParticipante, resultado)
-    VALUES (p_idProva, p_idParticipante, p_resultado);
-END //
-DELIMITER ;
-
--- SP4
--- Remove a prova/evento identificada no parâmetro
-DELIMITER //
-CREATE PROCEDURE sp_remover_prova(
-    IN p_idProva INT,
-    IN p_force BOOLEAN
-)
-BEGIN
-    DECLARE v_contaResultados INT;
-    
-    -- Verifica se existem resultados associados à prova
-    SELECT COUNT(*) INTO v_contaResultados
-    FROM Partida
-    WHERE idPartida = p_idProva;
-    
-    IF v_contaResultados = 0 THEN
-        DELETE FROM Partida WHERE idPartida = p_idProva;
-    ELSEIF p_force = TRUE THEN
-        DELETE FROM Partida WHERE idPartida = p_idProva;
-    ELSE
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Existem resultados associados à prova. Use force = TRUE para forçar a remoção.';
-    END IF;
-END //
-DELIMITER ;
-
--- SP5
--- Cria uma nova prova/evento com uma cópia de todos os dados existentes na prova/evento indicada como parâmetro
-DELIMITER //
-CREATE PROCEDURE sp_clonar_prova(
-    IN p_idProva INT,
-    OUT p_novoIdProva INT
-)
-BEGIN
-    DECLARE v_dataDaPartida DATE;
-    DECLARE v_duracaoDaPartida TIME;
-    DECLARE v_idEstadio INT;
-    DECLARE v_totalPoints INT;
-    DECLARE v_rodada INT;
-
-    -- Recupera os dados da partida original
-    SELECT dataDaPartida, duracaoDaPartida, idEstadio, totalPoints, rodada
-    INTO v_dataDaPartida, v_duracaoDaPartida, v_idEstadio, v_totalPoints, v_rodada
-    FROM Partida
-    WHERE idPartida = p_idProva;
-
-    -- Cria a nova partida
-    INSERT INTO Partida (dataDaPartida, duracaoDaPartida, idEstadio, totalPoints, rodada)
-    VALUES (v_dataDaPartida, v_duracaoDaPartida, v_idEstadio, v_totalPoints, v_rodada);
-
-    SET p_novoIdProva = LAST_INSERT_ID();
+    INSERT INTO Pais (nome) VALUES (nome);
+    SET novoPaisId = LAST_INSERT_ID();
 END //
 DELIMITER ;
 
 
 
--- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
--- Stored Functions 1: Calcular a média de altura dos Jogadores
 DELIMITER //
 CREATE FUNCTION MediaAlturaPorTime(idTeam INT) RETURNS DECIMAL(5,2) 
 READS SQL DATA
@@ -437,11 +343,8 @@ BEGIN
     SELECT AVG(altura) INTO mediaAltura FROM Jogador WHERE idTeam = idTeam; 
     RETURN mediaAltura; 
 END //
-DELIMITER ;
-
-
--- Stored Functions 2: Calcular a média de pontos por Partida
 DELIMITER //
+
 CREATE FUNCTION MediaPontosPorPartida() RETURNS DECIMAL(5,2)
 READS SQL DATA
 BEGIN
@@ -449,10 +352,8 @@ BEGIN
     SELECT AVG(totalPoints) INTO mediaPontos FROM Partida;
     RETURN mediaPontos;
 END //
-DELIMITER ;
-
--- Stored Functions 3: Listar jogadores por nacionalidade
 DELIMITER //
+
 CREATE FUNCTION ListarJogadoresPorNacionalidade(nacionalidade VARCHAR(50)) RETURNS VARCHAR(1000)
 READS SQL DATA
 BEGIN
@@ -464,10 +365,8 @@ BEGIN
     WHERE j.nacionalidade = nacionalidade;
     RETURN jogadores;
 END //
-DELIMITER ;
-
--- Stored Functions 4: Listar times por campeonato
 DELIMITER //
+
 CREATE FUNCTION ListarTimesPorCampeonato(idCampeonato INT) RETURNS VARCHAR(1000)
 READS SQL DATA
 BEGIN
@@ -480,12 +379,8 @@ BEGIN
     RETURN times;
 END //
 DELIMITER ;
-SELECT ListarTimesPorCampeonato(1);
 
-
--- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
--- Registra as alterações nos resultados na tabela tbl_logs.
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 DELIMITER //
 CREATE TRIGGER result_change
@@ -510,11 +405,7 @@ BEGIN
         'ALTERACAO'
     );
 END //
-DELIMITER ;
-
-
-
--- Registra as remoções dos resultados na tabela tbl_logs.
+DELIMITER //
 
 DELIMITER //
 CREATE TRIGGER log_resultado_removido

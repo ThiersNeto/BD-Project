@@ -1,16 +1,16 @@
-USE volei;
+USE Volei;
 
--- Supondo que existe um registro na tabela Partida com idPartida = 1
--- Atualizar o resultado da partida
-UPDATE Partida SET totalPoints = 15 WHERE idPartida = 1;
+-- Teste para o trigger de atualização de resultados
+UPDATE Partida 
+SET totalPoints = 25 
+WHERE idPartida = 1;
 
--- Verificar o log após atualização
-SELECT * FROM tbl_logs WHERE operacao = 'ALTERACAO';
+-- Verifique a tabela de logs para confirmar a atualização
+SELECT * FROM tbl_logs;
 
+-- Teste para o trigger de remoção de resultados
+DELETE FROM Partida 
+WHERE idPartida = 2;
 
--- Supondo que existe um registro na tabela Partida com idPartida = 1
--- Remover a partida
-DELETE FROM Partida WHERE idPartida = 1;
-
--- Verificar o log após remoção
-SELECT * FROM tbl_logs WHERE operacao = 'REMOCAO';
+-- Verifique a tabela de logs para confirmar a remoção
+SELECT * FROM tbl_logs;
