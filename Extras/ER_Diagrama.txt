@@ -1,125 +1,80 @@
+Ideias jogadas fora:
 
-### Entidades e Atributos:
 
-1. **Pessoa**
-   - idPessoa (PK)
-   - Nome
-   - E-Mail
-   - Telemóvel
-   - Rua
-   - Bairro
-   - Cidade
+==============================================================================================================================================================
+	- PopularEquipas insere 50 equipes na tabela Equipa, nomeando-as sequencialmente de 'Equipa1' a 'Equipa50'.
+==============================================================================================================================================================
 
-2. **Jogador**
-   - id_Jogador (PK)
-   - idPessoa (FK)
-   - Altura
-   - Peso
-   - Posição
-   - Fname
-   - Lname
-   - Nacionalidade
+DELIMITER //
 
-3. **Treinador**
-   - id_Treinador (PK)
-   - idPessoa (FK)
-   - Fname
-   - Lname
-   - Nacionalidade
+CREATE PROCEDURE PopularEquipas()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    DECLARE equipa_nome VARCHAR(100);
+    
+    WHILE i <= 50 DO
+        SET equipa_nome = CONCAT('Equipa', i);
+        CALL AdicionarEquipa(equipa_nome, @novoEquipaId);
+        SET i = i + 1;
+    END WHILE;
+END //
 
-4. **Time**
-   - id_Team (PK)
-   - Nome
+DELIMITER ;
 
-5. **Estádio**
-   - id_Estadio (PK)
-   - Nome
-   - Capacidade
-   - Localização
+==============================================================================================================================================================
+	- PopularJogadores insere 300 jogadores na tabela Jogador, distribuindo-os entre 50 equipes, com cada equipe recebendo 6 jogadores
+==============================================================================================================================================================
 
-6. **Partida**
-   - id_Partida (PK)
-   - id_Estadio (FK)
-   - Total_Points
-   - Rodada
-   - Data_da_Partida
-   - Duracao_da_Partida
+DELIMITER //
 
-7. **País**
-   - id_Pais (PK)
-   - Nome
+CREATE PROCEDURE PopularJogadores()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    DECLARE j INT DEFAULT 1;
+    DECLARE jogador_nome VARCHAR(100);
+    DECLARE jogador_email VARCHAR(100);
+    DECLARE jogador_telemovel VARCHAR(20);
+    DECLARE jogador_rua VARCHAR(100);
+    DECLARE jogador_bairro VARCHAR(50);
+    DECLARE jogador_cidade VARCHAR(50);
+    DECLARE jogador_altura DECIMAL(5,2);
+    DECLARE jogador_peso DECIMAL(5,2);
+    DECLARE jogador_posicao VARCHAR(50);
+    DECLARE jogador_fname VARCHAR(100);
+    DECLARE jogador_lname VARCHAR(100);
+    DECLARE jogador_nacionalidade VARCHAR(50);
+    DECLARE jogador_numeroDaCamisa INT;
+    DECLARE jogador_idPais INT DEFAULT 1;
 
-8. **Campeonato**
-   - id_Campeonato (PK)
-   - id_Organizadora (FK)
-   - Ano
-   - Título
-   - Nome
+    WHILE i <= 50 DO
+        SET j = 1;
+        WHILE j <= 6 DO
+            SET jogador_nome = CONCAT('Jogador', i, '_', j);
+            SET jogador_email = CONCAT('jogador', i, '_', j, '@example.com');
+            SET jogador_telemovel = '123456789';
+            SET jogador_rua = CONCAT('Rua ', i);
+            SET jogador_bairro = CONCAT('Bairro ', j);
+            SET jogador_cidade = CONCAT('Cidade ', i);
+            SET jogador_altura = 1.80 + (j * 0.01);
+            SET jogador_peso = 70 + (j * 1);
+            SET jogador_posicao = 'Ponta';
+            SET jogador_fname = CONCAT('Nome', i);
+            SET jogador_lname = CONCAT('Sobrenome', j);
+            SET jogador_nacionalidade = 'Brasileira';
+            SET jogador_numeroDaCamisa = j;
+            
+            CALL AdicionarJogador(jogador_nome, jogador_email, jogador_telemovel, jogador_rua, jogador_bairro, 
+		jogador_cidade, jogador_altura, jogador_peso, jogador_posicao, jogador_fname, jogador_lname, jogador_nacionalidade, 
+		jogador_idPais, jogador_numeroDaCamisa, @novoJogadorId);
+            CALL AdicionarJogadorEquipa(@novoJogadorId, i);
+            
+            SET j = j + 1;
+        END WHILE;
+        SET i = i + 1;
+    END WHILE;
+END //
 
-9. **Patrocinador**
-   - id_Patrocinador (PK)
-   - Nome
+DELIMITER ;
 
-10. **Entidade Organizadora**
-    - id_Organizadora (PK)
-    - Nome
 
-### Relacionamentos e Cardinalidades:
-
-1. **Pessoa** (1:N) **Jogador**
-   - Uma pessoa pode ser associada a vários jogadores.
-   - Pessoa.idPessoa -> Jogador.idPessoa
-
-2. **Pessoa** (1:N) **Treinador**
-   - Uma pessoa pode ser associada a vários treinadores.
-   - Pessoa.idPessoa -> Treinador.idPessoa
-
-3. **Jogador** (N:M) **Time**
-   - Vários jogadores podem pertencer a vários times.
-   - Tabela de relacionamento: Jogador_Time
-     - id_Jogador (FK)
-     - id_Team (FK)
-
-4. **Treinador** (N:M) **Time**
-   - Vários treinadores podem treinar vários times.
-   - Tabela de relacionamento: Treinador_Time
-     - id_Treinador (FK)
-     - id_Team (FK)
-
-5. **Time** (N:M) **Campeonato**
-   - Vários times podem participar de vários campeonatos.
-   - Tabela de relacionamento: Time_Campeonato
-     - id_Team (FK)
-     - id_Campeonato (FK)
-
-6. **Campeonato** (1:N) **Entidade Organizadora**
-   - Um campeonato é organizado por uma única entidade, mas uma entidade pode organizar vários campeonatos.
-   - EntidadeOrganizadora.id_Organizadora -> Campeonato.id_Organizadora
-
-7. **Time** (N:M) **Patrocinador**
-   - Vários times podem ter vários patrocinadores.
-   - Tabela de relacionamento: Time_Patrocinador
-     - id_Team (FK)
-     - id_Patrocinador (FK)
-
-8. **Partida** (N:M) **Time**
-   - Vários times podem participar de várias partidas.
-   - Tabela de relacionamento: Partida_Time
-     - id_Partida (FK)
-     - id_Team (FK)
-
-9. **Estádio** (1:N) **Partida**
-   - Um estádio pode ser o local de várias partidas.
-   - Estadio.id_Estadio -> Partida.id_Estadio
-
-10. **País** (1:N) **Treinador**
-    - Um país pode ter vários treinadores.
-    - Pais.id_Pais -> Treinador.id_Pais
-
-11. **País** (1:N) **Jogador**
-    - Um país pode ter vários jogadores.
-    - Pais.id_Pais -> Jogador.id_Pais
-
-12. **País** (1:N) **Campeonato**
-    - Um país pode ter vários campeonatos.
-    - Pais.id_Pais -> Campeonato.id_Pais
+==============================================================================================================================================================
