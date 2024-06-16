@@ -1,146 +1,99 @@
--- Criação do banco de dados
-DROP DATABASE IF EXISTS Volei;
-CREATE DATABASE Volei;
-USE Volei;
+/*****************************************************************************************************************************************
+*												Criação das Tabelas na Base de Dados ProjetoBD2024
+******************************************************************************************************************************************/
 
--- Tabela País
-CREATE TABLE Pais (
-    idPais INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL
+-- Create database
+DROP DATABASE IF EXISTS Voleibol;
+CREATE DATABASE Voleibol;
+
+USE Voleibol;
+
+/* Criação das Tabelas */
+CREATE TABLE Atleta (
+	IdAtleta INT PRIMARY KEY AUTO_INCREMENT,
+	nome_atleta VARCHAR(100) NOT NULL,
+	data_nasc DATE,
+	Nacionalidade VARCHAR(50)
 );
 
--- Tabela Estádio
-CREATE TABLE Estadio (
-    idEstadio INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    capacidade INT NOT NULL,
-    localizacao VARCHAR(100) NOT NULL,
-    ticket INT NOT NULL
-);
-
--- Tabela Equipa
 CREATE TABLE Equipa (
-    idEquipa INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL
+	IdEquipa INT PRIMARY KEY AUTO_INCREMENT,
+	nome_equipa VARCHAR(100),
+	desempenho_global INT
 );
 
--- Tabela Evento
 CREATE TABLE Evento (
-    idEvento INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(100) NOT NULL
+	IdEvento INT PRIMARY KEY AUTO_INCREMENT,
+	nome_evento VARCHAR(100),
+	Local VARCHAR(100),
+	data_inicio DATE,
+	data_fim DATE
 );
 
--- Tabela Jogador
--- Criação da tabela Jogador
-CREATE TABLE Jogador (
-    idJogador INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    telemovel VARCHAR(20),
-    rua VARCHAR(100),
-    bairro VARCHAR(50),
-    cidade VARCHAR(50),
-    altura DECIMAL(5,2),
-    peso DECIMAL(5,2),
-    posicao VARCHAR(50),
-    fname VARCHAR(100),
-    lname VARCHAR(100),
-    nacionalidade VARCHAR(50),
-    idPais INT,
-    numeroDaCamisa INT,
-    idCapitao INT,
-    FOREIGN KEY (idPais) REFERENCES Pais(idPais),
-    FOREIGN KEY (idCapitao) REFERENCES Jogador(idJogador)
+CREATE TABLE Prova (
+	IdProva INT PRIMARY KEY AUTO_INCREMENT,
+	nome_prova VARCHAR(100),
+	Local_prova VARCHAR(100),
+	data DATE,
+	hora TIME,
+	duracao TIME,
+	rodadas INT
 );
 
--- Tabela Treinador
-CREATE TABLE Treinador (
-    idTreinador INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    telemovel VARCHAR(20),
-    rua VARCHAR(100),
-    bairro VARCHAR(50),
-    cidade VARCHAR(50),
-    fname VARCHAR(100),
-    lname VARCHAR(100),
-    nacionalidade VARCHAR(50),
-    idPais INT,
-    FOREIGN KEY (idPais) REFERENCES Pais(idPais)
+CREATE TABLE Prova_Evento (
+	IdProva INT,
+	IdEvento INT,
+	PRIMARY KEY (IdProva, IdEvento),
+	FOREIGN KEY (IdProva) REFERENCES Prova(IdProva),
+	FOREIGN KEY (IdEvento) REFERENCES Evento(IdEvento)
 );
 
--- Tabela Partida
-CREATE TABLE Partida (
-    idPartida INT AUTO_INCREMENT PRIMARY KEY,
-    idEstadio INT,
-    totalPoints INT,
-    jornadas INT,
-    dataDaPartida DATE,
-    duracaoDaPartida TIME,
-    FOREIGN KEY (idEstadio) REFERENCES Estadio(idEstadio)
+CREATE TABLE Resultado (
+	IdResultado INT PRIMARY KEY AUTO_INCREMENT,
+	classificacao VARCHAR(50),
+	ranking INT
 );
 
--- Tabela EquipaEvento
-CREATE TABLE EquipaEvento (
-    idEquipa INT,
-    idEvento INT,
-    PRIMARY KEY (idEquipa, idEvento),
-    FOREIGN KEY (idEquipa) REFERENCES Equipa(idEquipa),
-    FOREIGN KEY (idEvento) REFERENCES Evento(idEvento)
+CREATE TABLE ProvaResultado (
+	IdProva INT,
+	IdResultado INT,
+	PRIMARY KEY (IdProva, IdResultado),
+	FOREIGN KEY (IdProva) REFERENCES Prova(IdProva),
+	FOREIGN KEY (IdResultado) REFERENCES Resultado(IdResultado)
 );
 
--- Tabela PartidaEquipa
-CREATE TABLE PartidaEquipa (
-    idPartida INT,
-    idEquipa INT,
-    PRIMARY KEY (idPartida, idEquipa),
-    FOREIGN KEY (idPartida) REFERENCES Partida(idPartida),
-    FOREIGN KEY (idEquipa) REFERENCES Equipa(idEquipa)
+CREATE TABLE AtletaEquipa (
+	IdAtleta INT,
+	IdEquipa INT,
+	PRIMARY KEY (IdAtleta, IdEquipa),
+	FOREIGN KEY (IdAtleta) REFERENCES Atleta(IdAtleta),
+	FOREIGN KEY (IdEquipa) REFERENCES Equipa(IdEquipa)
 );
 
--- Tabela Patrocinador
-CREATE TABLE Patrocinador (
-    idPatrocinador INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL
-);
-
--- Tabela Ficha Tecnica
+/* Tabela para armazenar Fichas Técnicas dos Atletas */
 CREATE TABLE FichaTecnica (
-    idJogador INT AUTO_INCREMENT PRIMARY KEY,
-    Altura DECIMAL(5,2),
-    Peso DECIMAL(5,2),
-    Posicao VARCHAR(50),
-    Fname VARCHAR(100),
-    Lname VARCHAR(100),
-    Nacionalidade VARCHAR(50)
+	IdFicha INT PRIMARY KEY AUTO_INCREMENT,
+	curriculo TEXT,
+	historico TEXT
 );
 
--- Tabela TreinadorEquipa
-CREATE TABLE TreinadorEquipa (
-    idTreinador INT,
-    idEquipa INT,
-    PRIMARY KEY (idTreinador, idEquipa),
-    FOREIGN KEY (idTreinador) REFERENCES Treinador(idTreinador),
-    FOREIGN KEY (idEquipa) REFERENCES Equipa(idEquipa)
+CREATE TABLE AtletaFicha (
+	IdAtleta INT,
+	IdFicha INT,
+	PRIMARY KEY (IdAtleta, IdFicha),
+	FOREIGN KEY (IdAtleta) REFERENCES Atleta(IdAtleta),
+	FOREIGN KEY (IdFicha) REFERENCES FichaTecnica(IdFicha)
 );
 
--- Tabela tbl_logs: armazena logs de alterações e remoções de partidas.
-CREATE TABLE tbl_logs (
-    idLog INT AUTO_INCREMENT PRIMARY KEY,
-    dataHora TIMESTAMP,
-    idPartida INT,
-    idEstadio INT,
-    resultadoAnterior INT,
-    novoResultado INT,
-    classificacao VARCHAR(50),
-    operacao VARCHAR(50)
+CREATE TABLE Genero (
+	idGenero INT PRIMARY KEY AUTO_INCREMENT,
+	descricao VARCHAR(50)
 );
 
--- Tabela JogadorEquipa
-CREATE TABLE JogadorEquipa (
-    idJogador INT,
-    idEquipa INT,
-    PRIMARY KEY (idJogador, idEquipa),
-    FOREIGN KEY (idJogador) REFERENCES Jogador(idJogador),
-    FOREIGN KEY (idEquipa) REFERENCES Equipa(idEquipa)
+CREATE TABLE AtletaGenero (
+	IdAtleta INT,
+	idGenero INT,
+	PRIMARY KEY (IdAtleta, idGenero),
+	FOREIGN KEY (IdAtleta) REFERENCES Atleta(IdAtleta),
+	FOREIGN KEY (idGenero) REFERENCES Genero(idGenero)
 );
