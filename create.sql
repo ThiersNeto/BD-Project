@@ -27,7 +27,8 @@ CREATE TABLE Evento (
 	nome_evento VARCHAR(100),
 	Local VARCHAR(100),
 	data_inicio DATE,
-	data_fim DATE
+	data_fim DATE,
+    total_provas INT DEFAULT 0
 );
 
 CREATE TABLE Prova (
