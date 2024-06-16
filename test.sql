@@ -1,84 +1,169 @@
--- Desativando temporariamente o safe update mode
+-- Ativar o modo seguro do MySQL para operações de deleção em massa
 SET SQL_SAFE_UPDATES = 0;
 
-USE Voleibol;
+-- Limpar todas as tabelas para garantir um ambiente limpo para os testes
+DELETE FROM ProvaResultado;
+DELETE FROM Resultado WHERE IdResultado > 0;
+DELETE FROM Prova_Evento WHERE IdEvento > 0;
+DELETE FROM Evento WHERE IdEvento > 0;
+DELETE FROM AtletaEquipa WHERE IdAtleta > 0;
+DELETE FROM AtletaFicha WHERE IdFicha > 0;
+DELETE FROM AtletaGenero WHERE IdGenero > 0;
+DELETE FROM Atleta WHERE IdAtleta > 0;
+DELETE FROM FichaTecnica WHERE IdFicha > 0;
+DELETE FROM Genero WHERE IdGenero > 0;
+DELETE FROM Estadio WHERE IdEstadio > 0;
+DELETE FROM Treinador WHERE IdTreinador > 0;
 
--- Testando Views
--- Verificando View AtletasNacionalidade
+-- Adicionar dados de teste
+-- Adicionar Resultados
+CALL AddResultado('Primeiro Lugar', 1);
+CALL AddResultado('Segundo Lugar', 2);
+CALL AddResultado('Terceiro Lugar', 3);
+
+-- Adicionar Eventos
+CALL AddEvento('Torneio Internacional', 'Lisboa', '2024-07-01', '2024-07-10');
+
+-- Adicionar Provas
+CALL AddProva('Prova Teste 1', 'Lisboa', '2024-07-05', '10:00:00', '02:00:00', 3);
+CALL AddProva('Prova Teste 2', 'Porto', '2024-08-10', '14:00:00', '03:00:00', 5);
+
+-- Relacionar Provas com Eventos
+INSERT INTO Prova_Evento (IdProva, IdEvento) VALUES 
+((SELECT IdProva FROM Prova WHERE nome_prova = 'Prova Teste 1' LIMIT 1), 
+(SELECT IdEvento FROM Evento WHERE nome_evento = 'Torneio Internacional' LIMIT 1));
+INSERT INTO Prova_Evento (IdProva, IdEvento) VALUES 
+((SELECT IdProva FROM Prova WHERE nome_prova = 'Prova Teste 2' LIMIT 1), 
+(SELECT IdEvento FROM Evento WHERE nome_evento = 'Torneio Internacional' LIMIT 1));
+
+-- Adicionar Estádios
+CALL AddEstadio('Estádio Olímpico', 80000, 'Lisboa', 
+    (SELECT IdProva FROM Prova WHERE nome_prova = 'Prova Teste 1' LIMIT 1));
+CALL AddEstadio('Arena Nacional', 50000, 'Porto', 
+    (SELECT IdProva FROM Prova WHERE nome_prova = 'Prova Teste 2' LIMIT 1));
+
+-- Adicionar Patrocinadores
+INSERT INTO Patrocinador (Nome) VALUES
+('Nike'), ('Adidas'), ('Puma'), ('Reebok'), ('Under Armour');
+
+-- Adicionar Organizadoras
+INSERT INTO Organizadora (Nome) VALUES
+('Federação Portuguesa de Voleibol'), 
+('Confederação Brasileira de Voleibol'), 
+('Federação Espanhola de Voleibol');
+
+-- Adicionar Treinadores
+CALL AddTreinador('José Pereira', '1975-08-10', 'Lisboa', 'Alvalade', 15);
+INSERT INTO Treinador (Nome, DataNasc, Cidade, Bairro, AnosExperiencia) VALUES
+('Fernando Santos', '1965-04-22', 'Porto', 'Ribeira', 20),
+('Laura Rodrigues', '1980-12-14', 'São Paulo', 'Vila Mariana', 10);
+
+-- Adicionar Atletas
+CALL AddAtleta('Carlos Souza', '1988-03-05', 'Brasil', 'Rio de Janeiro', 'Copacabana', 'Atacante');
+CALL AddAtleta('Ana Martins', '1992-07-10', 'Portugal', 'Lisboa', 'Bairro Alto', 'Libero');
+CALL AddAtleta('Laura Mendes', '1995-11-22', 'Espanha', 'Madrid', 'Centro', 'Central');
+CALL AddAtleta('Pedro Silva', '1989-09-15', 'Brasil', 'São Paulo', 'Moema', 'Oposto');
+CALL AddAtleta('Maria Garcia', '1993-05-18', 'Portugal', 'Porto', 'Boavista', 'Ponteira');
+
+-- Relacionar Atletas com Equipes
+INSERT INTO AtletaEquipa (IdAtleta, IdEquipa) VALUES
+((SELECT IdAtleta FROM Atleta WHERE nome_atleta = 'Carlos Souza' LIMIT 1), 1),
+((SELECT IdAtleta FROM Atleta WHERE nome_atleta = 'Ana Martins' LIMIT 1), 1),
+((SELECT IdAtleta FROM Atleta WHERE nome_atleta = 'Laura Mendes' LIMIT 1), 1),
+((SELECT IdAtleta FROM Atleta WHERE nome_atleta = 'Pedro Silva' LIMIT 1), 1),
+((SELECT IdAtleta FROM Atleta WHERE nome_atleta = 'Maria Garcia' LIMIT 1), 1);
+
+-- Adicionar Gêneros
+INSERT INTO Genero (descricao) VALUES ('Masculino'), ('Feminino');
+
+-- Relacionar Atletas com Gêneros
+INSERT INTO AtletaGenero (IdAtleta, IdGenero) VALUES
+((SELECT IdAtleta FROM Atleta WHERE nome_atleta = 'Carlos Souza' LIMIT 1), 
+ (SELECT IdGenero FROM Genero WHERE descricao = 'Masculino' LIMIT 1)),
+((SELECT IdAtleta FROM Atleta WHERE nome_atleta = 'Ana Martins' LIMIT 1), 
+ (SELECT IdGenero FROM Genero WHERE descricao = 'Feminino' LIMIT 1));
+
+-- Consultas para verificar os dados inseridos
+
+-- Verificar Atletas
+SELECT * FROM Atleta;
+
+-- Verificar Eventos
+SELECT * FROM Evento;
+
+-- Verificar Provas
+SELECT * FROM Prova;
+
+-- Verificar Estádios
+SELECT * FROM Estadio;
+
+-- Verificar Patrocinadores
+SELECT * FROM Patrocinador;
+
+-- Verificar Organizadoras
+SELECT * FROM Organizadora;
+
+-- Verificar Treinadores
+SELECT * FROM Treinador;
+
+-- Verificar Gêneros
+SELECT * FROM Genero;
+
+-- Verificar Resultados
+SELECT * FROM Resultado;
+
+-- Verificar Relações AtletaEquipa
+SELECT * FROM AtletaEquipa;
+
+-- Verificar Relações AtletaGenero
+SELECT * FROM AtletaGenero;
+
+-- Verificar Relações ProvaEvento
+SELECT * FROM Prova_Evento;
+
+-- Verificar Relações ProvaResultado
+SELECT * FROM ProvaResultado;
+
+-- Verificar Visualizações
 SELECT * FROM AtletasNacionalidade;
-
--- Verificando View EquipasDesempenho
 SELECT * FROM EquipasDesempenho;
-
--- Verificando View ProvasEventos
 SELECT * FROM ProvasEventos;
-
--- Verificando View ResultadosProvas
 SELECT * FROM ResultadosProvas;
-
--- Verificando View AtletasEquipas
 SELECT * FROM AtletasEquipas;
 
--- Testando Funções
--- Verificando Função TotalAtletasEquipa
-SELECT TotalAtletasEquipa(1) AS Total_Atletas_Time_A;
+-- Testar funções
 
--- Testando Procedures
+-- Função TotalAtletasEquipa
+SELECT TotalAtletasEquipa(1) AS TotalAtletas;
 
--- Procedure 1: Adiciona um novo atleta à tabela Atleta.
-CALL AddAtleta('Carlos Souza', '1988-03-05', 'Brasil');
-SELECT * FROM Atleta WHERE nome_atleta = 'Carlos Souza';
+-- Testar procedimentos armazenados
 
--- Procedure 2: Adiciona uma nova equipa à tabela Equipa.
-CALL AddEquipa('Time E', 90);
-SELECT * FROM Equipa WHERE nome_equipa = 'Time E';
+-- Adicionar novo Atleta e verificar
+CALL AddAtleta('João Silva', '1990-01-15', 'Portugal', 'Porto', 'Boavista', 'Central');
+SELECT * FROM Atleta WHERE nome_atleta = 'João Silva';
 
--- Procedure 3: Adiciona um novo evento à tabela Evento.
-CALL AddEvento('Campeonato Nacional', 'Porto', '2024-08-05', '2024-08-15');
+-- Adicionar nova Equipa e verificar
+CALL AddEquipa('Time A', 85);
+SELECT * FROM Equipa WHERE nome_equipa = 'Time A';
+
+-- Adicionar novo Evento e verificar
+CALL AddEvento('Campeonato Nacional', 'Porto', '2024-06-01', '2024-06-10');
 SELECT * FROM Evento WHERE nome_evento = 'Campeonato Nacional';
 
--- Procedure 4: Adiciona uma nova prova à tabela Prova.
-CALL AddProva('Prova E', 'Porto', '2024-08-06', '14:00:00', '03:00:00', 5);
-SELECT * FROM Prova WHERE nome_prova = 'Prova E';
+-- Adicionar nova Prova e verificar
+CALL AddProva('Prova B', 'Lisboa', '2024-06-05', '10:00:00', '02:00:00', 3);
+SELECT * FROM Prova WHERE nome_prova = 'Prova B';
 
--- Procedure 5: Adiciona um novo resultado à tabela Resultado.
-CALL AddResultado('Quarto', 4);
-SELECT * FROM Resultado WHERE classificacao = 'Quarto';
+-- Adicionar novo Resultado e verificar
+CALL AddResultado('Quarto Lugar', 4);
+SELECT * FROM Resultado WHERE classificacao = 'Quarto Lugar';
 
--- Procedure 6: Cria uma nova prova/evento em um evento determinado.
-CALL sp_criar_prova('Prova F', 'Madrid', '2024-09-05', '12:00:00', '01:30:00', 3, 1);
-SELECT * FROM Prova WHERE nome_prova = 'Prova F';
+-- Testar as visualizações
+SELECT * FROM AtletasNacionalidade;
+SELECT * FROM EquipasDesempenho;
+SELECT * FROM ProvasEventos;
+SELECT * FROM ResultadosProvas;
+SELECT * FROM AtletasEquipas;
 
--- Procedure 7: Adiciona um atleta à prova/evento.
-CALL sp_adicionar_participante(1, 1);
-SELECT * FROM AtletaEquipa WHERE IdAtleta = 1 AND IdEquipa = (SELECT IdEquipa FROM Prova WHERE IdProva = 1);
-
--- Procedure 8: Registra o resultado de um participante na prova/evento.
-CALL sp_registar_resultado(1, 1, 'Primeiro', 1);
-SELECT * FROM ProvaResultado WHERE IdProva = 1;
-
--- Procedure 9: Remove uma prova/evento.
-CALL sp_remover_prova(2, TRUE);
-SELECT * FROM Prova WHERE IdProva = 2;
-
--- Procedure 10: Clona uma prova/evento.
-CALL sp_clonar_prova(1);
-SELECT * FROM Prova WHERE nome_prova LIKE '%Copia%';
-
--- Testando Triggers
--- Trigger 1: Verifica se a nacionalidade do atleta é válida antes de inserir.
-INSERT INTO Atleta (nome_atleta, data_nasc, Nacionalidade) VALUES ('Teste Invalido', '1990-01-01', 'Invalido');
-
--- Trigger 2: Atualiza o campo total_provas no Evento após inserir uma nova Prova.
-CALL AddProva('Prova G', 'Lisboa', '2024-07-10', '10:00:00', '02:00:00', 3);
-SELECT total_provas FROM Evento WHERE IdEvento = 1;
-
--- Limpeza dos dados de teste
-DELETE FROM Atleta WHERE nome_atleta IN ('Carlos Souza', 'Teste Invalido');
-DELETE FROM Equipa WHERE nome_equipa = 'Time E';
-DELETE FROM Evento WHERE nome_evento = 'Campeonato Nacional';
-DELETE FROM Prova WHERE nome_prova IN ('Prova E', 'Prova F', 'Prova G', 'Prova F --- COPIA (a preencher)');
-DELETE FROM Resultado WHERE classificacao = 'Quarto';
-
--- Reativando o safe update mode
+-- Reativar o modo seguro do MySQL
 SET SQL_SAFE_UPDATES = 1;

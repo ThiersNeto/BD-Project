@@ -95,7 +95,8 @@ JOIN Evento ON Prova_Evento.IdEvento = Evento.IdEvento
 JOIN AtletaEquipa ON Prova.IdProva = AtletaEquipa.IdEquipa
 JOIN Equipa ON AtletaEquipa.IdEquipa = Equipa.IdEquipa;
 
--- 7. Lista de participantes individuais que não participaram em qualquer prova de equipas, diferenciando participantes federados e profissionais, de participantes casuais (e.g., atleta amador sem estar associado a uma entidade, clube ou federação desportiva)
+-- 7. Lista de participantes individuais que não participaram em qualquer prova de equipas, diferenciando participantes federados e profissionais, de participantes Casuais
+-- Lista de participantes individuais que não participaram em qualquer prova de equipas
 SELECT A.nome_atleta AS 'Nome do Atleta', 'Casual' AS 'Tipo de Participante'
 FROM Atleta A
 LEFT JOIN AtletaEquipa AE ON A.IdAtleta = AE.IdAtleta
@@ -148,3 +149,6 @@ WITH RECURSIVE AtletasHierarquia AS (
     JOIN AtletasHierarquia h ON a.IdAtleta = h.IdAtleta
 )
 SELECT * FROM AtletasHierarquia;
+
+
+

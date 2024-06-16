@@ -31,6 +31,7 @@ FROM Atleta A
 JOIN AtletaEquipa AE ON A.IdAtleta = AE.IdAtleta
 JOIN Equipa E ON AE.IdEquipa = E.IdEquipa;
 
+
 -- Funções
 
 -- Função 1: Retorna o total de atletas em uma determinada equipa.
@@ -47,14 +48,23 @@ BEGIN
 END//
 DELIMITER ;
 
+
 -- Procedures
 
 -- Procedure 1: Adiciona um novo atleta à tabela Atleta.
 DELIMITER //
-CREATE PROCEDURE AddAtleta(IN nome VARCHAR(100), IN dataNasc DATE, IN nacionalidade VARCHAR(50))
+CREATE PROCEDURE AddAtleta(
+    IN nome VARCHAR(100), 
+    IN dataNasc DATE, 
+    IN nacionalidade VARCHAR(50),
+    IN cidade VARCHAR(100),
+    IN bairro VARCHAR(100),
+    IN posicao VARCHAR(50)
+)
 BEGIN
-    INSERT INTO Atleta (nome_atleta, data_nasc, Nacionalidade) VALUES (nome, dataNasc, nacionalidade);
-END//
+    INSERT INTO Atleta (nome_atleta, data_nasc, Nacionalidade, Cidade, Bairro, Posicao) 
+    VALUES (nome, dataNasc, nacionalidade, cidade, bairro, posicao);
+END //
 DELIMITER ;
 
 -- Procedure 2: Adiciona uma nova equipa à tabela Equipa.
@@ -109,14 +119,10 @@ BEGIN
     
     INSERT INTO Prova_Evento (IdProva, IdEvento) 
     VALUES (last_id, id_evento);
-
-    UPDATE Evento
-    SET total_provas = total_provas + 1
-    WHERE IdEvento = id_evento;
 END//
 DELIMITER ;
 
--- Procedure 7: Adiciona um atleta à Evento.
+-- Procedure 7: Adiciona um atleta à prova/evento.
 DELIMITER //
 CREATE PROCEDURE sp_adicionar_participante(
     IN id_prova INT, 
@@ -128,7 +134,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- Procedure 8: Registra o resultado de um participante na Evento.
+-- Procedure 8: Registra o resultado de um participante na prova/evento.
 DELIMITER //
 CREATE PROCEDURE sp_registar_resultado(
     IN id_prova INT, 
@@ -152,9 +158,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- Procedure 9: Remove um Evento. (sp_remover_prova)
-
--- Procedure 10: Clona uma Evento.
+-- Procedure 9: Clona uma prova/evento.
 DELIMITER //
 CREATE PROCEDURE sp_clonar_prova(
     IN id_prova INT
@@ -175,7 +179,7 @@ BEGIN
     JOIN Prova_Evento PE ON P.IdProva = PE.IdProva
     WHERE P.IdProva = id_prova;
     
-    SET nome_prova = CONCAT(nome_prova, 'COPIA');
+    SET nome_prova = CONCAT(nome_prova, ' --- COPIA (a preencher)');
     
     INSERT INTO Prova (nome_prova, Local_prova, data, hora, duracao, rodadas) 
     VALUES (nome_prova, local_prova, data, hora, duracao, rodadas);
@@ -184,10 +188,54 @@ BEGIN
     
     INSERT INTO Prova_Evento (IdProva, IdEvento) 
     VALUES (last_id, id_evento);
+END//
+DELIMITER ;
 
-    UPDATE Evento
-    SET total_provas = total_provas + 1
-    WHERE IdEvento = id_evento;
+-- Procedure para adicionar um novo estádio
+DELIMITER //
+CREATE PROCEDURE AddEstadio(
+    IN nome VARCHAR(100),
+    IN capacidade INT,
+    IN localizacao VARCHAR(100),
+    IN id_prova INT
+)
+BEGIN
+    INSERT INTO Estadio (Nome, Capacidade, Localizacao, IdProva) 
+    VALUES (nome, capacidade, localizacao, id_prova);
+END//
+DELIMITER ;
+
+-- Procedure para adicionar um novo treinador
+DELIMITER //
+CREATE PROCEDURE AddTreinador(
+    IN nome VARCHAR(100),
+    IN dataNasc DATE,
+    IN cidade VARCHAR(100),
+    IN bairro VARCHAR(100),
+    IN anos_experiencia INT
+)
+BEGIN
+    INSERT INTO Treinador (Nome, DataNasc, Cidade, Bairro, AnosExperiencia) VALUES (nome, dataNasc, cidade, bairro, anos_experiencia);
+END//
+DELIMITER ;
+
+-- Procedure para adicionar um novo patrocinador
+DELIMITER //
+CREATE PROCEDURE AddPatrocinador(
+    IN nome VARCHAR(100)
+)
+BEGIN
+    INSERT INTO Patrocinador (Nome) VALUES (nome);
+END//
+DELIMITER ;
+
+-- Procedure para adicionar uma nova organizadora
+DELIMITER //
+CREATE PROCEDURE AddOrganizadora(
+    IN nome VARCHAR(100)
+)
+BEGIN
+    INSERT INTO Organizadora (Nome) VALUES (nome);
 END//
 DELIMITER ;
 
