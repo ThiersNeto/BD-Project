@@ -2,144 +2,122 @@
 *												Criação das Tabelas na Base de Dados ProjetoBD2024
 ******************************************************************************************************************************************/
 
--- Criação da Base de Dados
-DROP DATABASE IF EXISTS Voleibol;
-CREATE DATABASE Voleibol;
-USE Voleibol;
-
--- Criação das Tabelas
-CREATE TABLE Atleta (
-    IdAtleta INT AUTO_INCREMENT PRIMARY KEY,
-    nome_atleta VARCHAR(100) NOT NULL,
-    data_nasc DATE NOT NULL,
-    Nacionalidade VARCHAR(50) NOT NULL,
-    Cidade VARCHAR(100),
-    Bairro VARCHAR(100),
-    Posicao VARCHAR(50)
+ -- Tabela: Pais
+CREATE TABLE Pais (
+    IdPais INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE Equipa (
-    IdEquipa INT AUTO_INCREMENT PRIMARY KEY,
-    nome_equipa VARCHAR(100) NOT NULL,
-    desempenho_global INT NOT NULL
+-- Tabela: Entidade Organizadora
+CREATE TABLE Entidade_Organizadora (
+    IdEntidade_Organizadora INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(100) NOT NULL,
+    IdPais INT,
+    FOREIGN KEY (IdPais) REFERENCES Pais(IdPais)
 );
 
+-- Tabela: Estadio
+CREATE TABLE Estadio (
+    IdEstadio INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(100) NOT NULL,
+    Capacidade INT NOT NULL
+);
+
+-- Tabela: Resultado
+CREATE TABLE Resultado (
+    IdResultado INT AUTO_INCREMENT PRIMARY KEY
+);
+
+-- Tabela: Evento
 CREATE TABLE Evento (
     IdEvento INT AUTO_INCREMENT PRIMARY KEY,
-    nome_evento VARCHAR(100) NOT NULL,
-    Local VARCHAR(100) NOT NULL,
-    data_inicio DATE NOT NULL,
-    data_fim DATE NOT NULL,
-    total_provas INT DEFAULT 0
-);
-
-CREATE TABLE Prova (
-    IdProva INT AUTO_INCREMENT PRIMARY KEY,
-    nome_prova VARCHAR(100) NOT NULL,
-    Local_prova VARCHAR(100) NOT NULL,
-    data DATE NOT NULL,
-    hora TIME NOT NULL,
-    duracao TIME NOT NULL,
-    rodadas INT NOT NULL
-);
-
-CREATE TABLE Resultado (
-    IdResultado INT AUTO_INCREMENT PRIMARY KEY,
-    classificacao VARCHAR(50) NOT NULL,
-    ranking INT NOT NULL
-);
-
-CREATE TABLE Prova_Evento (
-    IdProva INT,
-    IdEvento INT,
-    PRIMARY KEY (IdProva, IdEvento),
-    FOREIGN KEY (IdProva) REFERENCES Prova(IdProva),
-    FOREIGN KEY (IdEvento) REFERENCES Evento(IdEvento)
-);
-
-CREATE TABLE ProvaResultado (
-    IdProva INT,
+    Nome VARCHAR(100) NOT NULL,
+    NomeEvento VARCHAR(100) NOT NULL,
+    Jornada VARCHAR(100),
+    Hora TIME,
+    Modalidade VARCHAR(100),
+    IdEstadio INT,
     IdResultado INT,
-    PRIMARY KEY (IdProva, IdResultado),
-    FOREIGN KEY (IdProva) REFERENCES Prova(IdProva),
-    FOREIGN KEY (IdResultado) REFERENCES Resultado(IdResultado)
+    IdEntidade_Organizadora INT,
+    IdPais INT,
+    FOREIGN KEY (IdEstadio) REFERENCES Estadio(IdEstadio),
+    FOREIGN KEY (IdResultado) REFERENCES Resultado(IdResultado),
+    FOREIGN KEY (IdEntidade_Organizadora) REFERENCES Entidade_Organizadora(IdEntidade_Organizadora),
+    FOREIGN KEY (IdPais) REFERENCES Pais(IdPais)
 );
 
-CREATE TABLE AtletaEquipa (
-    IdAtleta INT,
+-- Tabela: Pessoa
+CREATE TABLE Pessoa (
+    IdPessoa INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(100) NOT NULL,
+    Cidade VARCHAR(100),
+    Morada VARCHAR(100),
+    Bairro VARCHAR(100)
+);
+
+-- Tabela: FichaTecnica
+CREATE TABLE FichaTecnica (
+    IdFichaTecnica INT AUTO_INCREMENT PRIMARY KEY,
+    DataNascimento DATE NOT NULL,
+    Altura FLOAT NOT NULL,
+    Peso FLOAT NOT NULL,
+    IdPessoa INT,
+    FOREIGN KEY (IdPessoa) REFERENCES Pessoa(IdPessoa),
+    UNIQUE (IdPessoa)
+);
+
+-- Tabela: Treinador
+CREATE TABLE Treinador (
+    IdTreinador INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(100) NOT NULL,
+    Especialidade VARCHAR(100),
+    AnosExperiencia INT,
+    IdPessoa INT,
+    FOREIGN KEY (IdPessoa) REFERENCES Pessoa(IdPessoa)
+);
+
+-- Tabela: Atleta
+CREATE TABLE Atleta (
+    IdAtleta INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(100) NOT NULL,
+    Posicao VARCHAR(50),
+    NumeroCamiseta INT,
+    Capitao BOOLEAN,
+    IdPessoa INT,
     IdEquipa INT,
-    PRIMARY KEY (IdAtleta, IdEquipa),
-    FOREIGN KEY (IdAtleta) REFERENCES Atleta(IdAtleta),
+    FOREIGN KEY (IdPessoa) REFERENCES Pessoa(IdPessoa),
     FOREIGN KEY (IdEquipa) REFERENCES Equipa(IdEquipa)
 );
 
-CREATE TABLE FichaTecnica (
-    IdFicha INT AUTO_INCREMENT PRIMARY KEY,
-    curriculo VARCHAR(255),
-    historico VARCHAR(255)
+-- Tabela: Equipa
+CREATE TABLE Equipa (
+    IdEquipa INT AUTO_INCREMENT PRIMARY KEY,
+    NomeEquipa VARCHAR(100) NOT NULL,
+    IdadeDaEquipa INT,
+    IdPais INT,
+    FOREIGN KEY (IdPais) REFERENCES Pais(IdPais)
 );
 
-CREATE TABLE AtletaFicha (
-    IdAtleta INT,
-    IdFicha INT,
-    PRIMARY KEY (IdAtleta, IdFicha),
-    FOREIGN KEY (IdAtleta) REFERENCES Atleta(IdAtleta),
-    FOREIGN KEY (IdFicha) REFERENCES FichaTecnica(IdFicha)
+-- Tabela: Participa
+CREATE TABLE Participa (
+    IdParticipa INT AUTO_INCREMENT PRIMARY KEY,
+    IdEquipa INT,
+    IdEvento INT,
+    FOREIGN KEY (IdEquipa) REFERENCES Equipa(IdEquipa),
+    FOREIGN KEY (IdEvento) REFERENCES Evento(IdEvento)
 );
 
-CREATE TABLE Genero (
-    IdGenero INT AUTO_INCREMENT PRIMARY KEY,
-    descricao VARCHAR(50)
-);
-
-CREATE TABLE AtletaGenero (
-    IdAtleta INT,
-    IdGenero INT,
-    PRIMARY KEY (IdAtleta, IdGenero),
-    FOREIGN KEY (IdAtleta) REFERENCES Atleta(IdAtleta),
-    FOREIGN KEY (IdGenero) REFERENCES Genero(IdGenero)
-);
-
-CREATE TABLE Estadio (
-    IdEstadio INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100),
-    Capacidade INT,
-    Localizacao VARCHAR(100),
-    IdProva INT,
-    FOREIGN KEY (IdProva) REFERENCES Prova(IdProva)
-);
-
-CREATE TABLE Treinador (
-    IdTreinador INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100),
-    DataNasc DATE,
-    Cidade VARCHAR(100),
-    Bairro VARCHAR(100),
-    AnosExperiencia INT
-);
-
+-- Tabela: Patrocinador
 CREATE TABLE Patrocinador (
     IdPatrocinador INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100)
+    Nome VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE Organizadora (
-    IdOrganizadora INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100)
-);
-
-CREATE TABLE ProvaOrganizadora (
-    IdProva INT,
-    IdOrganizadora INT,
-    PRIMARY KEY (IdProva, IdOrganizadora),
-    FOREIGN KEY (IdProva) REFERENCES Prova(IdProva),
-    FOREIGN KEY (IdOrganizadora) REFERENCES Organizadora(IdOrganizadora)
-);
-
-CREATE TABLE ProvaPatrocinador (
-    IdProva INT,
+-- Tabela: Patrocina
+CREATE TABLE Patrocina (
+    IdPatrocina INT AUTO_INCREMENT PRIMARY KEY,
     IdPatrocinador INT,
-    PRIMARY KEY (IdProva, IdPatrocinador),
-    FOREIGN KEY (IdProva) REFERENCES Prova(IdProva),
-    FOREIGN KEY (IdPatrocinador) REFERENCES Patrocinador(IdPatrocinador)
+    IdEquipa INT,
+    FOREIGN KEY (IdPatrocinador) REFERENCES Patrocinador(IdPatrocinador),
+    FOREIGN KEY (IdEquipa) REFERENCES Equipa(IdEquipa)
 );
