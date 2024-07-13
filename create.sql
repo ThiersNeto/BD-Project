@@ -1,11 +1,16 @@
 /*****************************************************************************************************************************************
-*												Criação das Tabelas na Base de Dados ProjetoBD2024
+*                                              Criação das Tabelas na Base de Dados ProjetoBD2024
 ******************************************************************************************************************************************/
 
- -- Tabela: Pais
+DROP DATABASE IF EXISTS Volei;
+CREATE DATABASE Volei;
+USE Volei;
+
+
+-- Tabela: Pais
 CREATE TABLE Pais (
     IdPais INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100) NOT NULL
+    Nome VARCHAR(100) NOT NULL UNIQUE
 );
 
 -- Tabela: Entidade Organizadora
@@ -19,13 +24,23 @@ CREATE TABLE Entidade_Organizadora (
 -- Tabela: Estadio
 CREATE TABLE Estadio (
     IdEstadio INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100) NOT NULL,
+    Nome VARCHAR(100) NOT NULL UNIQUE,
     Capacidade INT NOT NULL
 );
 
 -- Tabela: Resultado
 CREATE TABLE Resultado (
-    IdResultado INT AUTO_INCREMENT PRIMARY KEY
+    IdResultado INT AUTO_INCREMENT PRIMARY KEY,
+    Descricao VARCHAR(255) NOT NULL
+);
+
+-- Tabela: Equipa
+CREATE TABLE Equipa (
+    IdEquipa INT AUTO_INCREMENT PRIMARY KEY,
+    NomeEquipa VARCHAR(100) NOT NULL,
+    IdadeDaEquipa INT,
+    IdPais INT,
+    FOREIGN KEY (IdPais) REFERENCES Pais(IdPais)
 );
 
 -- Tabela: Evento
@@ -89,15 +104,6 @@ CREATE TABLE Atleta (
     FOREIGN KEY (IdEquipa) REFERENCES Equipa(IdEquipa)
 );
 
--- Tabela: Equipa
-CREATE TABLE Equipa (
-    IdEquipa INT AUTO_INCREMENT PRIMARY KEY,
-    NomeEquipa VARCHAR(100) NOT NULL,
-    IdadeDaEquipa INT,
-    IdPais INT,
-    FOREIGN KEY (IdPais) REFERENCES Pais(IdPais)
-);
-
 -- Tabela: Participa
 CREATE TABLE Participa (
     IdParticipa INT AUTO_INCREMENT PRIMARY KEY,
@@ -110,7 +116,7 @@ CREATE TABLE Participa (
 -- Tabela: Patrocinador
 CREATE TABLE Patrocinador (
     IdPatrocinador INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100) NOT NULL
+    Nome VARCHAR(100) NOT NULL UNIQUE
 );
 
 -- Tabela: Patrocina
