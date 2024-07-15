@@ -99,3 +99,7 @@ CALL sp_clonar_prova(1);
 -- Verifica se a prova foi clonada corretamente
 SELECT * FROM Evento WHERE NomeEvento LIKE '%COPIA do Evento%';
 
+
+SELECT NomeEquipa, Pais 
+FROM EquipePorPais;
+
