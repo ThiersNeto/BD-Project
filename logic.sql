@@ -31,7 +31,7 @@ END //
 
 DELIMITER ;
 
--- Stored Procedure 1: Lista todos os atletas de uma equipe específica (Pedida no Enuciado)
+-- Stored Procedure 1: Lista todos os atletas de uma equipe específica
 DELIMITER //
 
 CREATE PROCEDURE ListarAtletasPorEquipa(equipaId INT)
@@ -54,7 +54,7 @@ END //
 
 DELIMITER ;
 
--- Stored Procedure 2: Mostra a média de altura dos atletas, chamando a stored function MediaAlturaEquipa. (Pedida no Enuciado)
+-- Stored Procedure 2: Mostra a média de altura dos atletas, chamando a stored function MediaAlturaEquipa
 DELIMITER //
 
 CREATE PROCEDURE MostrarMediaAlturaEquipa(equipaId INT)
@@ -66,7 +66,7 @@ END //
 
 DELIMITER ;
 
--- Stored Procedure 3: Lista todos os eventos organizados por uma entidade específica. (Pedida no Enuciado)
+-- Stored Procedure 3: Lista todos os eventos organizados por uma entidade específica
 DELIMITER //
 
 CREATE PROCEDURE ListarEventosPorEntidade(entidadeId INT)
@@ -179,7 +179,6 @@ END //
 DELIMITER ;
 
 -- Stored Procedure 11: Liga Patrocinador à Equipa
-
 DELIMITER //
 
 CREATE PROCEDURE LigarPatrocinadorEquipa(
@@ -203,7 +202,6 @@ END //
 DELIMITER ;
 
 -- Stored Procedure 12: Liga Patrocinador a Evento
-
 DELIMITER //
 
 CREATE PROCEDURE LigarPatrocinadorEvento(
@@ -332,3 +330,108 @@ SELECT
     MediaAlturaEquipa(Equipa.IdEquipa) AS MediaAltura
 FROM 
     Equipa;
+
+-- Stored Procedure 1: Criar nova prova/evento
+DELIMITER //
+
+CREATE PROCEDURE sp_criar_prova(
+    IN pNome VARCHAR(100),
+    IN pNomeEvento VARCHAR(100),
+    IN pJornada VARCHAR(100),
+    IN pHora TIME,
+    IN pModalidade VARCHAR(100),
+    IN pIdEstadio INT,
+    IN pIdResultado INT,
+    IN pIdEntidade_Organizadora INT,
+    IN pIdPais INT
+)
+BEGIN
+    INSERT INTO Evento (Nome, NomeEvento, Jornada, Hora, Modalidade, IdEstadio, IdResultado, IdEntidade_Organizadora, IdPais)
+    VALUES (pNome, pNomeEvento, pJornada, pHora, pModalidade, pIdEstadio, pIdResultado, pIdEntidade_Organizadora, pIdPais);
+END //
+
+DELIMITER ;
+
+-- Stored Procedure 2: Adicionar participante (Atleta) a uma prova/evento
+DELIMITER //
+
+CREATE PROCEDURE sp_adicionar_participante(
+    IN pIdEvento INT,
+    IN pIdAtleta INT
+)
+BEGIN
+    UPDATE Atleta
+    SET IdEvento = pIdEvento
+    WHERE IdAtleta = pIdAtleta;
+END //
+
+DELIMITER ;
+
+-- Stored Procedure 3: Registrar resultado de um participante
+DELIMITER //
+
+CREATE PROCEDURE sp_registar_resultado(
+    IN pIdEvento INT,
+    IN pIdAtleta INT,
+    IN pIdResultado INT
+)
+BEGIN
+    UPDATE Atleta
+    SET IdResultado = pIdResultado
+    WHERE IdEvento = pIdEvento AND IdAtleta = pIdAtleta;
+END //
+
+DELIMITER ;
+
+-- Stored Procedure 4: Remover prova/evento
+DELIMITER //
+
+CREATE PROCEDURE sp_remover_prova(
+    IN pIdEvento INT,
+    IN pForce BOOLEAN
+)
+BEGIN
+    DECLARE resultCount INT;
+
+    -- Verifica se existem resultados associados
+    SELECT COUNT(*) INTO resultCount FROM Atleta WHERE IdEvento = pIdEvento;
+
+    IF resultCount = 0 OR pForce = TRUE THEN
+        DELETE FROM Evento WHERE IdEvento = pIdEvento;
+        UPDATE Atleta SET IdEvento = NULL WHERE IdEvento = pIdEvento;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Não é possível remover o Evento porque existem resultados associados.';
+    END IF;
+END //
+
+DELIMITER ;
+
+-- Stored Procedure 5: Clonar prova/evento
+DELIMITER //
+
+CREATE PROCEDURE sp_clonar_prova(
+    IN pIdEvento INT
+)
+BEGIN
+    DECLARE pNomeEvento VARCHAR(100);
+    DECLARE pJornada VARCHAR(100);
+    DECLARE pHora TIME;
+    DECLARE pModalidade VARCHAR(100);
+    DECLARE pIdEstadio INT;
+    DECLARE pIdResultado INT;
+    DECLARE pIdEntidade_Organizadora INT;
+    DECLARE pIdPais INT;
+
+    -- Seleciona os detalhes da prova existente
+    SELECT NomeEvento, Jornada, Hora, Modalidade, IdEstadio, IdResultado, IdEntidade_Organizadora, IdPais
+    INTO pNomeEvento, pJornada, pHora, pModalidade, pIdEstadio, pIdResultado, pIdEntidade_Organizadora, pIdPais
+    FROM Evento WHERE IdEvento = pIdEvento;
+
+    SET pNomeEvento = CONCAT(pNomeEvento, ' COPIA');
+
+    -- Insere a nova prova/evento clonada
+    INSERT INTO Evento (Nome, NomeEvento, Jornada, Hora, Modalidade, IdEstadio, IdResultado, IdEntidade_Organizadora, IdPais)
+    VALUES ('Evento Clonado', pNomeEvento, pJornada, pHora, pModalidade, pIdEstadio, pIdResultado, pIdEntidade_Organizadora, pIdPais);
+END //
+
+DELIMITER ;

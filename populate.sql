@@ -637,3 +637,32 @@ INSERT INTO Evento (Nome, NomeEvento, Jornada, Hora, Modalidade, IdEstadio, IdRe
 ('Evento D', 'Liga dos Campeões', '4', '18:00:00', 'Vôlei', 4, 4, 4, 4),
 ('Evento E', 'Superliga', '5', '19:00:00', 'Vôlei', 5, 5, 5, 5);
 
+-- Inserir dados na tabela Pais (Teste)
+INSERT INTO Pais (Nome) VALUES ('Venezuela'), ('Coreia do Sul');
+
+-- Inserir dados na tabela Entidade_Organizadora (Teste)
+INSERT INTO Entidade_Organizadora (Nome, IdPais) VALUES ('Federação Brasileira', 1), ('Federação Portuguesa', 2);
+
+-- Inserir dados na tabela Estadio (Teste)
+INSERT INTO Estadio (Nome, Capacidade) VALUES ('CBLOL', 150), ('CBLOL Arena', 150);
+
+-- Inserir dados na tabela Resultado (Teste)
+INSERT INTO Resultado (Descricao) VALUES ('1º Lugar'), ('2º Lugar'), ('3º Lugar');
+
+-- Inserir dados na tabela Pessoa (Teste)
+INSERT INTO Pessoa (Nome, Cidade, Morada, Bairro) VALUES ('João Silva', 'São Paulo', 'Rua A', 'Bairro B'), ('Maria Oliveira', 'Lisboa', 'Rua C', 'Bairro D');
+
+-- Inserir dados na tabela FichaTecnica (Teste)
+INSERT INTO FichaTecnica (DataNascimento, Altura, Peso, IdPessoa) VALUES ('1990-01-01', 1.80, 75, 131), ('1992-02-02', 1.70, 65, 132);
+
+-- Inserir dados na tabela Atleta (Teste)
+INSERT INTO Atleta (TipoParticipante, Nome, Posicao, NumeroCamiseta, Capitao, IdPessoa, IdEquipa) VALUES ('Profissional', 'João Silva', 'Atacante', 10, TRUE, 1, 1), ('Amador', 'Maria Oliveira', 'Defensor', 5, FALSE, 2, 2);
+
+-- Inserir dados na tabela Treinador (Teste)
+INSERT INTO Treinador (Nome, Especialidade, AnosExperiencia, IdPessoa) VALUES ('Carlos Souza', 'Técnico', 10, 1), ('Ana Santos', 'Assistente', 5, 2);
+
+-- Inserir dados na tabela Patrocinador (Teste)
+INSERT INTO Patrocinador (Nome) VALUES ('PAIN'), ('LOUD');
+
+-- Inserir dados na tabela Evento para teste do sp_clonar_prova (Teste)
+INSERT INTO Evento (Nome, NomeEvento, Jornada, Hora, Modalidade, IdEstadio, IdResultado, IdEntidade_Organizadora, IdPais) VALUES ('Evento Original', 'Prova Original', '1ª Jornada', '10:00:00', 'Corrida', 1, 1, 1, 1);
