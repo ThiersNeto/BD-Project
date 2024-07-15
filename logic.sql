@@ -1,3 +1,4 @@
+USE Volei;
 
 -- Stored Function 1: Média de Altura dos Atletas em uma Equipe
 DELIMITER //
@@ -77,7 +78,7 @@ END //
 
 DELIMITER ;
 
--- Stored Procedure 4:  Insere um novo estádio
+-- Stored Procedure 4: Insere um novo estádio
 DELIMITER //
 
 CREATE PROCEDURE InserirNovoEstadio(IN nome VARCHAR(100), IN capacidade INT)
@@ -91,7 +92,7 @@ END //
 
 DELIMITER ;
 
--- Stored Procedure 5:  Tenta inserir um novo treinador e retornará uma mensagem de erro
+-- Stored Procedure 5: Tenta inserir um novo treinador e retornará uma mensagem de erro
 DELIMITER //
 
 CREATE PROCEDURE InserirNovoTreinador(IN nome VARCHAR(100), IN especialidade VARCHAR(100), IN anos_experiencia INT, IN id_pessoa INT)
@@ -118,7 +119,7 @@ BEGIN
     INSERT INTO Estadio (Nome, Capacidade) VALUES (pNome, pCapacidade);
 END //
 
-DELIMITER 
+DELIMITER ;
 
 -- Stored Procedure 7: Popula a Tabela Pessoa
 DELIMITER //
@@ -134,15 +135,17 @@ DELIMITER ;
 DELIMITER //
 
 CREATE PROCEDURE PopularAtleta(
+    IN pTipoParticipante VARCHAR(50),
     IN pNome VARCHAR(100),
     IN pPosicao VARCHAR(50),
     IN pNumeroCamiseta INT,
     IN pCapitao BOOLEAN,
     IN pIdPessoa INT,
-    IN pIdEquipa INT)
+    IN pIdEquipa INT
+)
 BEGIN
-    INSERT INTO Atleta (Nome, Posicao, NumeroCamiseta, Capitao, IdPessoa, IdEquipa)
-    VALUES (pNome, pPosicao, pNumeroCamiseta, pCapitao, pIdPessoa, pIdEquipa);
+    INSERT INTO Atleta (TipoParticipante, Nome, Posicao, NumeroCamiseta, Capitao, IdPessoa, IdEquipa)
+    VALUES (pTipoParticipante, pNome, pPosicao, pNumeroCamiseta, pCapitao, pIdPessoa, pIdEquipa);
 END //
 
 DELIMITER ;
@@ -166,15 +169,64 @@ DELIMITER ;
 DELIMITER //
 
 CREATE PROCEDURE PopularPatrocinador(
-    IN pNome VARCHAR(100))
+    IN pNome VARCHAR(100)
+)
 BEGIN
     INSERT INTO Patrocinador (Nome)
     VALUES (pNome);
 END //
 
-DELIMITER 
+DELIMITER ;
 
--- Stored Procedure 11: Popula a Entidade Organizadora
+-- Stored Procedure 11: Liga Patrocinador à Equipa
+
+DELIMITER //
+
+CREATE PROCEDURE LigarPatrocinadorEquipa(
+    IN pNomePatrocinador VARCHAR(100),
+    IN pIdEquipa INT
+)
+BEGIN
+    DECLARE pIdPatrocinador INT;
+    SELECT IdPatrocinador INTO pIdPatrocinador
+    FROM Patrocinador
+    WHERE Nome = pNomePatrocinador;
+    IF pIdPatrocinador IS NOT NULL THEN
+        UPDATE Equipa
+        SET IdPatrocinador = pIdPatrocinador
+        WHERE IdEquipa = pIdEquipa;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Patrocinador não encontrado';
+    END IF;
+END //
+
+DELIMITER ;
+
+-- Stored Procedure 12: Liga Patrocinador a Evento
+
+DELIMITER //
+
+CREATE PROCEDURE LigarPatrocinadorEvento(
+    IN pNomePatrocinador VARCHAR(100),
+    IN pIdEvento INT
+)
+BEGIN
+    DECLARE pIdPatrocinador INT;
+    SELECT IdPatrocinador INTO pIdPatrocinador
+    FROM Patrocinador
+    WHERE Nome = pNomePatrocinador;
+    IF pIdPatrocinador IS NOT NULL THEN
+        UPDATE Evento
+        SET IdPatrocinador = pIdPatrocinador
+        WHERE IdEvento = pIdEvento;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Patrocinador não encontrado';
+    END IF;
+END //
+
+DELIMITER ;
+
+-- Stored Procedure 13: Popula a Entidade Organizadora
 DELIMITER //
 
 CREATE PROCEDURE PopularEntidadeOrganizadora(
@@ -187,7 +239,7 @@ END //
 
 DELIMITER ;
 
--- Stored Procedure 12: Popula a tabela FichaTecnica
+-- Stored Procedure 14: Popula a tabela FichaTecnica
 DELIMITER //
 
 CREATE PROCEDURE PopularFichaTecnica(
@@ -203,7 +255,6 @@ END //
 DELIMITER ;
 
 -- Trigger 1: Verificar se a pessoa já existe na tabela Pessoa
-
 DELIMITER //
 
 CREATE TRIGGER BeforeInsertAtleta
@@ -225,8 +276,7 @@ END //
 
 DELIMITER ;
 
--- Trigger 2: Verificará se a capacidade é negativa.
-
+-- Trigger 2: Verificará se a capacidade é negativa
 DELIMITER //
 
 CREATE TRIGGER BeforeInsertEstadio
@@ -240,27 +290,18 @@ END //
 
 DELIMITER ;
 
--- View 1:
+-- View 1: EquipePorPais
 CREATE VIEW EquipePorPais AS
 SELECT
-	NomeEquipa,
+    NomeEquipa,
     (CASE
-		WHEN IdPais = 1 THEN 'Brasil'
+        WHEN IdPais = 1 THEN 'Brasil'
         WHEN IdPais = 2 THEN 'Portugal'
         ELSE 'Outro'
-     END) AS Pais
+    END) AS Pais
 FROM Equipa;
 
--- View 2:
-CREATE VIEW ListaPatrocinadores AS
-SELECT 
-    Equipa.NomeEquipa,
-    Patrocinador.Nome AS NomePatrocinador
-FROM Patrocina
-JOIN Equipa ON Patrocina.IdEquipa = Equipa.IdEquipa
-JOIN Patrocinador ON Patrocina.IdPatrocinador = Patrocinador.IdPatrocinador;
-
--- View 3:
+-- View 2: AtletasStatus
 CREATE VIEW AtletasStatus AS
 SELECT
     Atleta.Nome,
@@ -268,11 +309,11 @@ SELECT
     (CASE
         WHEN TIMESTAMPDIFF(YEAR, FichaTecnica.DataNascimento, CURDATE()) > 18 THEN 'Senior'
         ELSE 'Junior'
-     END) AS Categoria
+    END) AS Categoria
 FROM Atleta
 JOIN FichaTecnica ON Atleta.IdPessoa = FichaTecnica.IdPessoa;
 
--- View 4:
+-- View 3: MediaIdadeEquipa
 CREATE OR REPLACE VIEW MediaIdadeEquipa AS
 SELECT 
     Equipa.IdEquipa,
@@ -283,7 +324,7 @@ JOIN FichaTecnica ON Atleta.IdPessoa = FichaTecnica.IdPessoa
 JOIN Equipa ON Atleta.IdEquipa = Equipa.IdEquipa
 GROUP BY Equipa.IdEquipa, Equipa.NomeEquipa;
 
--- View 5:
+-- View 4: MediaAlturaDeTodasEquipa
 CREATE VIEW MediaAlturaDeTodasEquipa AS
 SELECT 
     Equipa.IdEquipa,
@@ -291,4 +332,3 @@ SELECT
     MediaAlturaEquipa(Equipa.IdEquipa) AS MediaAltura
 FROM 
     Equipa;
-    

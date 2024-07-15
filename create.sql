@@ -6,7 +6,6 @@ DROP DATABASE IF EXISTS Volei;
 CREATE DATABASE Volei;
 USE Volei;
 
-
 -- Tabela: Pais
 CREATE TABLE Pais (
     IdPais INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,13 +33,21 @@ CREATE TABLE Resultado (
     Descricao VARCHAR(255) NOT NULL
 );
 
+-- Tabela: Patrocinador
+CREATE TABLE Patrocinador (
+    IdPatrocinador INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(100) NOT NULL UNIQUE
+);
+
 -- Tabela: Equipa
 CREATE TABLE Equipa (
     IdEquipa INT AUTO_INCREMENT PRIMARY KEY,
     NomeEquipa VARCHAR(100) NOT NULL,
     IdadeDaEquipa INT,
     IdPais INT,
-    FOREIGN KEY (IdPais) REFERENCES Pais(IdPais)
+    IdPatrocinador INT,
+    FOREIGN KEY (IdPais) REFERENCES Pais(IdPais),
+    FOREIGN KEY (IdPatrocinador) REFERENCES Patrocinador(IdPatrocinador)
 );
 
 -- Tabela: Evento
@@ -55,10 +62,12 @@ CREATE TABLE Evento (
     IdResultado INT,
     IdEntidade_Organizadora INT,
     IdPais INT,
+    IdPatrocinador INT,
     FOREIGN KEY (IdEstadio) REFERENCES Estadio(IdEstadio),
     FOREIGN KEY (IdResultado) REFERENCES Resultado(IdResultado),
     FOREIGN KEY (IdEntidade_Organizadora) REFERENCES Entidade_Organizadora(IdEntidade_Organizadora),
-    FOREIGN KEY (IdPais) REFERENCES Pais(IdPais)
+    FOREIGN KEY (IdPais) REFERENCES Pais(IdPais),
+    FOREIGN KEY (IdPatrocinador) REFERENCES Patrocinador(IdPatrocinador)
 );
 
 -- Tabela: Pessoa
@@ -94,6 +103,7 @@ CREATE TABLE Treinador (
 -- Tabela: Atleta
 CREATE TABLE Atleta (
     IdAtleta INT AUTO_INCREMENT PRIMARY KEY,
+    TipoParticipante VARCHAR(50),
     Nome VARCHAR(100) NOT NULL,
     Posicao VARCHAR(50),
     NumeroCamiseta INT,
@@ -101,29 +111,5 @@ CREATE TABLE Atleta (
     IdPessoa INT,
     IdEquipa INT,
     FOREIGN KEY (IdPessoa) REFERENCES Pessoa(IdPessoa),
-    FOREIGN KEY (IdEquipa) REFERENCES Equipa(IdEquipa)
-);
-
--- Tabela: Participa
-CREATE TABLE Participa (
-    IdParticipa INT AUTO_INCREMENT PRIMARY KEY,
-    IdEquipa INT,
-    IdEvento INT,
-    FOREIGN KEY (IdEquipa) REFERENCES Equipa(IdEquipa),
-    FOREIGN KEY (IdEvento) REFERENCES Evento(IdEvento)
-);
-
--- Tabela: Patrocinador
-CREATE TABLE Patrocinador (
-    IdPatrocinador INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100) NOT NULL UNIQUE
-);
-
--- Tabela: Patrocina
-CREATE TABLE Patrocina (
-    IdPatrocina INT AUTO_INCREMENT PRIMARY KEY,
-    IdPatrocinador INT,
-    IdEquipa INT,
-    FOREIGN KEY (IdPatrocinador) REFERENCES Patrocinador(IdPatrocinador),
     FOREIGN KEY (IdEquipa) REFERENCES Equipa(IdEquipa)
 );

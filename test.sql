@@ -1,52 +1,41 @@
+USE Volei;
 
-SELECT * FROM Pais; -- Tabela Pais
-SELECT * FROM Entidade_Organizadora; -- Tabela Entidade_Organizadora
-SELECT * FROM Estadio; -- Tabela Estadio
-SELECT * FROM Resultado; -- Tabela Resultado
-SELECT * FROM Evento; -- Tabela Evento
-SELECT * FROM Pessoa; -- Tabela Pessoa
-SELECT * FROM FichaTecnica; -- Tabela FichaTecnica
-SELECT * FROM Treinador; -- Tabela Treinador
-SELECT * FROM Atleta; -- Tabela Atleta
-SELECT * FROM Equipa; -- Tabela Equipa
-SELECT * FROM Participa; -- Tabela Participa
-SELECT * FROM Patrocinador;  -- Tabela Patrocinador
-SELECT * FROM Patrocina; -- Tabela Patrocina
+-- Testar inserção de dados nas tabelas
+SELECT * FROM Pais;
+SELECT * FROM Entidade_Organizadora;
+SELECT * FROM Estadio;
+SELECT * FROM Resultado;
+SELECT * FROM Pessoa;
+SELECT * FROM FichaTecnica;
+SELECT * FROM Treinador;
+SELECT * FROM Equipa;
+SELECT * FROM Atleta;
+SELECT * FROM Evento;
+SELECT * FROM Patrocinador;
 
--- View 1: EquipePorPais
+-- Testar funções armazenadas
+SELECT MediaAlturaEquipa(1) AS MediaAlturaEquipa1;
+SELECT TotalAtletasEquipa(1) AS TotalAtletasEquipa1;
+
+-- Teste dos Procedures
+CALL ListarAtletasPorEquipa(1);
+CALL MostrarMediaAlturaEquipa(1);
+CALL ListarEventosPorEntidade(1);
+CALL InserirNovoEstadio('Novo Estádio', 15000);
+CALL InserirNovoTreinador('Novo Treinador', 'Nova Especialidade', 5, 1);
+CALL PopularEstadio('Estádio Teste', 5000);
+CALL PopularPessoa('Teste Pessoa', 'Cidade Teste', 'Rua Teste', 'Bairro Teste');
+CALL PopularAtleta('Teste Atleta', 'Central', 99, FALSE, 1, 1);
+CALL PopularTreinador('Teste Treinador', 'Especialidade Teste', 3, 1);
+CALL PopularPatrocinador('Teste Patrocinador');
+CALL LigarPatrocinadorEquipa('Teste Patrocinador', 1);
+CALL LigarPatrocinadorEvento('Teste Patrocinador', 1);
+CALL PopularEntidadeOrganizadora('Teste Entidade', 1);
+CALL PopularFichaTecnica('2000-01-01', 1.90, 80, 1);
+
+-- Testar views
 SELECT * FROM EquipePorPais;
-
--- View 2: ListaPatrocinadores
-SELECT * FROM ListaPatrocinadores;
-
--- View 3: AtletasStatus
 SELECT * FROM AtletasStatus;
-
--- View 4: MediaIdadeEquipa
 SELECT * FROM MediaIdadeEquipa;
-
--- View 5: Media Altura de todas as Equipa
 SELECT * FROM MediaAlturaDeTodasEquipa;
 
--- Stored Function 1: Function MediaAlturaEquipa
-SELECT MediaAlturaEquipa(1) AS "Media de Altura";
-SELECT MediaAlturaEquipa(2) AS "Media de Altura da Equipe 2";
-SELECT MediaAlturaEquipa(3) AS "Media de Altura da Equipe 3";
-
--- Stored Function 2: Function TotalAtletasEquipa
-SELECT TotalAtletasEquipa(1) AS "Total de Atletas";
-
--- Stored Procedure 1: ListarAtletasPorEquipa
-CALL ListarAtletasPorEquipa(1);
-
--- Stored Procedure 2: MostrarMediaAlturaEquipa
-CALL MostrarMediaAlturaEquipa(1);
-
--- Stored Procedure 3: ListarEventosPorEntidade
-CALL ListarEventosPorEntidade(1);
-
--- Stored Procedure 4: Verificar a Stored Procedure e dispara um Trigger
-CALL InserirNovoEstadio('Novo Estadio', 30000);
-
--- Stored Procedure 4: Verificar a Stored Procedure e retorna mensagem de erro
-CALL InserirNovoTreinador('Treinador Teste', 'Especialidade Teste', 10, 1);

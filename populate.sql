@@ -1,4 +1,3 @@
-
 -- Inserir dados na tabela Pais
 INSERT INTO Pais (Nome) VALUES 
 ('Brasil'),
@@ -44,7 +43,6 @@ CALL PopularEntidadeOrganizadora('Federación Colombiana de Voleibol', 18);
 CALL PopularEntidadeOrganizadora('Federación Uruguaya de Voleibol', 19);
 CALL PopularEntidadeOrganizadora('Federación Paraguaya de Voleibol', 20);
 
-
 -- Inserir dados na tabela Estadio
 CALL PopularEstadio('Ginásio do Maracanãzinho', 12000);
 CALL PopularEstadio('Pavilhão Atlântico', 20000);
@@ -81,7 +79,6 @@ INSERT INTO Resultado (Descricao) VALUES
 ('Adiado');
 
 -- Inserir dados na tabela Pessoa
-
 CALL PopularPessoa('Carlos Silva', 'Cidade A', 'Rua A', 'Bairro A');
 CALL PopularPessoa('Ana Pereira', 'Cidade B', 'Rua B', 'Bairro B');
 CALL PopularPessoa('Marcos Almeida', 'Cidade C', 'Rua C', 'Bairro C');
@@ -202,6 +199,16 @@ CALL PopularPessoa('Ivan Ivanov', 'Cidade DM', 'Rua DM', 'Bairro DM');
 CALL PopularPessoa('Olga Smirnova', 'Cidade DN', 'Rua DN', 'Bairro DN');
 CALL PopularPessoa('Li Wei', 'Cidade DO', 'Rua DO', 'Bairro DO');
 CALL PopularPessoa('Wang Fang', 'Cidade DP', 'Rua DP', 'Bairro DP');
+CALL PopularPessoa('Carlos Silva', 'Cidade A', 'Rua A', 'Bairro A');
+CALL PopularPessoa('Ana Pereira', 'Cidade B', 'Rua B', 'Bairro B');
+CALL PopularPessoa('Marcos Almeida', 'Cidade C', 'Rua C', 'Bairro C');
+CALL PopularPessoa('Joana Costa', 'Cidade D', 'Rua D', 'Bairro D');
+CALL PopularPessoa('Luis Santos', 'Cidade E', 'Rua E', 'Bairro E');
+CALL PopularPessoa('Maria Gomez', 'Cidade F', 'Rua F', 'Bairro F');
+CALL PopularPessoa('Pedro Martinez', 'Cidade G', 'Rua G', 'Bairro G');
+CALL PopularPessoa('Lucia Fernandez', 'Cidade H', 'Rua H', 'Bairro H');
+CALL PopularPessoa('Antonio Rossi', 'Cidade I', 'Rua I', 'Bairro I');
+CALL PopularPessoa('Sofia Bianchi', 'Cidade J', 'Rua J', 'Bairro J');
 
 -- Inserir dados na tabela FichaTecnica
 CALL PopularFichaTecnica('1990-01-01', 1.85, 80, 1);
@@ -324,7 +331,16 @@ CALL PopularFichaTecnica('1991-05-17', 1.84, 73, 117);
 CALL PopularFichaTecnica('1992-06-18', 1.79, 68, 118);
 CALL PopularFichaTecnica('1990-07-19', 1.86, 75, 119);
 CALL PopularFichaTecnica('1993-08-20', 1.80, 69, 120);
-
+CALL PopularFichaTecnica('1990-01-01', 1.85, 80, 121);
+CALL PopularFichaTecnica('1992-02-02', 1.78, 65, 122);
+CALL PopularFichaTecnica('1988-03-03', 1.90, 75, 123);
+CALL PopularFichaTecnica('1991-04-04', 1.82, 70, 124);
+CALL PopularFichaTecnica('1993-05-05', 1.75, 68, 125);
+CALL PopularFichaTecnica('1987-06-06', 1.88, 77, 126);
+CALL PopularFichaTecnica('1990-07-07', 1.84, 72, 127);
+CALL PopularFichaTecnica('1991-08-08', 1.76, 69, 128);
+CALL PopularFichaTecnica('1989-09-09', 1.92, 80, 129);
+CALL PopularFichaTecnica('1994-10-10', 1.78, 66, 130);
 
 -- Inserir dados na tabela Treinador
 CALL PopularTreinador('Carlos Silva', 'Técnico Principal', 10, 1);
@@ -347,6 +363,11 @@ CALL PopularTreinador('Ivan Ivanov', 'Técnico Principal', 12, 17);
 CALL PopularTreinador('Olga Smirnova', 'Auxiliar Técnico', 6, 18);
 CALL PopularTreinador('Li Wei', 'Preparador Físico', 10, 19);
 CALL PopularTreinador('Wang Fang', 'Analista de Desempenho', 7, 20);
+CALL PopularTreinador('Carlos Silva', 'Técnico Principal', 10, 1);
+CALL PopularTreinador('Ana Pereira', 'Auxiliar Técnico', 8, 2);
+CALL PopularTreinador('Marcos Almeida', 'Preparador Físico', 12, 3);
+CALL PopularTreinador('Joana Costa', 'Analista de Desempenho', 5, 4);
+CALL PopularTreinador('Luis Santos', 'Técnico Principal', 15, 5);
 
 -- Inserir dados na tabela Equipa
 INSERT INTO Equipa (NomeEquipa, IdadeDaEquipa, IdPais) VALUES 
@@ -369,176 +390,157 @@ INSERT INTO Equipa (NomeEquipa, IdadeDaEquipa, IdPais) VALUES
 ('Equipe Q', 12, 17),
 ('Equipe R', 6, 18),
 ('Equipe S', 10, 19),
-('Equipe T', 7, 20);
+('Equipe T', 7, 20),
+('Equipe Alpha', 10, 1),
+('Equipe Beta', 8, 2),
+('Equipe Gamma', 12, 3),
+('Equipe Delta', 15, 4),
+('Equipe Epsilon', 6, 5);
+
 
 -- Inserir dados na tabela Atleta
-CALL PopularAtleta('Carlos Silva', 'Levantador', 1, TRUE, 1, 1);
-CALL PopularAtleta('Ana Pereira', 'Oposto', 2, FALSE, 2, 1);
-CALL PopularAtleta('Marcos Almeida', 'Ponteiro', 3, FALSE, 3, 1);
-CALL PopularAtleta('Joana Costa', 'Central', 4, FALSE, 4, 1);
-CALL PopularAtleta('Luis Santos', 'Líbero', 5, TRUE, 5, 1);
-CALL PopularAtleta('Maria Gomez', 'Ponteiro', 6, FALSE, 6, 1);
-CALL PopularAtleta('Pedro Martinez', 'Levantador', 7, TRUE, 7, 2);
-CALL PopularAtleta('Lucia Fernandez', 'Oposto', 8, FALSE, 8, 2);
-CALL PopularAtleta('Antonio Rossi', 'Ponteiro', 9, FALSE, 9, 2);
-CALL PopularAtleta('Sofia Bianchi', 'Central', 10, FALSE, 10, 2);
-CALL PopularAtleta('Jean Dupont', 'Líbero', 11, TRUE, 11, 2);
-CALL PopularAtleta('Isabelle Martin', 'Ponteiro', 12, FALSE, 12, 2);
-CALL PopularAtleta('Hans Müller', 'Levantador', 13, TRUE, 13, 3);
-CALL PopularAtleta('Klaus Schmidt', 'Oposto', 14, FALSE, 14, 3);
-CALL PopularAtleta('Jan Jansen', 'Ponteiro', 15, FALSE, 15, 3);
-CALL PopularAtleta('Emma de Vries', 'Central', 16, FALSE, 16, 3);
-CALL PopularAtleta('Ivan Ivanov', 'Líbero', 17, TRUE, 17, 3);
-CALL PopularAtleta('Olga Smirnova', 'Ponteiro', 18, FALSE, 18, 3);
-CALL PopularAtleta('Li Wei', 'Levantador', 19, TRUE, 19, 4);
-CALL PopularAtleta('Wang Fang', 'Oposto', 20, FALSE, 20, 4);
-CALL PopularAtleta('Carlos Silva', 'Ponteiro', 21, FALSE, 21, 4);
-CALL PopularAtleta('Ana Pereira', 'Central', 22, FALSE, 22, 4);
-CALL PopularAtleta('Marcos Almeida', 'Líbero', 23, TRUE, 23, 4);
-CALL PopularAtleta('Joana Costa', 'Ponteiro', 24, FALSE, 24, 4);
-CALL PopularAtleta('Luis Santos', 'Levantador', 25, TRUE, 25, 5);
-CALL PopularAtleta('Maria Gomez', 'Oposto', 26, FALSE, 26, 5);
-CALL PopularAtleta('Pedro Martinez', 'Ponteiro', 27, FALSE, 27, 5);
-CALL PopularAtleta('Lucia Fernandez', 'Central', 28, FALSE, 28, 5);
-CALL PopularAtleta('Antonio Rossi', 'Líbero', 29, TRUE, 29, 5);
-CALL PopularAtleta('Sofia Bianchi', 'Ponteiro', 30, FALSE, 30, 5);
-CALL PopularAtleta('Jean Dupont', 'Levantador', 31, TRUE, 31, 6);
-CALL PopularAtleta('Isabelle Martin', 'Oposto', 32, FALSE, 32, 6);
-CALL PopularAtleta('Hans Müller', 'Ponteiro', 33, FALSE, 33, 6);
-CALL PopularAtleta('Klaus Schmidt', 'Central', 34, FALSE, 34, 6);
-CALL PopularAtleta('Jan Jansen', 'Líbero', 35, TRUE, 35, 6);
-CALL PopularAtleta('Emma de Vries', 'Ponteiro', 36, FALSE, 36, 6);
-CALL PopularAtleta('Ivan Ivanov', 'Levantador', 37, TRUE, 37, 7);
-CALL PopularAtleta('Olga Smirnova', 'Oposto', 38, FALSE, 38, 7);
-CALL PopularAtleta('Li Wei', 'Ponteiro', 39, FALSE, 39, 7);
-CALL PopularAtleta('Wang Fang', 'Central', 40, FALSE, 40, 7);
-CALL PopularAtleta('Carlos Silva', 'Líbero', 41, TRUE, 41, 7);
-CALL PopularAtleta('Ana Pereira', 'Ponteiro', 42, FALSE, 42, 7);
-CALL PopularAtleta('Marcos Almeida', 'Levantador', 43, TRUE, 43, 8);
-CALL PopularAtleta('Joana Costa', 'Oposto', 44, FALSE, 44, 8);
-CALL PopularAtleta('Luis Santos', 'Ponteiro', 45, FALSE, 45, 8);
-CALL PopularAtleta('Maria Gomez', 'Central', 46, FALSE, 46, 8);
-CALL PopularAtleta('Pedro Martinez', 'Líbero', 47, TRUE, 47, 8);
-CALL PopularAtleta('Lucia Fernandez', 'Ponteiro', 48, FALSE, 48, 8);
-CALL PopularAtleta('Antonio Rossi', 'Levantador', 49, TRUE, 49, 9);
-CALL PopularAtleta('Sofia Bianchi', 'Oposto', 50, FALSE, 50, 9);
-CALL PopularAtleta('Jean Dupont', 'Ponteiro', 51, FALSE, 51, 9);
-CALL PopularAtleta('Isabelle Martin', 'Central', 52, FALSE, 52, 9);
-CALL PopularAtleta('Hans Müller', 'Líbero', 53, TRUE, 53, 9);
-CALL PopularAtleta('Klaus Schmidt', 'Ponteiro', 54, FALSE, 54, 9);
-CALL PopularAtleta('Jan Jansen', 'Levantador', 55, TRUE, 55, 10);
-CALL PopularAtleta('Emma de Vries', 'Oposto', 56, FALSE, 56, 10);
-CALL PopularAtleta('Ivan Ivanov', 'Ponteiro', 57, FALSE, 57, 10);
-CALL PopularAtleta('Olga Smirnova', 'Central', 58, FALSE, 58, 10);
-CALL PopularAtleta('Li Wei', 'Líbero', 59, TRUE, 59, 10);
-CALL PopularAtleta('Wang Fang', 'Ponteiro', 60, FALSE, 60, 10);
-CALL PopularAtleta('Carlos Silva', 'Levantador', 61, TRUE, 61, 11);
-CALL PopularAtleta('Ana Pereira', 'Oposto', 62, FALSE, 62, 11);
-CALL PopularAtleta('Marcos Almeida', 'Ponteiro', 63, FALSE, 63, 11);
-CALL PopularAtleta('Joana Costa', 'Central', 64, FALSE, 64, 11);
-CALL PopularAtleta('Luis Santos', 'Líbero', 65, TRUE, 65, 11);
-CALL PopularAtleta('Maria Gomez', 'Ponteiro', 66, FALSE, 66, 11);
-CALL PopularAtleta('Pedro Martinez', 'Levantador', 67, TRUE, 67, 12);
-CALL PopularAtleta('Lucia Fernandez', 'Oposto', 68, FALSE, 68, 12);
-CALL PopularAtleta('Antonio Rossi', 'Ponteiro', 69, FALSE, 69, 12);
-CALL PopularAtleta('Sofia Bianchi', 'Central', 70, FALSE, 70, 12);
-CALL PopularAtleta('Jean Dupont', 'Líbero', 71, TRUE, 71, 12);
-CALL PopularAtleta('Isabelle Martin', 'Ponteiro', 72, FALSE, 72, 12);
-CALL PopularAtleta('Hans Müller', 'Levantador', 73, TRUE, 73, 13);
-CALL PopularAtleta('Klaus Schmidt', 'Oposto', 74, FALSE, 74, 13);
-CALL PopularAtleta('Jan Jansen', 'Ponteiro', 75, FALSE, 75, 13);
-CALL PopularAtleta('Emma de Vries', 'Central', 76, FALSE, 76, 13);
-CALL PopularAtleta('Ivan Ivanov', 'Líbero', 77, TRUE, 77, 13);
-CALL PopularAtleta('Olga Smirnova', 'Ponteiro', 78, FALSE, 78, 13);
-CALL PopularAtleta('Li Wei', 'Levantador', 79, TRUE, 79, 14);
-CALL PopularAtleta('Wang Fang', 'Oposto', 80, FALSE, 80, 14);
-CALL PopularAtleta('Carlos Silva', 'Ponteiro', 81, FALSE, 81, 14);
-CALL PopularAtleta('Ana Pereira', 'Central', 82, FALSE, 82, 14);
-CALL PopularAtleta('Marcos Almeida', 'Líbero', 83, TRUE, 83, 14);
-CALL PopularAtleta('Joana Costa', 'Ponteiro', 84, FALSE, 84, 14);
-CALL PopularAtleta('Luis Santos', 'Levantador', 85, TRUE, 85, 15);
-CALL PopularAtleta('Maria Gomez', 'Oposto', 86, FALSE, 86, 15);
-CALL PopularAtleta('Pedro Martinez', 'Ponteiro', 87, FALSE, 87, 15);
-CALL PopularAtleta('Lucia Fernandez', 'Central', 88, FALSE, 88, 15);
-CALL PopularAtleta('Antonio Rossi', 'Líbero', 89, TRUE, 89, 15);
-CALL PopularAtleta('Sofia Bianchi', 'Ponteiro', 90, FALSE, 90, 15);
-CALL PopularAtleta('Jean Dupont', 'Levantador', 91, TRUE, 91, 16);
-CALL PopularAtleta('Isabelle Martin', 'Oposto', 92, FALSE, 92, 16);
-CALL PopularAtleta('Hans Müller', 'Ponteiro', 93, FALSE, 93, 16);
-CALL PopularAtleta('Klaus Schmidt', 'Central', 94, FALSE, 94, 16);
-CALL PopularAtleta('Jan Jansen', 'Líbero', 95, TRUE, 95, 16);
-CALL PopularAtleta('Emma de Vries', 'Ponteiro', 96, FALSE, 96, 16);
-CALL PopularAtleta('Ivan Ivanov', 'Levantador', 97, TRUE, 97, 17);
-CALL PopularAtleta('Olga Smirnova', 'Oposto', 98, FALSE, 98, 17);
-CALL PopularAtleta('Li Wei', 'Ponteiro', 99, FALSE, 99, 17);
-CALL PopularAtleta('Wang Fang', 'Central', 100, FALSE, 100, 17);
-CALL PopularAtleta('Carlos Silva', 'Líbero', 101, TRUE, 101, 17);
-CALL PopularAtleta('Ana Pereira', 'Ponteiro', 102, FALSE, 102, 17);
-CALL PopularAtleta('Marcos Almeida', 'Levantador', 103, TRUE, 103, 18);
-CALL PopularAtleta('Joana Costa', 'Oposto', 104, FALSE, 104, 18);
-CALL PopularAtleta('Luis Santos', 'Ponteiro', 105, FALSE, 105, 18);
-CALL PopularAtleta('Maria Gomez', 'Central', 106, FALSE, 106, 18);
-CALL PopularAtleta('Pedro Martinez', 'Líbero', 107, TRUE, 107, 18);
-CALL PopularAtleta('Lucia Fernandez', 'Ponteiro', 108, FALSE, 108, 18);
-CALL PopularAtleta('Antonio Rossi', 'Levantador', 109, TRUE, 109, 19);
-CALL PopularAtleta('Sofia Bianchi', 'Oposto', 110, FALSE, 110, 19);
-CALL PopularAtleta('Jean Dupont', 'Ponteiro', 111, FALSE, 111, 19);
-CALL PopularAtleta('Isabelle Martin', 'Central', 112, FALSE, 112, 19);
-CALL PopularAtleta('Hans Müller', 'Líbero', 113, TRUE, 113, 19);
-CALL PopularAtleta('Klaus Schmidt', 'Ponteiro', 114, FALSE, 114, 19);
-CALL PopularAtleta('Jan Jansen', 'Levantador', 115, TRUE, 115, 20);
-CALL PopularAtleta('Emma de Vries', 'Oposto', 116, FALSE, 116, 20);
-CALL PopularAtleta('Ivan Ivanov', 'Ponteiro', 117, FALSE, 117, 20);
-CALL PopularAtleta('Olga Smirnova', 'Central', 118, FALSE, 118, 20);
-CALL PopularAtleta('Li Wei', 'Líbero', 119, TRUE, 119, 20);
-CALL PopularAtleta('Wang Fang', 'Ponteiro', 120, FALSE, 120, 20);
+CALL PopularAtleta('Federado', 'Carlos Silva', 'Levantador', 1, TRUE, 1, 1);
+CALL PopularAtleta('Federado', 'Ana Pereira', 'Oposto', 2, FALSE, 2, 1);
+CALL PopularAtleta('Federado', 'Marcos Almeida', 'Ponteiro', 3, FALSE, 3, 1);
+CALL PopularAtleta('Federado', 'Joana Costa', 'Central', 4, FALSE, 4, 1);
+CALL PopularAtleta('Federado', 'Luis Santos', 'Líbero', 5, TRUE, 5, 1);
+CALL PopularAtleta('Federado', 'Maria Gomez', 'Ponteiro', 6, FALSE, 6, 1);
+CALL PopularAtleta('Federado', 'Pedro Martinez', 'Levantador', 7, TRUE, 7, 2);
+CALL PopularAtleta('Federado', 'Lucia Fernandez', 'Oposto', 8, FALSE, 8, 2);
+CALL PopularAtleta('Federado', 'Antonio Rossi', 'Ponteiro', 9, FALSE, 9, 2);
+CALL PopularAtleta('Federado', 'Sofia Bianchi', 'Central', 10, FALSE, 10, 2);
+CALL PopularAtleta('Federado', 'Jean Dupont', 'Líbero', 11, TRUE, 11, 2);
+CALL PopularAtleta('Federado', 'Isabelle Martin', 'Ponteiro', 12, FALSE, 12, 2);
+CALL PopularAtleta('Federado', 'Hans Müller', 'Levantador', 13, TRUE, 13, 3);
+CALL PopularAtleta('Federado', 'Klaus Schmidt', 'Oposto', 14, FALSE, 14, 3);
+CALL PopularAtleta('Federado', 'Jan Jansen', 'Ponteiro', 15, FALSE, 15, 3);
+CALL PopularAtleta('Federado', 'Emma de Vries', 'Central', 16, FALSE, 16, 3);
+CALL PopularAtleta('Federado', 'Ivan Ivanov', 'Líbero', 17, TRUE, 17, 3);
+CALL PopularAtleta('Federado', 'Olga Smirnova', 'Ponteiro', 18, FALSE, 18, 3);
+CALL PopularAtleta('Federado', 'Li Wei', 'Levantador', 19, TRUE, 19, 4);
+CALL PopularAtleta('Federado', 'Wang Fang', 'Oposto', 20, FALSE, 20, 4);
+CALL PopularAtleta('Federado', 'Carlos Silva', 'Ponteiro', 21, FALSE, 21, 4);
+CALL PopularAtleta('Federado', 'Ana Pereira', 'Central', 22, FALSE, 22, 4);
+CALL PopularAtleta('Federado', 'Marcos Almeida', 'Líbero', 23, TRUE, 23, 4);
+CALL PopularAtleta('Federado', 'Joana Costa', 'Ponteiro', 24, FALSE, 24, 4);
+CALL PopularAtleta('Federado', 'Luis Santos', 'Levantador', 25, TRUE, 25, 5);
+CALL PopularAtleta('Federado', 'Maria Gomez', 'Oposto', 26, FALSE, 26, 5);
+CALL PopularAtleta('Federado', 'Pedro Martinez', 'Ponteiro', 27, FALSE, 27, 5);
+CALL PopularAtleta('Federado', 'Lucia Fernandez', 'Central', 28, FALSE, 28, 5);
+CALL PopularAtleta('Federado', 'Antonio Rossi', 'Líbero', 29, TRUE, 29, 5);
+CALL PopularAtleta('Federado', 'Sofia Bianchi', 'Ponteiro', 30, FALSE, 30, 5);
+CALL PopularAtleta('Federado', 'Jean Dupont', 'Levantador', 31, TRUE, 31, 6);
+CALL PopularAtleta('Federado', 'Isabelle Martin', 'Oposto', 32, FALSE, 32, 6);
+CALL PopularAtleta('Federado', 'Hans Müller', 'Ponteiro', 33, FALSE, 33, 6);
+CALL PopularAtleta('Federado', 'Klaus Schmidt', 'Central', 34, FALSE, 34, 6);
+CALL PopularAtleta('Federado', 'Jan Jansen', 'Líbero', 35, TRUE, 35, 6);
+CALL PopularAtleta('Federado', 'Emma de Vries', 'Ponteiro', 36, FALSE, 36, 6);
+CALL PopularAtleta('Federado', 'Ivan Ivanov', 'Levantador', 37, TRUE, 37, 7);
+CALL PopularAtleta('Federado', 'Olga Smirnova', 'Oposto', 38, FALSE, 38, 7);
+CALL PopularAtleta('Federado', 'Li Wei', 'Ponteiro', 39, FALSE, 39, 7);
+CALL PopularAtleta('Federado', 'Wang Fang', 'Central', 40, FALSE, 40, 7);
+CALL PopularAtleta('Federado', 'Carlos Silva', 'Líbero', 41, TRUE, 41, 7);
+CALL PopularAtleta('Federado', 'Ana Pereira', 'Ponteiro', 42, FALSE, 42, 7);
+CALL PopularAtleta('Federado', 'Marcos Almeida', 'Levantador', 43, TRUE, 43, 8);
+CALL PopularAtleta('Federado', 'Joana Costa', 'Oposto', 44, FALSE, 44, 8);
+CALL PopularAtleta('Federado', 'Luis Santos', 'Ponteiro', 45, FALSE, 45, 8);
+CALL PopularAtleta('Federado', 'Maria Gomez', 'Central', 46, FALSE, 46, 8);
+CALL PopularAtleta('Federado', 'Pedro Martinez', 'Líbero', 47, TRUE, 47, 8);
+CALL PopularAtleta('Federado', 'Lucia Fernandez', 'Ponteiro', 48, FALSE, 48, 8);
+CALL PopularAtleta('Federado', 'Antonio Rossi', 'Levantador', 49, TRUE, 49, 9);
+CALL PopularAtleta('Federado', 'Sofia Bianchi', 'Oposto', 50, FALSE, 50, 9);
+CALL PopularAtleta('Federado', 'Jean Dupont', 'Ponteiro', 51, FALSE, 51, 9);
+CALL PopularAtleta('Federado', 'Isabelle Martin', 'Central', 52, FALSE, 52, 9);
+CALL PopularAtleta('Federado', 'Hans Müller', 'Líbero', 53, TRUE, 53, 9);
+CALL PopularAtleta('Federado', 'Klaus Schmidt', 'Ponteiro', 54, FALSE, 54, 9);
+CALL PopularAtleta('Federado', 'Jan Jansen', 'Levantador', 55, TRUE, 55, 10);
+CALL PopularAtleta('Federado', 'Emma de Vries', 'Oposto', 56, FALSE, 56, 10);
+CALL PopularAtleta('Federado', 'Ivan Ivanov', 'Ponteiro', 57, FALSE, 57, 10);
+CALL PopularAtleta('Federado', 'Olga Smirnova', 'Central', 58, FALSE, 58, 10);
+CALL PopularAtleta('Federado', 'Li Wei', 'Líbero', 59, TRUE, 59, 10);
+CALL PopularAtleta('Federado', 'Wang Fang', 'Ponteiro', 60, FALSE, 60, 10);
+CALL PopularAtleta('Federado', 'Carlos Silva', 'Levantador', 61, TRUE, 61, 11);
+CALL PopularAtleta('Federado', 'Ana Pereira', 'Oposto', 62, FALSE, 62, 11);
+CALL PopularAtleta('Federado', 'Marcos Almeida', 'Ponteiro', 63, FALSE, 63, 11);
+CALL PopularAtleta('Federado', 'Joana Costa', 'Central', 64, FALSE, 64, 11);
+CALL PopularAtleta('Federado', 'Luis Santos', 'Líbero', 65, TRUE, 65, 11);
+CALL PopularAtleta('Federado', 'Maria Gomez', 'Ponteiro', 66, FALSE, 66, 11);
+CALL PopularAtleta('Federado', 'Pedro Martinez', 'Levantador', 67, TRUE, 67, 12);
+CALL PopularAtleta('Federado', 'Lucia Fernandez', 'Oposto', 68, FALSE, 68, 12);
+CALL PopularAtleta('Federado', 'Antonio Rossi', 'Ponteiro', 69, FALSE, 69, 12);
+CALL PopularAtleta('Federado', 'Sofia Bianchi', 'Central', 70, FALSE, 70, 12);
+CALL PopularAtleta('Federado', 'Jean Dupont', 'Líbero', 71, TRUE, 71, 12);
+CALL PopularAtleta('Federado', 'Isabelle Martin', 'Ponteiro', 72, FALSE, 72, 12);
+CALL PopularAtleta('Federado', 'Hans Müller', 'Levantador', 73, TRUE, 73, 13);
+CALL PopularAtleta('Federado', 'Klaus Schmidt', 'Oposto', 74, FALSE, 74, 13);
+CALL PopularAtleta('Federado', 'Jan Jansen', 'Ponteiro', 75, FALSE, 75, 13);
+CALL PopularAtleta('Federado', 'Emma de Vries', 'Central', 76, FALSE, 76, 13);
+CALL PopularAtleta('Federado', 'Ivan Ivanov', 'Líbero', 77, TRUE, 77, 13);
+CALL PopularAtleta('Federado', 'Olga Smirnova', 'Ponteiro', 78, FALSE, 78, 13);
+CALL PopularAtleta('Federado', 'Li Wei', 'Levantador', 79, TRUE, 79, 14);
+CALL PopularAtleta('Federado', 'Wang Fang', 'Oposto', 80, FALSE, 80, 14);
+CALL PopularAtleta('Federado', 'Carlos Silva', 'Ponteiro', 81, FALSE, 81, 14);
+CALL PopularAtleta('Federado', 'Ana Pereira', 'Central', 82, FALSE, 82, 14);
+CALL PopularAtleta('Federado', 'Marcos Almeida', 'Líbero', 83, TRUE, 83, 14);
+CALL PopularAtleta('Federado', 'Joana Costa', 'Ponteiro', 84, FALSE, 84, 14);
+CALL PopularAtleta('Federado', 'Luis Santos', 'Levantador', 85, TRUE, 85, 15);
+CALL PopularAtleta('Federado', 'Maria Gomez', 'Oposto', 86, FALSE, 86, 15);
+CALL PopularAtleta('Federado', 'Pedro Martinez', 'Ponteiro', 87, FALSE, 87, 15);
+CALL PopularAtleta('Federado', 'Lucia Fernandez', 'Central', 88, FALSE, 88, 15);
+CALL PopularAtleta('Federado', 'Antonio Rossi', 'Líbero', 89, TRUE, 89, 15);
+CALL PopularAtleta('Federado', 'Sofia Bianchi', 'Ponteiro', 90, FALSE, 90, 15);
+CALL PopularAtleta('Federado', 'Jean Dupont', 'Levantador', 91, TRUE, 91, 16);
+CALL PopularAtleta('Federado', 'Isabelle Martin', 'Oposto', 92, FALSE, 92, 16);
+CALL PopularAtleta('Federado', 'Hans Müller', 'Ponteiro', 93, FALSE, 93, 16);
+CALL PopularAtleta('Federado', 'Klaus Schmidt', 'Central', 94, FALSE, 94, 16);
+CALL PopularAtleta('Federado', 'Jan Jansen', 'Líbero', 95, TRUE, 95, 16);
+CALL PopularAtleta('Federado', 'Emma de Vries', 'Ponteiro', 96, FALSE, 96, 16);
+CALL PopularAtleta('Federado', 'Ivan Ivanov', 'Levantador', 97, TRUE, 97, 17);
+CALL PopularAtleta('Federado', 'Olga Smirnova', 'Oposto', 98, FALSE, 98, 17);
+CALL PopularAtleta('Federado', 'Li Wei', 'Ponteiro', 99, FALSE, 99, 17);
+CALL PopularAtleta('Federado', 'Wang Fang', 'Central', 100, FALSE, 100, 17);
+CALL PopularAtleta('Federado', 'Carlos Silva', 'Líbero', 101, TRUE, 101, 17);
+CALL PopularAtleta('Federado', 'Ana Pereira', 'Ponteiro', 102, FALSE, 102, 17);
+CALL PopularAtleta('Federado', 'Marcos Almeida', 'Levantador', 103, TRUE, 103, 18);
+CALL PopularAtleta('Federado', 'Joana Costa', 'Oposto', 104, FALSE, 104, 18);
+CALL PopularAtleta('Federado', 'Luis Santos', 'Ponteiro', 105, FALSE, 105, 18);
+CALL PopularAtleta('Federado', 'Maria Gomez', 'Central', 106, FALSE, 106, 18);
+CALL PopularAtleta('Federado', 'Pedro Martinez', 'Líbero', 107, TRUE, 107, 18);
+CALL PopularAtleta('Federado', 'Lucia Fernandez', 'Ponteiro', 108, FALSE, 108, 18);
+CALL PopularAtleta('Federado', 'Antonio Rossi', 'Levantador', 109, TRUE, 109, 19);
+CALL PopularAtleta('Federado', 'Sofia Bianchi', 'Oposto', 110, FALSE, 110, 19);
+CALL PopularAtleta('Federado', 'Jean Dupont', 'Ponteiro', 111, FALSE, 111, 19);
+CALL PopularAtleta('Federado', 'Isabelle Martin', 'Central', 112, FALSE, 112, 19);
+CALL PopularAtleta('Federado', 'Hans Müller', 'Líbero', 113, TRUE, 113, 19);
+CALL PopularAtleta('Federado', 'Klaus Schmidt', 'Ponteiro', 114, FALSE, 114, 19);
+CALL PopularAtleta('Federado', 'Jan Jansen', 'Levantador', 115, TRUE, 115, 20);
+CALL PopularAtleta('Federado', 'Emma de Vries', 'Oposto', 116, FALSE, 116, 20);
+CALL PopularAtleta('Federado', 'Ivan Ivanov', 'Ponteiro', 117, FALSE, 117, 20);
+CALL PopularAtleta('Federado', 'Olga Smirnova', 'Central', 118, FALSE, 118, 20);
+CALL PopularAtleta('Federado', 'Li Wei', 'Líbero', 119, TRUE, 119, 20);
+CALL PopularAtleta('Federado', 'Wang Fang', 'Ponteiro', 120, FALSE, 120, 20);
+CALL PopularAtleta('Federado', 'Carlos Silva', 'Levantador', 1, TRUE, 1, 1);
+CALL PopularAtleta('Federado', 'Ana Pereira', 'Oposto', 2, FALSE, 2, 1);
+CALL PopularAtleta('Federado', 'Marcos Almeida', 'Ponteiro', 3, FALSE, 3, 2);
+CALL PopularAtleta('Federado', 'Joana Costa', 'Central', 4, FALSE, 4, 2);
+CALL PopularAtleta('Federado', 'Luis Santos', 'Líbero', 5, TRUE, 5, 3);
+CALL PopularAtleta('Federado', 'Maria Gomez', 'Ponteiro', 6, FALSE, 6, 3);
+CALL PopularAtleta('Federado', 'Pedro Martinez', 'Levantador', 7, TRUE, 7, 4);
+CALL PopularAtleta('Federado', 'Lucia Fernandez', 'Oposto', 8, FALSE, 8, 4);
+CALL PopularAtleta('Federado', 'Antonio Rossi', 'Ponteiro', 9, FALSE, 9, 5);
+CALL PopularAtleta('Federado', 'Sofia Bianchi', 'Central', 10, FALSE, 10, 5);
+CALL PopularAtleta('João Silva', 'Casual', 'Levantador', 0, FALSE, 101, NULL);
+CALL PopularAtleta('Maria Oliveira', 'Federado', 'Oposto', 0, FALSE, 102, NULL);
+CALL PopularAtleta('Carlos Pereira', 'Profissional', 'Ponteiro', 0, FALSE, 103, NULL);
+CALL PopularAtleta('Ana Martins', 'Casual', 'Central', 0, FALSE, 104, NULL);
+CALL PopularAtleta('José Costa', 'Federado', 'Líbero', 0, FALSE, 105, NULL);
+CALL PopularAtleta('Fernanda Almeida', 'Profissional', 'Ponteiro', 0, FALSE, 106, NULL);
+CALL PopularAtleta('Paulo Santos', 'Casual', 'Levantador', 0, FALSE, 107, NULL);
+CALL PopularAtleta('Lucas Rodrigues', 'Federado', 'Oposto', 0, FALSE, 108, NULL);
+CALL PopularAtleta('Carla Fernandes', 'Profissional', 'Ponteiro', 0, FALSE, 109, NULL);
+CALL PopularAtleta('Ricardo Lima', 'Casual', 'Central', 0, FALSE, 110, NULL);
 
 
--- Inserir dados na tabela Evento
-INSERT INTO Evento (Nome, NomeEvento, Jornada, Hora, Modalidade, IdEstadio, IdResultado, IdEntidade_Organizadora, IdPais) VALUES
-('Evento 1', 'Torneio 1', '1', '12:00:00', 'Vôlei', 1, 1, 1, 1),
-('Evento 2', 'Torneio 2', '2', '13:00:00', 'Vôlei', 2, 2, 2, 2),
-('Evento 3', 'Torneio 3', '3', '14:00:00', 'Vôlei', 3, 3, 3, 3),
-('Evento 4', 'Torneio 4', '4', '15:00:00', 'Vôlei', 4, 4, 4, 4),
-('Evento 5', 'Torneio 5', '5', '16:00:00', 'Vôlei', 5, 5, 5, 5),
-('Evento 6', 'Torneio 6', '6', '17:00:00', 'Vôlei', 6, 6, 6, 6),
-('Evento 7', 'Torneio 7', '7', '18:00:00', 'Vôlei', 7, 7, 7, 7),
-('Evento 8', 'Torneio 8', '8', '19:00:00', 'Vôlei', 8, 8, 8, 8),
-('Evento 9', 'Torneio 9', '9', '20:00:00', 'Vôlei', 9, 9, 9, 9),
-('Evento 10', 'Torneio 10', '10', '21:00:00', 'Vôlei', 10, 10, 10, 10),
-('Evento 11', 'Torneio 11', '11', '12:00:00', 'Vôlei', 11, 1, 11, 11),
-('Evento 12', 'Torneio 12', '12', '13:00:00', 'Vôlei', 12, 2, 12, 12),
-('Evento 13', 'Torneio 13', '13', '14:00:00', 'Vôlei', 13, 3, 13, 13),
-('Evento 14', 'Torneio 14', '14', '15:00:00', 'Vôlei', 14, 4, 14, 14),
-('Evento 15', 'Torneio 15', '15', '16:00:00', 'Vôlei', 15, 5, 15, 15),
-('Evento 16', 'Torneio 16', '16', '17:00:00', 'Vôlei', 16, 6, 16, 16),
-('Evento 17', 'Torneio 17', '17', '18:00:00', 'Vôlei', 17, 7, 17, 17),
-('Evento 18', 'Torneio 18', '18', '19:00:00', 'Vôlei', 18, 8, 18, 18),
-('Evento 19', 'Torneio 19', '19', '20:00:00', 'Vôlei', 19, 9, 19, 19),
-('Evento 20', 'Torneio 20', '20', '21:00:00', 'Vôlei', 20, 10, 20, 20);
-
--- Inserir dados na tabela Participa
-INSERT INTO Participa (IdEquipa, IdEvento) VALUES 
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 6),
-(7, 7),
-(8, 8),
-(9, 9),
-(10, 10),
-(11, 11),
-(12, 12),
-(13, 13),
-(14, 14),
-(15, 15),
-(16, 16),
-(17, 17),
-(18, 18),
-(19, 19),
-(20, 20);
 
 -- Inserir dados na tabela Patrocinador
 CALL PopularPatrocinador('Nike');
@@ -562,25 +564,76 @@ CALL PopularPatrocinador('Converse');
 CALL PopularPatrocinador('Champion');
 CALL PopularPatrocinador('Brooks');
 
--- Inserir dados na tabela Patrocina
-INSERT INTO Patrocina (IdPatrocinador, IdEquipa) VALUES 
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 6),
-(7, 7),
-(8, 8),
-(9, 9),
-(10, 10),
-(11, 11),
-(12, 12),
-(13, 13),
-(14, 14),
-(15, 15),
-(16, 16),
-(17, 17),
-(18, 18),
-(19, 19),
-(20, 20);
+-- Ligar Patrocinador à Equipes
+CALL LigarPatrocinadorEquipa('Nike', 1);
+CALL LigarPatrocinadorEquipa('Adidas', 2);
+CALL LigarPatrocinadorEquipa('Puma', 3);
+CALL LigarPatrocinadorEquipa('Asics', 4);
+CALL LigarPatrocinadorEquipa('Mizuno', 5);
+CALL LigarPatrocinadorEquipa('Under Armour', 6);
+CALL LigarPatrocinadorEquipa('Reebok', 7);
+CALL LigarPatrocinadorEquipa('Fila', 8);
+CALL LigarPatrocinadorEquipa('Umbro', 9);
+CALL LigarPatrocinadorEquipa('Diadora', 10);
+CALL LigarPatrocinadorEquipa('New Balance', 11);
+CALL LigarPatrocinadorEquipa('Joma', 12);
+CALL LigarPatrocinadorEquipa('Kappa', 13);
+CALL LigarPatrocinadorEquipa('Lotto', 14);
+CALL LigarPatrocinadorEquipa('Topper', 15);
+CALL LigarPatrocinadorEquipa('Penalty', 16);
+CALL LigarPatrocinadorEquipa('Olympikus', 17);
+CALL LigarPatrocinadorEquipa('Converse', 18);
+CALL LigarPatrocinadorEquipa('Champion', 19);
+CALL LigarPatrocinadorEquipa('Brooks', 20);
+
+-- Ligar Patrocinador a Evento
+CALL LigarPatrocinadorEvento('Nike', 1);
+CALL LigarPatrocinadorEvento('Adidas', 2);
+CALL LigarPatrocinadorEvento('Puma', 3);
+CALL LigarPatrocinadorEvento('Asics', 4);
+CALL LigarPatrocinadorEvento('Mizuno', 5);
+CALL LigarPatrocinadorEvento('Under Armour', 6);
+CALL LigarPatrocinadorEvento('Reebok', 7);
+CALL LigarPatrocinadorEvento('Fila', 8);
+CALL LigarPatrocinadorEvento('Umbro', 9);
+CALL LigarPatrocinadorEvento('Diadora', 10);
+CALL LigarPatrocinadorEvento('New Balance', 11);
+CALL LigarPatrocinadorEvento('Joma', 12);
+CALL LigarPatrocinadorEvento('Kappa', 13);
+CALL LigarPatrocinadorEvento('Lotto', 14);
+CALL LigarPatrocinadorEvento('Topper', 15);
+CALL LigarPatrocinadorEvento('Penalty', 16);
+CALL LigarPatrocinadorEvento('Olympikus', 17);
+CALL LigarPatrocinadorEvento('Converse', 18);
+CALL LigarPatrocinadorEvento('Champion', 19);
+CALL LigarPatrocinadorEvento('Brooks', 20);
+
+
+-- Inserir dados na tabela Evento
+INSERT INTO Evento (Nome, NomeEvento, Jornada, Hora, Modalidade, IdEstadio, IdResultado, IdEntidade_Organizadora, IdPais) VALUES
+('Evento 1', 'Torneio 1', '1', '12:00:00', 'Vôlei', 1, 1, 1, 1),
+('Evento 2', 'Torneio 2', '2', '13:00:00', 'Vôlei', 2, 2, 2, 2),
+('Evento 3', 'Torneio 3', '3', '14:00:00', 'Vôlei', 3, 3, 3, 3),
+('Evento 4', 'Torneio 4', '4', '15:00:00', 'Vôlei', 4, 4, 4, 4),
+('Evento 5', 'Torneio 5', '5', '16:00:00', 'Vôlei', 5, 5, 5, 5),
+('Evento 6', 'Torneio 6', '6', '17:00:00', 'Vôlei', 6, 6, 6, 6),
+('Evento 7', 'Torneio 7', '7', '18:00:00', 'Vôlei', 7, 7, 7, 7),
+('Evento 8', 'Torneio 8', '8', '19:00:00', 'Vôlei', 8, 8, 8, 8),
+('Evento 9', 'Torneio 9', '9', '20:00:00', 'Vôlei', 9, 9, 9, 9),
+('Evento 10', 'Torneio 10', '10', '21:00:00', 'Vôlei', 10, 10, 10, 10),
+('Evento 11', 'Torneio 11', '11', '12:00:00', 'Vôlei', 11, 1, 11, 11),
+('Evento 12', 'Torneio 12', '12', '13:00:00', 'Vôlei', 12, 2, 12, 12),
+('Evento 13', 'Torneio 13', '13', '14:00:00', 'Vôlei', 13, 3, 13, 13),
+('Evento 14', 'Torneio 14', '14', '15:00:00', 'Vôlei', 14, 4, 14, 14),
+('Evento 15', 'Torneio 15', '15', '16:00:00', 'Vôlei', 15, 5, 15, 15),
+('Evento 16', 'Torneio 16', '16', '17:00:00', 'Vôlei', 16, 6, 16, 16),
+('Evento 17', 'Torneio 17', '17', '18:00:00', 'Vôlei', 17, 7, 17, 17),
+('Evento 18', 'Torneio 18', '18', '19:00:00', 'Vôlei', 18, 8, 18, 18),
+('Evento 19', 'Torneio 19', '19', '20:00:00', 'Vôlei', 19, 9, 19, 19),
+('Evento 20', 'Torneio 20', '20', '21:00:00', 'Vôlei', 20, 10, 20, 20),
+('Evento A', 'Campeonato Nacional', '1', '15:00:00', 'Vôlei', 1, 1, 1, 1),
+('Evento B', 'Torneio Internacional', '2', '16:00:00', 'Vôlei', 2, 2, 2, 2),
+('Evento C', 'Copa América', '3', '17:00:00', 'Vôlei', 3, 3, 3, 3),
+('Evento D', 'Liga dos Campeões', '4', '18:00:00', 'Vôlei', 4, 4, 4, 4),
+('Evento E', 'Superliga', '5', '19:00:00', 'Vôlei', 5, 5, 5, 5);
+
